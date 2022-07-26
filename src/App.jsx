@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import {initializeApp } from 'firebase/app';
-
 export default class App extends Component {
   constructor(props) {
     super(props);
