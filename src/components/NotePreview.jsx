@@ -9,7 +9,7 @@ export default class NotePreview extends Component {
 
   render() {
     return (
-    <Card sx={{ maxWidth: 345, m:'auto' }}>
+    <Card sx={{ maxWidth: 345}}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           Lorem Note Title
