@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-export default class NotesView extends Component {
+export default class Login extends Component {
   render() {
     return (
-      <div>NotesView</div>
+      <div>Login</div>
     )
   }
 }
