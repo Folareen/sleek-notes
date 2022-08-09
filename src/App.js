@@ -7,10 +7,6 @@ import theme from "./styles/theme";
 import { CssBaseline } from "@mui/material";
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <ThemeProvider theme={theme}>
