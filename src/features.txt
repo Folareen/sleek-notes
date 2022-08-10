@@ -1,0 +1,27 @@
+light mode
+primary : #1A1B2F
+secondary : #EFFBFF
+header: #005792
+success : #21ABA5
+danger : #E33E5A
+
+
+dark mode
+primary : #EFFBFF
+secondary : #1A1B2F
+success : #21ABA5
+danger : #E33E5A
+
+font
+header : 
+note title : 
+note body: open sans
+buttons and links : roboto 
+
+paper like background
+can change font
+can change size
+can italize
+bulletize
+can emphasize(bold)
+export as pdf and others
