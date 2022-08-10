@@ -8,7 +8,7 @@ export default class Login extends Component {
     <Grid container direction="column" justifyContent="center" alignItems="center" height="100vh"
     >
       
-      <Paper elevation={4} sx={{ width: '80%', maxWidth: 400, p:3}} >
+      <Paper elevation={4} sx={{ width: '85%', maxWidth: 400, p:3}} >
 
       <Typography variant="h2" gutterBottom align={'center'} color='primary.main' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
         Notes App
