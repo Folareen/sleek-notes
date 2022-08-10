@@ -7,19 +7,20 @@ export default class Login extends Component {
     return (
     <Grid container direction="column" justifyContent="center" alignItems="center" height="100vh"
     >
-      <Typography variant="h2" gutterBottom align={'center'} color='primary.main' sx={{fontSize: 40, fontWeight: 'bold'}}>
-        Notes App
-      </Typography>
-      <Paper elevation={4} sx={{ width: '75%', maxWidth: 400, p:4}} >
 
-        <Typography variant="h3" align='center' sx={{fontSize: 30, fontWeight: 'bold', mb:2}} >
+      <Paper elevation={4} sx={{ width: '75%', maxWidth: 400, p:3}} >
+        <Typography variant="h2" gutterBottom align={'center'} color='primary.main' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
+          Notes App
+        </Typography>
+
+        <Typography variant="h3" align='center' sx={{fontSize: 25, fontWeight: 'bold', mb:1, color:'secondary.main'}} >
           Login
         </Typography>
 
         <FormControl component='form' fullWidth>
-          <TextField required id="outlined-required" label="Email Address" sx={{my: 2, color:'info.main' }} fullWidth 
+          <TextField required id="outlined-required" label="Email Address" sx={{my: 2 }} fullWidth 
           />
-          <TextField id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}}
+          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}}
           />        
 
           <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'secondary.main'}} >Login</Button>
