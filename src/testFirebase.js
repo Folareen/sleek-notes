@@ -24,3 +24,5 @@ const testFirebase = [
     date: "10th of august, 2022",
   },
 ];
+
+export default testFirebase;
