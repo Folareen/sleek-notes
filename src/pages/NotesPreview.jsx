@@ -3,8 +3,10 @@ import { AppBar, Box, Toolbar, IconButton, InputBase, Grid} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import NotesPreviewCard from '../components/NotesPreviewCard';
+import testFirebase from '../testFirebase'
 
 export default class NotesPreview extends Component {
+
   render() {
     return (
     <Box >
@@ -28,9 +30,17 @@ export default class NotesPreview extends Component {
                 </IconButton>
             </Toolbar>
         </AppBar>
+
         <Grid>
-            <NotesPreviewCard/>
+            {
+                testFirebase.map(
+                    ({ id, title, body, date}) => {
+                        return <NotesPreviewCard id={id} title={title} body={body} date={date} key={id}/>
+                    }
+                )
+            }
         </Grid>
+
     </Box>
 
   );
