@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { AppBar, Box, Toolbar, IconButton, Typography, TextField, Button, InputBase, Container} from '@mui/material'
-import { styled, alpha } from '@mui/material/styles';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, Container} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
@@ -10,7 +8,7 @@ export default class NotesPreview extends Component {
     return (
     <Box >
         <AppBar position="sticky" sx={{color:'info.main', py: 1}} elevation={5}>
-            <Toolbar>
+            <Toolbar >
 
                 <Container sx={{flex: 1, border:1,borderRadius: 10, display:'flex', color: 'info.main', py: 0.8 }}>
                     <InputBase
