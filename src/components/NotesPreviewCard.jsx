@@ -16,7 +16,7 @@ export default class NotesPreviewCard extends Component{
             <Card sx={{ maxWidth: 345 }}>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                {title}
+                {title} id:{id}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                 {body}
