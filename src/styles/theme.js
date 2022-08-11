@@ -11,7 +11,7 @@ const theme = createTheme({
     info: {
       main: "#BAE8E8",
     },
-    warning: {
+    danger: {
       main: "#E33E5A",
     },
     success: {
