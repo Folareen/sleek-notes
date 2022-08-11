@@ -6,9 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 export default class NotesPreviewCard extends Component{
-    constructor(props){
-        super(props)
-    }
+
 
     render(){
         const {id, title, body, date } = this.props 
