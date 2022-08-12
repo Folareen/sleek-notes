@@ -6,6 +6,7 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "./styles/theme";
 import { CssBaseline } from "@mui/material";
 import NotesPreview from "./pages/NotesPreview";
+import NotesFullView from "./pages/NotesFullView";
 
 export default class App extends Component {
   render() {
@@ -21,6 +22,7 @@ export default class App extends Component {
           ) : (
             <Routes>
               <Route path="/" element={<NotesPreview />} />
+              <Route path="/notes" element={<NotesFullView />} />
             </Routes>
           )}
         </Router>
