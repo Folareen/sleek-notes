@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import NotesPreviewCard from '../components/NotesPreviewCard';
-// import testFirebase from '../testFirebase'
+import testFirebase from '../testFirebase'
 import LogoutButton from '../components/LogoutButton';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
-const testFirebase =[]
+// const testFirebase =[]
 
 export default class NotesPreview extends Component {
 
