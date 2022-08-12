@@ -1,36 +1,46 @@
 import React, { Component} from 'react'
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { IconButton, CardActions, CardContent, Card, Button, Typography } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
 
 export default class NotesPreviewCard extends Component{
-
 
     render(){
         const {id, title, body, date } = this.props 
         return (
-            <Card sx={{ maxWidth: 345 }}>
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                {title} id:{id}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                {body}
-                </Typography>
-                <Typography variant="p" color="text.secondary">
-                {date}
-                </Typography>
+            <Card sx={{px:2, py:1}} elevation={5}>
 
+                <CardContent sx={{p:0}}>
 
-            </CardContent>
-            <CardActions>
-                <Button size="small">View/Edit</Button>
-                <Button size="small"></Button>
-            </CardActions>
+                    <Typography gutterBottom component="h2" variant='h5' sx={{fontWeight: 'bold',textTransform: 'capitalize', color:'primary.main', borderBottom: 1, borderColor: 'secondary.main', py:1}} >
+                    {title} id:{id}
+                    </Typography>
+
+                    <Typography variant="p" 
+                    component='p' sx={{py: 1, color:"primary.main"}}>
+                    {body}
+                    </Typography>
+
+                    <Typography variant="body" component='p' sx={{fontStyle: 'italic', fontWeight: 'light', color:"secondary.main"}}>
+                    Last Updated: {date}
+                    </Typography>
+
+                </CardContent>
+
+                <CardActions sx={{display:'flex', justifyContent: 'space-between', borderTop: 1, borderColor: 'info.main', px:0}}>
+
+                    <Button sx={{fontWeight:'bold', color:'success.main', bgcolor:'light.main','&:hover':{color: 'light.main',bgcolor: 'success.main'
+                    }}} endIcon={<NoteAltIcon/>}>
+                        View/Edit
+                    </Button>
+
+                    <IconButton  sx={{color:'danger.main', bgcolor:'light.main', '&:hover': {color:'light.main', bgcolor:'danger.main'
+                    } }}>
+                        <DeleteForeverIcon/>         
+                    </IconButton>
+
+                </CardActions>
             </Card>
         );        
     }
-
 }
