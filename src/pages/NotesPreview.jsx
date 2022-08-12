@@ -32,7 +32,7 @@ export default class NotesPreview extends Component {
             </Toolbar>
         </AppBar>
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{p:2}}>
             {
                 testFirebase.map(
                     ({ id, title, body, date}) => {
@@ -49,8 +49,3 @@ export default class NotesPreview extends Component {
   );
   }
 }
-
-
-
-
-
