@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { AppBar, Box, Toolbar, IconButton, InputBase, Grid} from '@mui/material'
+import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import NotesPreviewCard from '../components/NotesPreviewCard';
-import testFirebase from '../testFirebase'
+// import testFirebase from '../testFirebase'
 import LogoutButton from '../components/LogoutButton';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
+
+const testFirebase =[]
 
 export default class NotesPreview extends Component {
 
@@ -32,7 +34,9 @@ export default class NotesPreview extends Component {
             </Toolbar>
         </AppBar>
 
-        <Grid container spacing={2} sx={{p:2}}>
+        {
+            (testFirebase.length > 0) ?
+            <Grid container spacing={2} sx={{p:2}}>
             {
                 testFirebase.map(
                     ({ id, title, body, date}) => {
@@ -42,7 +46,16 @@ export default class NotesPreview extends Component {
                     }
                 )
             }
-        </Grid>
+            </Grid>
+            : 
+            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <Typography component='p'>
+                    No notes found..
+                     Add a note with the floating green button below
+                </Typography>
+            </Box>   
+
+        }
 
         <IconButton sx={{position: 'fixed', bottom: 3, right: 3, border: 1, p: 2, color:'success.main', bgcolor:'light.main','&:hover':{color: 'light.main',bgcolor: 'success.main'
         }}}>
