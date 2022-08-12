@@ -32,11 +32,13 @@ export default class NotesPreview extends Component {
             </Toolbar>
         </AppBar>
 
-        <Grid>
+        <Grid container spacing={2}>
             {
                 testFirebase.map(
                     ({ id, title, body, date}) => {
-                        return <NotesPreviewCard id={id} title={title} body={body} date={date} key={id}/>
+                        return <Grid item xs={12} sm={6} md={4} xl={2}>
+                        <NotesPreviewCard id={id} title={title} body={body} date={date} key={id}/>
+                        </Grid>
                     }
                 )
             }
