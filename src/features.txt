@@ -25,3 +25,9 @@ can italize
 bulletize
 can emphasize(bold)
 export as pdf and others
+
+todo:
+
+empty notes..(if no notes)
+add icon..
+
