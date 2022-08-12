@@ -10,17 +10,18 @@ export default class NotesPreview extends Component {
   render() {
     return (
     <Box >
-        <AppBar position="sticky" sx={{color:'info.main', py: 1}} elevation={10}>
+        <AppBar position="sticky" sx={{color:'light.main', py: 1}} elevation={10}>
             <Toolbar sx={{display: 'flex', justifyContent:'space-between'}} >
 
-                <Box sx={{flex: 1, border:1,borderRadius: 10, display:'flex', color: 'info.main', p: 0.8}}>
+                <Box sx={{flex: 1, border:1,borderRadius: 10, display:'flex', color: 'light.main', p: 0.8}}>
                     <InputBase
-                        sx={{ flex: 1, color:'info.main', px:1}}
+                        sx={{ flex: 1, color:'light.main', px:1, }}
                         placeholder="Search Notes with title"
                         inputProps={{ 'aria-label': 'search note' }}
+                        type='search'
                     />
 
-                    <IconButton type="button" sx={{border: 1, color: 'secondary.main' }} aria-label="search">
+                    <IconButton type="button" sx={{border: 1, color: 'light.main', borderColor: 'light.main' }} aria-label="search">
                         <SearchIcon />
                     </IconButton>            
                 </Box>
