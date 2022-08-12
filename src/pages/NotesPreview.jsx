@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import NotesPreviewCard from '../components/NotesPreviewCard';
 import testFirebase from '../testFirebase'
 import LogoutButton from '../components/LogoutButton';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 export default class NotesPreview extends Component {
 
@@ -42,6 +43,11 @@ export default class NotesPreview extends Component {
                 )
             }
         </Grid>
+
+        <IconButton sx={{position: 'fixed', bottom: 3, right: 3, border: 1, p: 2, color:'success.main', bgcolor:'light.main','&:hover':{color: 'light.main',bgcolor: 'success.main'
+        }}}>
+            <NoteAddIcon/>
+        </IconButton>
 
     </Box>
 

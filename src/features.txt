@@ -29,5 +29,5 @@ export as pdf and others
 todo:
 
 empty notes..(if no notes)
-add icon..
+add zooming animation to add note icon
 
