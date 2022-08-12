@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { AppBar, Box, Toolbar, IconButton, InputBase, Grid} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import NotesPreviewCard from '../components/NotesPreviewCard';
 import testFirebase from '../testFirebase'
+import LogoutButton from '../components/LogoutButton';
 
 export default class NotesPreview extends Component {
 
@@ -25,10 +25,9 @@ export default class NotesPreview extends Component {
                         <SearchIcon />
                     </IconButton>            
                 </Box>
+                
+                <LogoutButton/>
 
-                <IconButton sx={{border:1, mr: 0, ml: 2, color:"danger.main"}} >
-                    <ExitToAppIcon />
-                </IconButton>
             </Toolbar>
         </AppBar>
 
