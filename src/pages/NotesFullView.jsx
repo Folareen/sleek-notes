@@ -43,7 +43,8 @@ export default class NotesFullView extends Component {
             {
                 this.state.readOnly 
                 &&
-                <Toolbar sx={{maxWidth: 800, width: '70%', mx:'auto', display:'flex', justifyContent: 'space-between', xs:{border: 1}}}>
+                <Toolbar sx={{maxWidth: 800, width: '70%', mx:'auto', display:'flex', justifyContent: 'space-between'}} 
+                >
 
                     <Button sx={{fontWeight:'bold', color:'success.main', bgcolor:'light.main','&:hover':{color: 'light.main',bgcolor: 'success.main'
                     }}} endIcon={<SaveIcon/>}>
