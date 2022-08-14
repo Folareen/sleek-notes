@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import NotesPreviewCard from '../components/NotesPreviewCard';
@@ -8,9 +8,7 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 // const testFirebase =[]
 
-export default class NotesPreview extends Component {
-
-  render() {
+export default function NotesPreview () {
     return (
     <Box >
         <AppBar position="sticky" sx={{color:'light.main', py: 1}} elevation={10}>
@@ -66,4 +64,3 @@ export default class NotesPreview extends Component {
 
   );
   }
-}

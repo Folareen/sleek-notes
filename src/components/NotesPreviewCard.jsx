@@ -1,12 +1,9 @@
-import React, { Component} from 'react'
+import React from 'react'
 import { IconButton, CardActions, CardContent, Card, Button, Typography } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 
-export default class NotesPreviewCard extends Component{
-
-    render(){
-        const {id, title, body, date } = this.props 
+export default function NotesPreviewCard ({id, title, body, date}){
         return (
             <Card sx={{px:2, py:1}} elevation={5}>
 
@@ -42,5 +39,4 @@ export default class NotesPreviewCard extends Component{
                 </CardActions>
             </Card>
         );        
-    }
 }

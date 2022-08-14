@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 import app from '../firebase'
@@ -6,20 +6,14 @@ import { createUserWithEmailAndPassword, getAuth} from 'firebase/auth'
 
 const auth = getAuth(app)
 
-export default class Login extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      name: "",
-      email: "",
-      password: ""
-    }
-  }
+export default function Login () {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-
-  signUp = (e) =>{
+  const signUp = (e) =>{
     e.preventDefault()
-    createUserWithEmailAndPassword(auth, this.state.email, this.state.password ).then(
+    createUserWithEmailAndPassword(auth, email, password ).then(
       (userCredential) => {
         console.log(userCredential)
       }
@@ -28,10 +22,9 @@ export default class Login extends Component {
         console.log(error)
       }
     )
-    console.log(this.state)
+    console.log(name, email, password)
   }
-
-  render() {
+  
     return (
     <Grid container direction="column" justifyContent="center" alignItems="center" height="100vh"
     >
@@ -48,14 +41,14 @@ export default class Login extends Component {
 
         <FormControl component='form' fullWidth>
 
-          <TextField id="outlined" label="Name" required sx={{my: 2}} fullWidth onChange={(e) => {this.setState({name: e.target.value})}}
+          <TextField id="outlined" label="Name" required sx={{my: 2}} fullWidth onChange={(e) => {setName(e.target.value)}}
           />
-          <TextField required id="outlined-required" label="Email Address" sx={{my: 2}} fullWidth onChange={(e) => {this.setState({email: e.target.value})}}
+          <TextField required id="outlined-required" label="Email Address" sx={{my: 2}} fullWidth onChange={(e) => {setEmail(e.target.value)}}
           />
-          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} onChange={(e) => {this.setState({password: e.target.value})}}
+          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} onChange={(e) => {setPassword(e.target.value)}}
           />        
 
-          <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'secondary.main'}} onClick={this.signUp}>Sign Up</Button>
+          <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'secondary.main'}} onClick={signUp }>Sign Up</Button>
 
           <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} fullwidth >
             <Typography component='p' sx={{p:0.5}}>
@@ -72,4 +65,3 @@ export default class Login extends Component {
     </Grid>
     )
   }
-}

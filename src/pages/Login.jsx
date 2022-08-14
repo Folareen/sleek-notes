@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 
-export default class Login extends Component {
-  render() {
+export default function Login () {
     return (
     <Grid container direction="column" justifyContent="center" alignItems="center" height="100vh"
     >
@@ -40,4 +39,3 @@ export default class Login extends Component {
     </Grid>
     )
   }
-}

@@ -1,24 +1,18 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { Box, AppBar, Toolbar, FormControlLabel, Switch,Typography, InputBase, FormControl, TextField, Button} from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-export default class NotesFullView extends Component {
-    constructor(props){
-        super(props)
-        this.state = { readOnly: true}
-        this.toggleMode = this.toggleMode.bind(this)
+export default function NotesFullView ({id, title, body, date}) {
+    const [readOnly, setReadOnly] = useState(true)
+
+    const toggleMode =() =>{
+        console.log(readOnly)
+        setReadOnly(!readOnly)
     }
 
-    toggleMode(){
-        console.log(this.state.readOnly)
-        this.setState({readOnly: !this.state.readOnly})
-    }
-
-  render() {
-      const { id} = this.props
     return (
     <Box sx={{height: '100vh'}}>
     
@@ -32,8 +26,8 @@ export default class NotesFullView extends Component {
                 <FormControlLabel control={
                 <Switch
                 color='secondary'
-                checked={this.state.readOnly}
-                onChange={this.toggleMode}
+                checked={readOnly}
+                onChange={toggleMode}
                 inputProps={{ 'aria-label': 'controlled' }}
                 />} label="Readonly mode" />
 
@@ -41,7 +35,7 @@ export default class NotesFullView extends Component {
             </Toolbar>
 
             {
-                this.state.readOnly 
+                readOnly
                 &&
                 <Toolbar sx={{maxWidth: 800, width: '70%', mx:'auto', display:'flex', justifyContent: 'space-between'}} 
                 >
@@ -91,4 +85,3 @@ export default class NotesFullView extends Component {
     </Box> 
     )
   }
-}
