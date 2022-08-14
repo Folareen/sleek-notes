@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, AppBar, Toolbar, FormControlLabel, Switch,Typography, InputBase, FormControl, TextField, Button} from '@mui/material'
+import { Box, AppBar, Toolbar, FormControlLabel, Switch, InputBase, FormControl, TextField, Button} from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
