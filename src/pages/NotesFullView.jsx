@@ -4,6 +4,7 @@ import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CancelIcon from '@mui/icons-material/Cancel';
+import HomeButton from '../components/HomeButton'
 
 export default function NotesFullView ({id, title, body, date}) {
     const [readOnly, setReadOnly] = useState(true)
@@ -16,12 +17,10 @@ export default function NotesFullView ({id, title, body, date}) {
     return (
     <Box sx={{height: '100vh'}}>
     
-        <AppBar position='sticky'>
-            <Toolbar>
+        <AppBar position='sticky' >
+            <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
 
-                <Typography component='h2'>
-                    Note id: {id} {11222}
-                </Typography>
+                <HomeButton />
 
                 <FormControlLabel control={
                 <Switch
@@ -29,13 +28,14 @@ export default function NotesFullView ({id, title, body, date}) {
                 checked={readOnly}
                 onChange={toggleMode}
                 inputProps={{ 'aria-label': 'controlled' }}
-                />} label="Readonly mode" />
+                />} label="Readonly mode"/>
 
                 <LogoutButton/>
+                
             </Toolbar>
 
             {
-                readOnly
+                !readOnly
                 &&
                 <Toolbar sx={{maxWidth: 800, width: '70%', mx:'auto', display:'flex', justifyContent: 'space-between'}} 
                 >
