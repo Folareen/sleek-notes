@@ -31,11 +31,11 @@ export default function Login () {
       
       <Paper elevation={4} sx={{ width: '85%', maxWidth: 400, p:3}} >
 
-      <Typography variant="h2" gutterBottom align={'center'} color='primary.main' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
+      <Typography variant="h2" gutterBottom align={'center'} color='secondary.dark' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
         Notes App
       </Typography>
 
-        <Typography variant="h3" align='center' sx={{fontSize: 25, fontWeight: 'bold', mb:1, color:'secondary.main'}} >
+        <Typography variant="h3" align='center' sx={{fontSize: 25, fontWeight: 'bold', mb:1, color:'primary.dark'}} >
           Sign Up
         </Typography>
 
@@ -48,13 +48,13 @@ export default function Login () {
           <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} onChange={(e) => {setPassword(e.target.value)}}
           />        
 
-          <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'secondary.main'}} onClick={signUp }>Sign Up</Button>
+          <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={signUp }>Sign Up</Button>
 
           <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} fullwidth >
             <Typography component='p' sx={{p:0.5}}>
               Have an account?
             </Typography>
-            <Link to='/' component={RouterLink}  sx={{color:'primary.main', p:0.5, bgcolor:'info.main'}} underline="none" >
+            <Link to='/' component={RouterLink}  sx={{color:'background.paper', p:0.5, bgcolor:'primary.main'}} underline="none" >
               Login
             </Link>
           </Container>
