@@ -14,6 +14,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import FontDownloadIcon from '@mui/icons-material/FontDownload';
+import ColorModeButton from '../components/ColorModeButton'
 
 export default function NotesFullView ({id, title, body, date}) {
     const [readOnly, setReadOnly] = useState(true)
@@ -42,6 +43,8 @@ export default function NotesFullView ({id, title, body, date}) {
                 onChange={toggleMode}
                 inputProps={{ 'aria-label': 'controlled' }}
                 />} label="Readonly mode"/>
+
+                <ColorModeButton />
 
                 <LogoutButton/>
                 
