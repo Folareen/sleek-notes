@@ -7,6 +7,8 @@ import { createTheme, CssBaseline } from "@mui/material";
 import NotesPreview from "./pages/NotesPreview";
 import NotesFullView from "./pages/NotesFullView";
 import { ColorModeContext } from "./context/ColorModeContext";
+import ColorModeButton from "./components/ColorModeButton";
+import { Box } from "@mui/material";
 
 export default function App() {
   const { mode } = useContext(ColorModeContext);
@@ -21,11 +23,24 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        {false ? (
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
+        {true ? (
+          <>
+            <Box
+              sx={{
+                width: "max-content",
+                p: 0,
+                position: "fixed",
+                right: 3,
+                top: 3,
+              }}
+            >
+              <ColorModeButton />
+            </Box>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </>
         ) : (
           <Routes>
             <Route path="/" element={<NotesPreview />} />
