@@ -11,19 +11,19 @@ import ColorModeButton from '../components/ColorModeButton'
 
 export default function NotesPreview () {
     return (
-    <Box sx={{bgcolor: 'warning.main', border: '1px solid red'}} >
-        <AppBar position="sticky" sx={{color:'primary.main', py: 1, bgcolor: 'secondary.main'}} elevation={10}>
+    <Box >
+        <AppBar position="sticky" sx={{color:'text.primary', py: 1}} elevation={10}>
             <Toolbar sx={{display: 'flex', justifyContent:'space-between'}} >
 
-                <Box sx={{flex: 1, border:1,borderRadius: 10, display:'flex', color: 'light.main', p: 0.8}}>
+                <Box sx={{flex: 1, border:1,borderRadius: 10, display:'flex', p: 0.8}}>
                     <InputBase
-                        sx={{ flex: 1, color:'light.main', px:1, }}
+                        sx={{ flex: 1,px:1, color: 'text.primary' }}
                         placeholder="Search Notes with title"
                         inputProps={{ 'aria-label': 'search note' }}
                         type='search'
                     />
 
-                    <IconButton type="button" sx={{border: 1, color: 'light.main', borderColor: 'light.main' }} aria-label="search">
+                    <IconButton type="button" sx={{border: 1 }} aria-label="search">
                         <SearchIcon />
                     </IconButton>            
                 </Box>
@@ -58,7 +58,7 @@ export default function NotesPreview () {
 
         }
 
-        <IconButton sx={{position: 'fixed', bottom: 3, right: 3, border: 1, p: 2, color:'success.main', bgcolor:'light.main','&:hover':{color: 'light.main',bgcolor: 'success.main'
+        <IconButton sx={{position: 'fixed', bottom: 3, right: 3, border: 1, p: 2, color:'success.dark', bgcolor:'success.light','&:hover':{color: 'success.light',bgcolor: 'success.dark'
         }}}>
             <NoteAddIcon/>
         </IconButton>
