@@ -19,14 +19,13 @@ const ColorModeButton = () => {
 
   return (
       <IconButton
-        sx={{ ml: 1 }}
+        sx={{ ml: 1, bgcolor: 'text.secondary', color: 'background.default',boxShadow:2 }}
         onClick={toggleColorMode}
-        color="inherit"
       >
         {mode === "dark" ? (
-          <Brightness7Icon />
-        ) : (
           <Brightness4Icon />
+        ) : (
+          <Brightness7Icon />
         )}
       </IconButton>
   )
