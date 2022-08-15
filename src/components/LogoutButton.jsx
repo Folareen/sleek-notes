@@ -4,7 +4,7 @@ import { IconButton } from '@mui/material';
 
 export default function LogoutButton (){
     return (
-        <IconButton sx={{border:1, mr: 0, ml: 2, color:"danger.main"}} >
+        <IconButton sx={{ mr: 0, ml: 2, color:"error.dark", border: 1, borderColor: 'text.primary'}} >
             <ExitToAppIcon />
         </IconButton>
     )
