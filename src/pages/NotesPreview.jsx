@@ -5,6 +5,7 @@ import NotesPreviewCard from '../components/NotesPreviewCard';
 import testFirebase from '../testFirebase'
 import LogoutButton from '../components/LogoutButton';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import ColorModeButton from '../components/ColorModeButton'
 
 // const testFirebase =[]
 
@@ -26,6 +27,8 @@ export default function NotesPreview () {
                         <SearchIcon />
                     </IconButton>            
                 </Box>
+
+                <ColorModeButton />
                 
                 <LogoutButton/>
 
