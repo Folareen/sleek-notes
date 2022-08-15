@@ -5,33 +5,33 @@ import NoteAltIcon from '@mui/icons-material/NoteAlt';
 
 export default function NotesPreviewCard ({id, title, body, date}){
         return (
-            <Card sx={{px:2, py:1, bgcolor: 'light.main'}} elevation={5}>
+            <Card sx={{px:2, py:1}} elevation={5}>
 
                 <CardContent sx={{p:0}}>
 
-                    <Typography gutterBottom component="h2" variant='h5' sx={{fontWeight: 'bold',textTransform: 'capitalize', color:'primary.main', borderBottom: 1, borderColor: 'secondary.main', py:1, fontFamily: 'poppins'}} >
+                    <Typography gutterBottom component="h2" variant='h5' sx={{fontWeight: 'bold',textTransform: 'capitalize', color:'text.primary', borderBottom: 1, borderColor: 'primary', py:1}} >
                     {title} id:{id}
                     </Typography>
 
                     <Typography variant="p" 
-                    component='p' sx={{py: 1, color:"primary.main"}}>
+                    component='p' sx={{py: 1, color:"text.secondary"}}>
                     {body}
                     </Typography>
 
-                    <Typography variant="body" component='p' sx={{fontStyle: 'italic', fontWeight: 'light', color:"secondary.main"}}>
+                    <Typography variant="body" component='p' sx={{fontStyle: 'italic', fontWeight: 'light', color:"text.disabled"}}>
                     Last Updated: {date}
                     </Typography>
 
                 </CardContent>
 
-                <CardActions sx={{display:'flex', justifyContent: 'space-between', borderTop: 1, borderColor: 'info.main', px:0}}>
+                <CardActions sx={{display:'flex', justifyContent: 'space-between', borderTop: 1, borderColor: 'primary.light', px:0}}>
 
-                    <Button sx={{fontWeight:'bold', color:'success.main', bgcolor:'light.main','&:hover':{color: 'light.main',bgcolor: 'success.main'
+                    <Button sx={{fontWeight:'bold', color:'success.dark', bgcolor:'success.light','&:hover':{color: 'success.light',bgcolor: 'success.dark'
                     }}} endIcon={<NoteAltIcon/>}>
                         View/Edit
                     </Button>
 
-                    <IconButton  sx={{color:'danger.main', bgcolor:'light.main', '&:hover': {color:'light.main', bgcolor:'danger.main'
+                    <IconButton  sx={{color:'error.dark', bgcolor:'error.light', '&:hover': {color:'error.light', bgcolor:'error.dark'
                     } }}>
                         <DeleteForeverIcon/>         
                     </IconButton>
