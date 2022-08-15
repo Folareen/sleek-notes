@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import { ThemeContext, ThemeProvider } from "@emotion/react";
+import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline } from "@mui/material";
 import NotesPreview from "./pages/NotesPreview";
 import NotesFullView from "./pages/NotesFullView";
 import { ColorModeContext } from "./context/ColorModeContext";
 
 export default function App() {
-  const { mode, setMode } = useContext(ColorModeContext);
+  const { mode } = useContext(ColorModeContext);
 
   const theme = createTheme({
     palette: {
