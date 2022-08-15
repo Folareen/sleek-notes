@@ -28,7 +28,7 @@ export default function NotesFullView ({id, title, body, date}) {
     }
 
     return (
-    <Box sx={{height: '100vh'}}>
+    <Box sx={{height: '100vh', bgcolor:'danger.main'}}>
     
         <AppBar position='sticky' >
             <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>

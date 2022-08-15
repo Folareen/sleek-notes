@@ -11,8 +11,8 @@ import ColorModeButton from '../components/ColorModeButton'
 
 export default function NotesPreview () {
     return (
-    <Box >
-        <AppBar position="sticky" sx={{color:'light.main', py: 1}} elevation={10}>
+    <Box sx={{bgcolor: 'warning.main', border: '1px solid red'}} >
+        <AppBar position="sticky" sx={{color:'primary.main', py: 1, bgcolor: 'secondary.main'}} elevation={10}>
             <Toolbar sx={{display: 'flex', justifyContent:'space-between'}} >
 
                 <Box sx={{flex: 1, border:1,borderRadius: 10, display:'flex', color: 'light.main', p: 0.8}}>

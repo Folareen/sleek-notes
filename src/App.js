@@ -3,18 +3,22 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { ThemeContext, ThemeProvider } from "@emotion/react";
-import { lightModeTheme, darkModeTheme } from "./styles/theme";
-import { CssBaseline } from "@mui/material";
+import { createTheme, CssBaseline } from "@mui/material";
 import NotesPreview from "./pages/NotesPreview";
 import NotesFullView from "./pages/NotesFullView";
-import { ColorThemeContext } from "./context/themeContext";
-export default function App() {
-  const { darkThemeMode, setDarkThemeMode } = useContext(ColorThemeContext);
+import { ColorModeContext } from "./context/ColorModeContext";
 
-  console.log(darkThemeMode);
+export default function App() {
+  const { mode, setMode } = useContext(ColorModeContext);
+
+  const theme = createTheme({
+    palette: {
+      mode,
+    },
+  });
 
   return (
-    <ThemeProvider theme={darkThemeMode ? darkModeTheme : lightModeTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
         {false ? (

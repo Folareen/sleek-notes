@@ -5,11 +5,11 @@ import NoteAltIcon from '@mui/icons-material/NoteAlt';
 
 export default function NotesPreviewCard ({id, title, body, date}){
         return (
-            <Card sx={{px:2, py:1}} elevation={5}>
+            <Card sx={{px:2, py:1, bgcolor: 'light.main'}} elevation={5}>
 
                 <CardContent sx={{p:0}}>
 
-                    <Typography gutterBottom component="h2" variant='h5' sx={{fontWeight: 'bold',textTransform: 'capitalize', color:'primary.main', borderBottom: 1, borderColor: 'secondary.main', py:1}} >
+                    <Typography gutterBottom component="h2" variant='h5' sx={{fontWeight: 'bold',textTransform: 'capitalize', color:'primary.main', borderBottom: 1, borderColor: 'secondary.main', py:1, fontFamily: 'poppins'}} >
                     {title} id:{id}
                     </Typography>
 
