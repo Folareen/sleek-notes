@@ -7,7 +7,7 @@ danger : #E33E5A
 
 
 dark mode
-primary : #EFFBFF
+primary : # EFFBFF
 secondary : #1A1B2F
 success : #21ABA5
 danger : #E33E5A
@@ -17,6 +17,8 @@ header :
 note title : 
 note body: open sans
 buttons and links : roboto 
+
+poppins
 
 paper like background
 can change font

@@ -34,11 +34,11 @@ export default function NotesPreview () {
 
         {
             (testFirebase.length > 0) ?
-            <Grid container spacing={2} sx={{p:2}}>
+            <Grid container spacing={3} sx={{p:2}}>
             {
                 testFirebase.map(
                     ({ id, title, body, date}) => {
-                        return <Grid item xs={12} sm={6} md={4} xl={2}>
+                        return <Grid item xs={12} sm={6} md={4} xxl={2}>
                         <NotesPreviewCard id={id} title={title} body={body} date={date} key={id}/>
                         </Grid>
                     }
