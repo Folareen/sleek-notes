@@ -6,6 +6,7 @@ import testFirebase from '../testFirebase'
 import LogoutButton from '../components/LogoutButton';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import ColorModeButton from '../components/ColorModeButton'
+import '../styles/style.css'
 
 // const testFirebase =[]
 
@@ -58,8 +59,8 @@ export default function NotesPreview () {
 
         }
 
-        <IconButton sx={{position: 'fixed', bottom: 3, right: 3, border: 1, p: 2, color:'success.dark', bgcolor:'success.light','&:hover':{color: 'success.light',bgcolor: 'success.dark'
-        }}}>
+        <IconButton sx={{position: 'fixed', bottom: 3, right: 3, border: 1, boxShadow: 5, p: 2, color:'background.paper', bgcolor:'success.dark','&:hover':{color: 'success.light',bgcolor: 'success.dark'
+        }}} className='add-icon'>
             <NoteAddIcon/>
         </IconButton>
 

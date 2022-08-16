@@ -1,0 +1,8 @@
+@keyframes zoom {
+    from {scale: 0.8; opacity: 0.8}
+    to {scale: 1; opacity: 1}
+}
+
+.add-icon{
+    animation: zoom 3s linear infinite alternate;
+}
