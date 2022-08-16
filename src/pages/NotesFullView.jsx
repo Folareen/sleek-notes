@@ -35,7 +35,7 @@ export default function NotesFullView ({id, title, body, date}) {
     <Box sx={{height: '100vh', bgcolor:'danger.main'}}>
     
         <AppBar position='sticky'  >
-            <Toolbar sx={{display: 'flex', justifyContent: 'space-between', maxWidth: 1200, width: '100%', mx: 'auto'}}>
+            <Toolbar sx={{display: 'flex', justifyContent: 'space-between', maxWidth: 1200, width: '100%', mx: 'auto', py: 1.3}}>
 
                 <HomeButton />
 
