@@ -26,8 +26,7 @@ export default function NotesPreviewCard ({id, title, body, date}){
 
                 <CardActions sx={{display:'flex', justifyContent: 'space-between', borderTop: 1, borderColor: 'primary.light', px:0}}>
 
-                    <Button sx={{fontWeight:'bold', color:'success.dark', bgcolor:'success.light','&:hover':{color: 'success.light',bgcolor: 'success.dark'
-                    }}} endIcon={<NoteAltIcon/>}>
+                    <Button sx={{fontWeight:'bold'}} color='success' variant='contained' endIcon={<NoteAltIcon/>}>
                         View/Edit
                     </Button>
 

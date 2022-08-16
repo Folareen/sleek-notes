@@ -19,7 +19,7 @@ const ColorModeButton = () => {
 
   return (
       <IconButton
-        sx={{ ml: 1, bgcolor: 'text.secondary', color: 'background.default',boxShadow:2 }}
+        sx={{ ml: 1, bgcolor: 'text.secondary', color: 'background.default',boxShadow:2, border: 1, borderColor: 'background.paper' }}
         onClick={toggleColorMode}
       >
         {mode === "dark" ? (
