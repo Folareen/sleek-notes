@@ -1,29 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
-import app from '../firebase'
-import { createUserWithEmailAndPassword, getAuth} from 'firebase/auth'
+import {auth} from '../firebase'
+import { createUserWithEmailAndPassword} from 'firebase/auth'
+import {AuthContext } from '../context/AuthContext'
+import { useNavigate} from 'react-router-dom'
+import { useRef } from 'react'
 
-const auth = getAuth(app)
+export default function Signup () {
+  const nameRef = useRef()
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const {setUser} = useContext(AuthContext)
+  const navigate = useNavigate()
 
-export default function Login () {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-
-  const signUp = (e) =>{
+  const signUp = async (e) =>{
     e.preventDefault()
-    createUserWithEmailAndPassword(auth, email, password ).then(
-      (userCredential) => {
-        console.log(userCredential)
-      }
-    ).catch(
-      (error) => {
-        console.log(error)
-      }
-    )
-    console.log(name, email, password)
+
+    try{
+      const userCredential = await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value )
+      console.log(userCredential)
+      setUser(userCredential)
+      navigate('/')
+
+      // console.log(userCredential)
+      // onAuthStateChanged(auth, (user) => {
+      //   if(user){
+      //     console.log(user.uid)
+      //   }else{
+      //     console.log('not signed in')
+      //   }
+      // })
+    }
+    catch(error){
+      console.log(error)
+    }
+
+    console.log('first')
+
+
+    // onAuthStateChanged()
   }
+
   
     return (
     <Grid container direction="column" justifyContent="center" alignItems="center" height="100vh"
@@ -36,21 +54,21 @@ export default function Login () {
       </Typography>
 
         <Typography variant="h3" align='center' sx={{fontSize: 25, fontWeight: 'bold', mb:1, color:'primary.dark'}} >
-          Sign Up
+          Sign Up 
         </Typography>
 
-        <FormControl component='form' fullWidth>
+        <FormControl component='form' fullWidth >
 
-          <TextField id="outlined" label="Name" required sx={{my: 2}} fullWidth onChange={(e) => {setName(e.target.value)}}
+          <TextField id="outlined" label="Name" required sx={{my: 2}} fullWidth ref={nameRef}
           />
-          <TextField required id="outlined-required" label="Email Address" sx={{my: 2}} fullWidth onChange={(e) => {setEmail(e.target.value)}}
+          <TextField required id="outlined-required" label="Email Address" sx={{my: 2}} fullWidth ref={emailRef}
           />
-          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} onChange={(e) => {setPassword(e.target.value)}}
+          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} ref={passwordRef}
           />        
 
           <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={signUp }>Sign Up</Button>
 
-          <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} fullwidth >
+          <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} >
             <Typography component='p' sx={{p:0.5}}>
               Have an account?
             </Typography>
