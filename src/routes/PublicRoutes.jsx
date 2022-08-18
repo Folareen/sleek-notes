@@ -1,9 +1,9 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import ColorModeButton from "../components/ColorModeButton";
 import { Box } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {Routes, Route } from 'react-router-dom';
 
 const PublicRoutes = () => {
   return (
