@@ -25,7 +25,7 @@ export default function Login () {
           <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} >Login</Button>
 
 
-          <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} fullwidth >
+          <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} >
             <Typography component='p' sx={{p:0.5}}>
               Don't have an account?
             </Typography>
