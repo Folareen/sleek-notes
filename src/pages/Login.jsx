@@ -1,8 +1,41 @@
-import React from 'react'
+import React, {useState, useContext} from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
+import {auth} from '../firebase'
+import { signInWithEmailAndPassword} from 'firebase/auth'
+import {AuthContext } from '../context/AuthContext'
+import { useNavigate} from 'react-router-dom'
 
 export default function Login () {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+  const {setUser} = useContext(AuthContext)
+
+  const login = async (e) =>{
+    e.preventDefault()
+
+    try{
+      const userCredential = await signInWithEmailAndPassword(auth, email, password )
+      console.log(userCredential)
+      // console.log(userCredential)
+      setUser(userCredential)
+      navigate('/')
+    }
+    catch(error){
+      console.log(error)
+    }
+
+    console.log('first')
+
+
+    // onAuthStateChanged()
+  }
+
+
+
+
+
     return (
     <Grid container direction="column" justifyContent="center" alignItems="center" height="100vh"
     >
@@ -17,12 +50,12 @@ export default function Login () {
         </Typography>
 
         <FormControl component='form' fullWidth>
-          <TextField required id="outlined-required" label="Email Address" sx={{my: 2 }} fullWidth 
+          <TextField required id="outlined-required" label="Email Address" sx={{my: 2 }} fullWidth value={email} onChange={(e)=>{setEmail(e.target.value)}}
           />
-          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}}
+          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} value={password} onChange={(e)=>{setPassword(e.target.value)}}
           />        
 
-          <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} >Login</Button>
+          <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={login}>Login</Button>
 
 
           <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} >
