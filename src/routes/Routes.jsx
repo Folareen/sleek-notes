@@ -2,19 +2,20 @@ import React, {useContext} from 'react'
 import { AuthContext } from '../context/AuthContext'
 import PrivateRoutes from './PrivateRoutes'
 import PublicRoutes from './PublicRoutes'
+import Loading from '../components/Loading'
 
 const Routes = () => {
-  const { user} = useContext(AuthContext)
+  const { user, loading} = useContext(AuthContext)
 
-  return (
-    <>
-      {user ? 
-      <PrivateRoutes />
-      : 
-      <PublicRoutes />
-      }
-    </>
-  )
+
+  if (loading){
+    return <Loading />
+  }
+  if (user){
+    return <PrivateRoutes />
+  }
+  return <PublicRoutes />
+
 }
 
 export default Routes

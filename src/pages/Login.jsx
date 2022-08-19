@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link } from '@mui/material'
+import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
 import { signInWithEmailAndPassword} from 'firebase/auth'
@@ -9,16 +9,16 @@ import { useNavigate} from 'react-router-dom'
 export default function Login () {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
   const {setUser} = useContext(AuthContext)
 
   const login = async (e) =>{
     e.preventDefault()
+    setLoading(true)
 
     try{
       const userCredential = await signInWithEmailAndPassword(auth, email, password )
-      console.log(userCredential)
-      // console.log(userCredential)
       setUser(userCredential)
       navigate('/')
     }
@@ -26,15 +26,8 @@ export default function Login () {
       console.log(error)
     }
 
-    console.log('first')
 
-
-    // onAuthStateChanged()
   }
-
-
-
-
 
     return (
     <Grid container direction="column" justifyContent="center" alignItems="center" height="100vh"
@@ -55,7 +48,20 @@ export default function Login () {
           <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} value={password} onChange={(e)=>{setPassword(e.target.value)}}
           />        
 
-          <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={login}>Login</Button>
+          <Box sx={{position: 'relative'}}>
+
+            <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={login} disabled={loading} fullWidth>Login</Button>
+
+            {loading && (
+              <CircularProgress
+                size={24}
+                sx={{color: 'success.main',position: 'absolute',top: '50%',left: '50%',marginTop: '-12px',marginLeft: '-12px',
+                }}
+            />
+            )}
+
+          </Box>
+
 
 
           <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} >

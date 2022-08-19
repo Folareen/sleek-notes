@@ -1,5 +1,5 @@
 import React, { useState, useContext} from 'react'
-import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link } from '@mui/material'
+import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box  } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
 import { createUserWithEmailAndPassword} from 'firebase/auth'
@@ -10,17 +10,17 @@ export default function Signup () {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false);
   const {setUser} = useContext(AuthContext)
   const navigate = useNavigate()
 
 
   const signUp = async (e) =>{
     e.preventDefault()
+    setLoading(true)
 
     try{
       const userCredential = await createUserWithEmailAndPassword(auth, email, password )
-      console.log(userCredential)
-      // console.log(userCredential)
       setUser(userCredential)
       navigate('/')
     }
@@ -28,10 +28,6 @@ export default function Signup () {
       console.log(error)
     }
 
-    console.log('first')
-
-
-    // onAuthStateChanged()
   }
 
   
@@ -56,9 +52,21 @@ export default function Signup () {
           <TextField required id="outlined-required" label="Email Address" sx={{my: 2}} fullWidth onChange={(e) => {setEmail(e.target.value)}} value={email}
           />
           <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} onChange={(e) => {setPassword(e.target.value)}} value={password}
-          />        
+          />
 
-          <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={signUp }>Sign Up</Button>
+          <Box sx={{position: 'relative'}}>
+
+            <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={signUp } disabled={loading} fullWidth>Sign Up</Button>
+
+            {loading && (
+              <CircularProgress
+                size={24}
+                sx={{color: 'success.main',position: 'absolute',top: '50%',left: '50%',marginTop: '-12px',marginLeft: '-12px',
+                }}
+            />
+            )}
+
+          </Box>        
 
           <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} >
             <Typography component='p' sx={{p:0.5}}>
