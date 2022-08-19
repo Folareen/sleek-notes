@@ -2,7 +2,7 @@ import React, { useState, useContext} from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box, Alert  } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
-import { createUserWithEmailAndPassword} from 'firebase/auth'
+import { createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
 import {AuthContext } from '../context/AuthContext'
 import { useNavigate} from 'react-router-dom'
 
@@ -22,12 +22,11 @@ export default function Signup () {
     setLoading(true)
 
     try{
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password )
-      setUser(userCredential)
-// update name!!!!!
-
-
-      navigate('/')
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password )
+        setUser(userCredential)
+        await updateProfile(auth.currentUser, {
+        displayName: name})
+        navigate('/')
     }
     catch{
       setError(true)
@@ -36,8 +35,7 @@ export default function Signup () {
       setLoading(false)
     }
   }
-
-  
+ 
     return (
     <Grid container direction="column" justifyContent="center" alignItems="center" height="100vh"
     >
