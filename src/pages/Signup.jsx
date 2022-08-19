@@ -1,16 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
 import { createUserWithEmailAndPassword} from 'firebase/auth'
 import {AuthContext } from '../context/AuthContext'
 import { useNavigate} from 'react-router-dom'
-import { useRef } from 'react'
 
 export default function Signup () {
-  const nameRef = useRef()
-  const emailRef = useRef()
-  const passwordRef = useRef()
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const {setUser} = useContext(AuthContext)
   const navigate = useNavigate()
 
@@ -18,10 +17,10 @@ export default function Signup () {
     e.preventDefault()
 
     try{
-      const userCredential = await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value )
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password )
       console.log(userCredential)
-      setUser(userCredential)
-      navigate('/')
+      // setUser(userCredential)
+      // navigate('/')
 
       // console.log(userCredential)
       // onAuthStateChanged(auth, (user) => {
@@ -50,7 +49,7 @@ export default function Signup () {
       <Paper elevation={4} sx={{ width: '85%', maxWidth: 400, p:3}} >
 
       <Typography variant="h2" gutterBottom align={'center'} color='secondary.dark' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
-        Notes App
+        Text Editor
       </Typography>
 
         <Typography variant="h3" align='center' sx={{fontSize: 25, fontWeight: 'bold', mb:1, color:'primary.dark'}} >
@@ -59,11 +58,11 @@ export default function Signup () {
 
         <FormControl component='form' fullWidth >
 
-          <TextField id="outlined" label="Name" required sx={{my: 2}} fullWidth ref={nameRef}
+          <TextField id="outlined" label="Name" required sx={{my: 2}} fullWidth onChange={(e) => {setName(e.target.value)}} value={name}
           />
-          <TextField required id="outlined-required" label="Email Address" sx={{my: 2}} fullWidth ref={emailRef}
+          <TextField required id="outlined-required" label="Email Address" sx={{my: 2}} fullWidth onChange={(e) => {setEmail(e.target.value)}} value={email}
           />
-          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} ref={passwordRef}
+          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} onChange={(e) => {setPassword(e.target.value)}} value={password}
           />        
 
           <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={signUp }>Sign Up</Button>

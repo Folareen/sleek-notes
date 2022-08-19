@@ -1,5 +1,5 @@
-# note-app
+# Text Editor
 
 live preview link:
 
-https://note-app-2bd37.web.app/
+https://text-editor-74904.web.app/

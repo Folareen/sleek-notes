@@ -9,7 +9,7 @@ export default function Login () {
 
       <Paper elevation={4} sx={{ width: '85%', maxWidth: 400, p:3}} >
         <Typography variant="h2" gutterBottom align={'center'} color='secondary.dark' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
-          Notes App
+          Text Editor
         </Typography>
 
         <Typography variant="h3" align='center' sx={{fontSize: 25, fontWeight: 'bold', mb:1, color:'primary.dark'}} >

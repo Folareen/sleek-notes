@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBlaL4MaBlbIF8msMXLFJJHXAdH2_1KHl0",
-  authDomain: "note-app-2bd37.firebaseapp.com",
-  projectId: "note-app-2bd37",
-  storageBucket: "note-app-2bd37.appspot.com",
-  messagingSenderId: "921630405748",
-  appId: "1:921630405748:web:66238b208272e16705cd21",
+  apiKey: "AIzaSyDoPdAHTXv8FR10sPfMrSdT-Rj-CxAGq3Q",
+  authDomain: "text-editor-74904.firebaseapp.com",
+  projectId: "text-editor-74904",
+  storageBucket: "text-editor-74904.appspot.com",
+  messagingSenderId: "51140412176",
+  appId: "1:51140412176:web:c0b77429a763c47d335b95",
 };
 
 // Initialize Firebase
