@@ -19,8 +19,8 @@ export default function Signup () {
     try{
       const userCredential = await createUserWithEmailAndPassword(auth, email, password )
       console.log(userCredential)
-      // setUser(userCredential)
-      // navigate('/')
+      setUser(userCredential)
+      navigate('/')
 
       // console.log(userCredential)
       // onAuthStateChanged(auth, (user) => {
