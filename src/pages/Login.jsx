@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box } from '@mui/material'
+import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box, Alert } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
 import { signInWithEmailAndPassword} from 'firebase/auth'
@@ -10,11 +10,13 @@ export default function Login () {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false)
   const navigate = useNavigate()
   const {setUser} = useContext(AuthContext)
 
   const login = async (e) =>{
     e.preventDefault()
+    setError(false)
     setLoading(true)
 
     try{
@@ -22,18 +24,25 @@ export default function Login () {
       setUser(userCredential)
       navigate('/')
     }
-    catch(error){
-      console.log(error)
+    catch{
+      setError(true)
     }
-
-
+    finally{
+      setLoading(false)
+    }
   }
 
     return (
     <Grid container direction="column" justifyContent="center" alignItems="center" height="100vh"
     >
 
-      <Paper elevation={4} sx={{ width: '85%', maxWidth: 400, p:3}} >
+      <Paper elevation={4} sx={{ width: '85%', maxWidth: 400, p:3, position: 'relative'}} >
+
+        {
+        error &&
+        <Alert elevation={3} onClose={() => {setError(false)}} sx={{position: 'absolute', top: '-50px', right: 0, left: 0}} severity='error'>Invalid Email or Password!</Alert> 
+        }
+
         <Typography variant="h2" gutterBottom align={'center'} color='secondary.dark' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
           Text Editor
         </Typography>
