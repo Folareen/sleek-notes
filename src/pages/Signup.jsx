@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext} from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
@@ -13,23 +13,16 @@ export default function Signup () {
   const {setUser} = useContext(AuthContext)
   const navigate = useNavigate()
 
+
   const signUp = async (e) =>{
     e.preventDefault()
 
     try{
       const userCredential = await createUserWithEmailAndPassword(auth, email, password )
       console.log(userCredential)
+      // console.log(userCredential)
       setUser(userCredential)
       navigate('/')
-
-      // console.log(userCredential)
-      // onAuthStateChanged(auth, (user) => {
-      //   if(user){
-      //     console.log(user.uid)
-      //   }else{
-      //     console.log('not signed in')
-      //   }
-      // })
     }
     catch(error){
       console.log(error)

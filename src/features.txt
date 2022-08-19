@@ -33,3 +33,6 @@ todo:
 empty notes..(if no notes)
 add zooming animation to add note icon
 
+draft.js
+wysisyg
+gsap
