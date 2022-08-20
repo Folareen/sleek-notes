@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import NotesPreviewCard from '../components/NotesPreviewCard';
@@ -7,18 +7,37 @@ import LogoutButton from '../components/LogoutButton';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import ColorModeButton from '../components/ColorModeButton'
 import '../styles/style.css'
+import { AuthContext} from '../context/AuthContext'
+import { db } from '../firebase'
+import { collection, getDocs } from "firebase/firestore"; 
 
 // const testFirebase =[]
 
 export default function NotesPreview () {
+    const { user} = useContext(AuthContext)
+    const [notes, setNotes] = useState('')
+
+    useEffect(
+        ()=> {
+            (async function (){
+                const querySnapshot = await getDocs(collection(db, "users"));
+                console.log(querySnapshot)
+                querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log("hi");
+                });
+            })()
+        }, [notes]
+    )
+
     return (
     <Box >
-        <AppBar position="sticky" sx={{color:'text.primary', py: 1}} elevation={10}>
+        <AppBar position="sticky" sx={{color:'text.primary', py: 0.5}} elevation={10}>
             <Toolbar sx={{display: 'flex', justifyContent:'space-between'}} >
 
                 <Box sx={{flex: 1, border:1,borderRadius: 10, display:'flex', p: 0.8}}>
                     <InputBase
-                        sx={{ flex: 1,px:1, color: 'text.primary' }}
+                        sx={{ flex: 1,px:1, color: 'text.primary', fontSize: { xs: 16, md: 20}}}
                         placeholder="Search Notes with title"
                         inputProps={{ 'aria-label': 'search note' }}
                         type='search'
@@ -35,6 +54,20 @@ export default function NotesPreview () {
 
             </Toolbar>
         </AppBar>
+
+        <Typography component='p' sx={{textAlign: 'center',p: 1, color: 'primary.main', fontSize: 30 }} >
+            Welcome back, <span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>
+            {
+                user && user.displayName
+            }
+            </span>.
+        </Typography>
+
+
+        {
+            
+        }
+
 
         {
             (testFirebase.length > 0) ?

@@ -36,3 +36,4 @@ add zooming animation to add note icon
 draft.js
 wysisyg
 gsap
+react quill
