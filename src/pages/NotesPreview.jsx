@@ -20,14 +20,17 @@ export default function NotesPreview () {
     useEffect(
         ()=> {
             (async function (){
-                const querySnapshot = await getDocs(collection(db, "users"));
-                console.log(querySnapshot)
+                const querySnapshot = await getDocs(collection(db, user.uid));
+                console.log(querySnapshot.firestore)
+                setNotes(querySnapshot)
+
                 querySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
-                console.log("hi");
+                console.log(doc.id, " => ", doc.data());
                 });
+                console.log('here?')
             })()
-        }, [notes]
+        }, []
     )
 
     return (
@@ -64,12 +67,22 @@ export default function NotesPreview () {
         </Typography>
 
 
-        {
-            
-        }
+        {/* {
+            <Grid container spacing={3} sx={{p:2}}>
+            {
+                notes?.map(
+                    ({title, body}, id) => {
+                        return <Grid item xs={12} sm={6} md={4} xxl={2} key={id}>
+                        <NotesPreviewCard id={id} title={title} body={body}/>
+                        </Grid>
+                    }
+                )
+            }
+            </Grid>
+        } */}
 
 
-        {
+        {/* {
             (testFirebase.length > 0) ?
             <Grid container spacing={3} sx={{p:2}}>
             {
@@ -90,7 +103,7 @@ export default function NotesPreview () {
                 </Typography>
             </Box>   
 
-        }
+        } */}
 
         <IconButton sx={{position: 'fixed', bottom: 3, right: 3, border: 1, boxShadow: 5, p: 2, color:'background.paper', bgcolor:'success.dark','&:hover':{color: 'success.light',bgcolor: 'success.dark'
         }}} className='add-icon'>
