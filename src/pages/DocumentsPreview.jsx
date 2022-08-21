@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
-import NotesPreviewCard from '../components/DocumentPreviewCard';
+import DocumentPreviewCard from '../components/DocumentPreviewCard';
 // import testFirebase from '../testFirebase'
 import LogoutButton from '../components/LogoutButton';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
@@ -9,12 +9,29 @@ import ColorModeButton from '../components/ColorModeButton'
 import '../styles/style.css'
 import { AuthContext} from '../context/AuthContext'
 import { db } from '../firebase'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 // const testFirebase =[]
 
 export default function DocumentsPreview () {
     const { user} = useContext(AuthContext)
-    const [notes, setNotes] = useState([])
+    const [documents, setDocuments] = useState([])
+    const [showModal, setShowModal] = useState(false)
+    const [newDocTitle, setNewDocTitle] = useState('');
+    const [newDocBody, setNewDocBody] = useState('')
+
+    const addNewDoc = async (e) =>{
+        e.preventDefault()
+        const collectionref = collection(db, user.uid);
+
+        await setDoc(doc(collectionref, '12345678'), {
+            title: newDocTitle,
+            body: newDocBody
+        });
+
+        setShowModal(false)
+    }
+
+
 
     useEffect(
         ()=> {
@@ -23,7 +40,7 @@ export default function DocumentsPreview () {
                 const querySnapshot = await getDocs(collection(db, user.uid));
                 console.log(querySnapshot)
                 // console.log(typeof querySnapshot)
-                // setNotes(querySnapshot.docs)
+                // setDocuments(querySnapshot.docs)
                 const collectionOfDocuments = []
 
                 querySnapshot.forEach((doc) => {
@@ -34,7 +51,7 @@ export default function DocumentsPreview () {
                 });
                 console.log('here?')
                 console.log(collectionOfDocuments)
-                setNotes(collectionOfDocuments)
+                setDocuments(collectionOfDocuments)
                 // setLoading(false)
             })()
         }, [user]
@@ -49,7 +66,7 @@ export default function DocumentsPreview () {
                     <InputBase
                         sx={{ flex: 1,px:1, color: 'text.primary', fontSize: { xs: 16, md: 20}}}
                         placeholder="Search Document with title"
-                        inputProps={{ 'aria-label': 'search note' }}
+                        inputProps={{ 'aria-label': 'search Document' }}
                         type='search'
                     />
 
@@ -74,14 +91,14 @@ export default function DocumentsPreview () {
         </Typography>
 
 
-        {notes?
+        {documents?
             <Grid container spacing={3} sx={{p:2}}>
-            { notes && 
-                notes.map(
+            { documents && 
+                documents.map(
                     ({id, data}, index) => {
                         const {body, title} = data
                         return <Grid item xs={12} sm={6} md={4} xxl={2} key={index}>
-                        <NotesPreviewCard id={id} title={title} body={body}/>
+                        <DocumentPreviewCard id={id} title={title} body={body}/>
                         </Grid>
                     }
                 )
@@ -90,8 +107,8 @@ export default function DocumentsPreview () {
             : 
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                 <Typography component='p'>
-                    No notes found..
-                    Add a note with the floating green button below
+                    No Documents found..
+                    Add a Document with the floating green button below
                 </Typography>
             </Box>   
 
@@ -99,9 +116,17 @@ export default function DocumentsPreview () {
 
 
         <IconButton sx={{position: 'fixed', bottom: 3, right: 3, border: 1, boxShadow: 5, p: 2, color:'background.paper', bgcolor:'success.dark','&:hover':{color: 'success.light',bgcolor: 'success.dark'
-        }}} className='add-icon'>
+        }}} className='add-icon' onClick={()=>{setShowModal(true)}}>
             <NoteAddIcon/>
         </IconButton>
+
+        {showModal &&
+        <form >
+            <input type="text" value={newDocTitle} onChange={(e)=>setNewDocTitle(e.target.value)} />
+            <input type="text" value={newDocBody} onChange={(e)=>setNewDocBody(e.target.value)} />
+            <button type='submit' onClick={addNewDoc}>create</button>
+        </form>
+        }
 
     </Box>
 
