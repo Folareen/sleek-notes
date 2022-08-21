@@ -18,7 +18,7 @@ export default function DocumentsPreview () {
     const [displayedDocuments, setDisplayedDocuments] = useState([])
     const [showModal, setShowModal] = useState(false)
     const [newDocTitle, setNewDocTitle] = useState('');
-    const [newDocBody, setNewDocBody] = useState('')
+    const [newDocDescription, setNewDocDescription] = useState('')
 
     const {documents, setDocuments} = useDocuments()
 
@@ -28,7 +28,8 @@ export default function DocumentsPreview () {
 
         await setDoc(doc(collectionref), {
             title: newDocTitle,
-            body: newDocBody,
+            description: newDocDescription,
+            date: `${(new Date()).toTimeString()} ${(new Date()).toDateString()}`
         });
         console.log('added')
         setDocuments(await getAllDocuments(user))
@@ -84,10 +85,10 @@ export default function DocumentsPreview () {
             <Grid container spacing={3} sx={{p:2}}>
             { displayedDocuments && 
                 displayedDocuments.map(
-                    ({id, data}, index) => {
-                        const {body, title} = data
-                        return <Grid item xs={12} sm={6} md={4} xxl={2} key={index}>
-                        <DocumentPreviewCard id={id} title={title} body={body}/>
+                    ({id, data}) => {
+                        const {title, description, date} = data
+                        return <Grid item xs={12} sm={6} md={4} xxl={2} key={id}>
+                        <DocumentPreviewCard id={id} title={title} description={description} date={date}/>
                         </Grid>
                     }
                 )
@@ -112,7 +113,7 @@ export default function DocumentsPreview () {
         {showModal &&
         <form >
             <input type="text" value={newDocTitle} onChange={(e)=>setNewDocTitle(e.target.value)} />
-            <input type="text" value={newDocBody} onChange={(e)=>setNewDocBody(e.target.value)} />
+            <input type="text" value={newDocDescription} onChange={(e)=>setNewDocDescription(e.target.value)} />
             <button type='submit' onClick={addNewDoc}>create</button>
         </form>
         }

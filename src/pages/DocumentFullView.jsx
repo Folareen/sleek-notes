@@ -26,6 +26,7 @@ export default function DocumentFullView () {
     const [readOnly, setReadOnly] = useState(true)
     const [fontSize, setFontSize] = useState('small')
     const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
     const [body, setBody] = useState('')
     const {id} = useParams()
     const {user} = useUser()
@@ -38,6 +39,7 @@ export default function DocumentFullView () {
                 if (docSnap.exists()) {
                     // setDocumentBody
                     setTitle(docSnap.data().title)
+                    setDescription(docSnap.data().description)
                     setBody(docSnap.data().body)
                     console.log(docSnap.data())
                 } else {
@@ -198,6 +200,11 @@ export default function DocumentFullView () {
                     value={title}
                     onChange={(e)=>{setTitle(e.target.value)}}
                 />
+
+                {
+                    !readOnly &&  
+                    <input type='text' value={description} />
+                }
 
                 <TextField
                 rows={readOnly ? 20 : 15 }

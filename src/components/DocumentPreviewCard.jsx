@@ -7,7 +7,7 @@ import { doc, deleteDoc } from "firebase/firestore";
 import {db} from '../firebase'
 import useUser from '../hooks/useUser';
 
-export default function DocumentPreviewCard ({id, title, body, date}){
+export default function DocumentPreviewCard ({id, title, description, date}){
     const { user} = useUser()
     const navigate = useNavigate()
     const viewDocument = () => {
@@ -31,7 +31,7 @@ export default function DocumentPreviewCard ({id, title, body, date}){
 
                     <Typography variant="p" 
                     component='p' sx={{py: 1, color:"text.secondary"}}>
-                    {body}
+                    {description}
                     </Typography>
 
                     <Typography variant="body" component='p' sx={{fontStyle: 'italic', fontWeight: 'light', color:"text.disabled"}}>
