@@ -8,9 +8,10 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import ColorModeButton from '../components/ColorModeButton'
 import '../styles/style.css'
 import { db } from '../firebase'
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { collection, setDoc, doc } from "firebase/firestore";
 import useDocuments from '../hooks/useDocuments';
 import useUser from '../hooks/useUser';
+import getAllDocuments from '../utils/getAllDocuments';
 
 export default function DocumentsPreview () {
     const { user} = useUser()
@@ -25,18 +26,20 @@ export default function DocumentsPreview () {
         e.preventDefault()
         const collectionref = collection(db, user.uid);
 
-        await setDoc(doc(collectionref, '12345678'), {
+        await setDoc(doc(collectionref, '123457'), {
             title: newDocTitle,
             body: newDocBody
         });
-        setDocuments()
-
+        console.log('added')
+        setDocuments(await getAllDocuments(user))
         setShowModal(false)
     }
 
     useEffect(
         ()=> {
             setDisplayedDocuments(documents)
+            console.log(displayedDocuments)
+            console.log('set new displayed documents!!')
         }, [documents]
     )
 

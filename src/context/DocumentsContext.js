@@ -9,8 +9,12 @@ const DocumentsContextProvider = ({ children }) => {
   const { user } = useUser();
 
   useEffect(() => {
-    setDocuments(getAllDocuments(user.uid));
-  }, []);
+    (async function () {
+      setDocuments(await getAllDocuments(user));
+    })();
+
+    console.log(getAllDocuments(user));
+  }, [user]);
 
   return (
     <DocumentsContext.Provider value={{ documents, setDocuments }}>
