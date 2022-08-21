@@ -10,14 +10,16 @@ import '../styles/style.css'
 import { AuthContext} from '../context/AuthContext'
 import { db } from '../firebase'
 import { collection, getDocs, setDoc, doc } from "firebase/firestore";
-// const testFirebase =[]
+import useDocuments from '../hooks/useDocuments';
 
 export default function DocumentsPreview () {
     const { user} = useContext(AuthContext)
-    const [documents, setDocuments] = useState([])
+    const [displayedDocuments, setDisplayedDocuments] = useState([])
     const [showModal, setShowModal] = useState(false)
     const [newDocTitle, setNewDocTitle] = useState('');
     const [newDocBody, setNewDocBody] = useState('')
+
+    const {documents, setDocuments} = useDocuments()
 
     const addNewDoc = async (e) =>{
         e.preventDefault()
@@ -27,35 +29,19 @@ export default function DocumentsPreview () {
             title: newDocTitle,
             body: newDocBody
         });
+        setDocuments()
 
         setShowModal(false)
     }
 
-
-
     useEffect(
         ()=> {
-            (async function (){
-                // setLoading(true)
-                const querySnapshot = await getDocs(collection(db, user.uid));
-                console.log(querySnapshot)
-                // console.log(typeof querySnapshot)
-                // setDocuments(querySnapshot.docs)
-                const collectionOfDocuments = []
-
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data()
-                    collectionOfDocuments.push({id: doc.id, data})
-                // doc.data() is never undefined for query doc snapshots
-                // console.log(doc.id, " => ", doc.data());
-                });
-                console.log('here?')
-                console.log(collectionOfDocuments)
-                setDocuments(collectionOfDocuments)
-                // setLoading(false)
-            })()
-        }, [user]
+            setDisplayedDocuments(documents)
+        }, [documents]
     )
+
+
+
 
     return (
     <Box >
@@ -91,10 +77,10 @@ export default function DocumentsPreview () {
         </Typography>
 
 
-        {documents?
+        {displayedDocuments && displayedDocuments.length > 0 ?
             <Grid container spacing={3} sx={{p:2}}>
-            { documents && 
-                documents.map(
+            { displayedDocuments && 
+                displayedDocuments.map(
                     ({id, data}, index) => {
                         const {body, title} = data
                         return <Grid item xs={12} sm={6} md={4} xxl={2} key={index}>
