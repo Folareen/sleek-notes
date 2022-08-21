@@ -2,8 +2,15 @@ import React from 'react'
 import { IconButton, CardActions, CardContent, Card, Button, Typography } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
+import { useNavigate } from 'react-router-dom';
 
-export default function NotesPreviewCard ({id, title, body, date}){
+export default function DocumentPreviewCard ({id, title, body, date}){
+    const navigate = useNavigate()
+    const viewDoc = () => {
+        navigate(`/${id}`)
+    }
+
+
         return (
             <Card sx={{px:2, py:1}} elevation={5}>
 
@@ -26,7 +33,7 @@ export default function NotesPreviewCard ({id, title, body, date}){
 
                 <CardActions sx={{display:'flex', justifyContent: 'space-between', borderTop: 1, borderColor: 'primary.light', px:0}}>
 
-                    <Button sx={{fontWeight:'bold'}} color='success' variant='contained' endIcon={<NoteAltIcon/>}>
+                    <Button sx={{fontWeight:'bold'}} color='success' variant='contained' endIcon={<NoteAltIcon/>} onClick={viewDoc}>
                         View/Edit
                     </Button>
 

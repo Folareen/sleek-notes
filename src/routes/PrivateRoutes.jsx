@@ -1,14 +1,14 @@
 import React from 'react'
-import NotesPreview from "../pages/NotesPreview";
-import NotesFullView from "../pages/NotesFullView";
+import DocumentsPreview from "../pages/DocumentsPreview";
+import DocumentFullView from "../pages/DocumentFullView";
 import {Routes, Route } from 'react-router-dom';
 
 
 const PrivateRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<NotesPreview />} />
-      <Route path="/:id" element={<NotesFullView />} />
+      <Route path="/" element={<DocumentsPreview />} />
+      <Route path="/:id" element={<DocumentFullView />} />
     </Routes>
   )
 }

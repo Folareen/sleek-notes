@@ -18,7 +18,7 @@ import ColorModeButton from '../components/ColorModeButton'
 import ChromeReaderModeRoundedIcon from '@mui/icons-material/ChromeReaderModeRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
-export default function NotesFullView ({id, title, body, date}) {
+export default function DocumentFullView ({id, title, body, date}) {
     const [readOnly, setReadOnly] = useState(true)
     const [fontSize, setFontSize] = useState('small')
     const [noteBody, setNoteBody] = useState('')
