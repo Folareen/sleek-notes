@@ -8,7 +8,7 @@ const PrivateRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<NotesPreview />} />
-      <Route path="/notes" element={<NotesFullView />} />
+      <Route path="/:id" element={<NotesFullView />} />
     </Routes>
   )
 }
