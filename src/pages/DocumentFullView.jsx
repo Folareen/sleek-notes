@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Box, AppBar, Toolbar, InputBase, FormControl, TextField, Button, InputLabel, Select, MenuItem, IconButton, Typography} from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
@@ -17,11 +17,37 @@ import FontDownloadIcon from '@mui/icons-material/FontDownload';
 import ColorModeButton from '../components/ColorModeButton'
 import ChromeReaderModeRoundedIcon from '@mui/icons-material/ChromeReaderModeRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import { doc, getDoc } from "firebase/firestore";
+import {useParams} from 'react-router-dom'
+import { AuthContext} from '../context/AuthContext'
+import { db} from '../firebase'
 
-export default function DocumentFullView ({id, title, body, date}) {
+export default function DocumentFullView () {
     const [readOnly, setReadOnly] = useState(true)
     const [fontSize, setFontSize] = useState('small')
-    const [noteBody, setNoteBody] = useState('')
+    const [title, setTitle] = useState('')
+    const [body, setBody] = useState('')
+    const {id} = useParams()
+    const {user} = useContext(AuthContext)
+
+    useEffect(
+        ()=> {
+            (async function (){
+                const docRef = doc(db, user.uid, id);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    // setDocumentBody
+                    setTitle(docSnap.data().title)
+                    setBody(docSnap.data().body)
+                    console.log(docSnap.data())
+                } else {
+                // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+                // setDocumentBody()
+            })()
+        }, [id, user.uid]
+    )
 
     const toggleMode =() =>{
         setReadOnly(!readOnly)
@@ -166,20 +192,22 @@ export default function DocumentFullView ({id, title, body, date}) {
 
                 <InputBase
                     sx={{color:'text.primary', p:1, border: 1, borderRadius:1, fontSize:25, fontWeight: 'bold', textTransform: 'capitalize'}}
-                    placeholder="Note Title"
-                    inputProps={{ 'aria-label': 'search note' }}
+                    placeholder="Document Title"
+                    inputProps={{ 'aria-label': 'Document Title' }}
                     type='text'
+                    value={title}
+                    onChange={(e)=>{setTitle(e.target.value)}}
                 />
 
                 <TextField
                 rows={readOnly ? 20 : 15 }
                 disabled={readOnly}
-                placeholder='Note Body'
+                placeholder='Document Body'
                 multiline
                 fullWidth
                 sx={{mt: 2}}
-                value={noteBody}
-                onChange={(e)=>{setNoteBody(e.target.value)}}
+                value={body}
+                onChange={(e)=>{setBody(e.target.value)}}
                 />    
 
             </FormControl>

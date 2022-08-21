@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import NotesPreviewCard from '../components/DocumentPreviewCard';
-import testFirebase from '../testFirebase'
+// import testFirebase from '../testFirebase'
 import LogoutButton from '../components/LogoutButton';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import ColorModeButton from '../components/ColorModeButton'
