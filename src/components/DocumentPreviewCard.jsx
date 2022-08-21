@@ -1,14 +1,14 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { IconButton, CardActions, CardContent, Card, Button, Typography } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import { useNavigate } from 'react-router-dom';
 import { doc, deleteDoc } from "firebase/firestore";
 import {db} from '../firebase'
-import { AuthContext} from '../context/AuthContext'
+import useUser from '../hooks/useUser';
 
 export default function DocumentPreviewCard ({id, title, body, date}){
-    const { user} = useContext(AuthContext)
+    const { user} = useUser()
     const navigate = useNavigate()
     const viewDocument = () => {
         navigate(`/${id}`)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect} from 'react'
 import { Box, AppBar, Toolbar, InputBase, FormControl, TextField, Button, InputLabel, Select, MenuItem, IconButton, Typography} from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
@@ -19,8 +19,8 @@ import ChromeReaderModeRoundedIcon from '@mui/icons-material/ChromeReaderModeRou
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { doc, getDoc } from "firebase/firestore";
 import {useParams} from 'react-router-dom'
-import { AuthContext} from '../context/AuthContext'
 import { db} from '../firebase'
+import useUser from '../hooks/useUser';
 
 export default function DocumentFullView () {
     const [readOnly, setReadOnly] = useState(true)
@@ -28,7 +28,7 @@ export default function DocumentFullView () {
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
     const {id} = useParams()
-    const {user} = useContext(AuthContext)
+    const {user} = useUser()
 
     useEffect(
         ()=> {

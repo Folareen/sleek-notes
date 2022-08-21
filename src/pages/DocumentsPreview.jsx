@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import DocumentPreviewCard from '../components/DocumentPreviewCard';
@@ -7,13 +7,13 @@ import LogoutButton from '../components/LogoutButton';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import ColorModeButton from '../components/ColorModeButton'
 import '../styles/style.css'
-import { AuthContext} from '../context/AuthContext'
 import { db } from '../firebase'
 import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 import useDocuments from '../hooks/useDocuments';
+import useUser from '../hooks/useUser';
 
 export default function DocumentsPreview () {
-    const { user} = useContext(AuthContext)
+    const { user} = useUser()
     const [displayedDocuments, setDisplayedDocuments] = useState([])
     const [showModal, setShowModal] = useState(false)
     const [newDocTitle, setNewDocTitle] = useState('');

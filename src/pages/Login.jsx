@@ -1,10 +1,10 @@
-import React, {useState, useContext} from 'react'
+import React, {useState} from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box, Alert } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
 import { signInWithEmailAndPassword} from 'firebase/auth'
-import {AuthContext } from '../context/AuthContext'
 import { useNavigate} from 'react-router-dom'
+import useUser from '../hooks/useUser'
 
 export default function Login () {
   const [email, setEmail] = useState('')
@@ -12,7 +12,7 @@ export default function Login () {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false)
   const navigate = useNavigate()
-  const {setUser} = useContext(AuthContext)
+  const {setUser} = useUser()
 
   const login = async (e) =>{
     e.preventDefault()

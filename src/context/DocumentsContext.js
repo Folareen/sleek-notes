@@ -1,13 +1,13 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { AuthContext } from "../context/AuthContext";
+import useUser from "../hooks/useUser";
 
 export const DocumentsContext = createContext();
 
 const DocumentsContextProvider = ({ children }) => {
   const [documents, setDocuments] = useState();
-  const { user } = useContext(AuthContext);
+  const { user } = useUser();
 
   useEffect(() => {
     (async function () {

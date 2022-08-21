@@ -1,12 +1,12 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { IconButton } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import { auth} from '../firebase'
-import { AuthContext } from '../context/AuthContext';
+import useUser from '../hooks/useUser';
 
 export default function LogoutButton (){
-    const { setUser} = useContext(AuthContext) 
+    const { setUser} = useUser()
 
     const logout = async () => {
 

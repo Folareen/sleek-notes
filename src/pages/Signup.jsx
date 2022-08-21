@@ -1,10 +1,10 @@
-import React, { useState, useContext} from 'react'
+import React, { useState} from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box, Alert  } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
 import { createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
-import {AuthContext } from '../context/AuthContext'
 import { useNavigate} from 'react-router-dom'
+import useUser from '../hooks/useUser'
 
 export default function Signup () {
   const [name, setName] = useState("")
@@ -12,7 +12,7 @@ export default function Signup () {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false)
-  const {setUser} = useContext(AuthContext)
+  const {setUser} = useUser()
   const navigate = useNavigate()
 
 
