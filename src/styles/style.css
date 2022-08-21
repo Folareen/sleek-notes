@@ -1,5 +1,5 @@
 @keyframes zoom {
-    from {scale: 0.7; opacity: 0.7}
+    from {scale: 0.9; opacity: 0.7}
     to {scale: 1; opacity: 1}
 }
 
