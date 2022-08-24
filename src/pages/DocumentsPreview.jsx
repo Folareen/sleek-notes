@@ -1,17 +1,20 @@
 import React, { useEffect, useState} from 'react'
-import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography} from '@mui/material'
+import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography, Button,Dialog, DialogTitle, DialogActions, DialogContent,TextField } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import DocumentPreviewCard from '../components/DocumentPreviewCard';
-// import testFirebase from '../testFirebase'
 import LogoutButton from '../components/LogoutButton';
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
 import ColorModeButton from '../components/ColorModeButton'
 import '../styles/style.css'
 import { db } from '../firebase'
-import { collection, setDoc, doc} from "firebase/firestore";
+import { collection, addDoc} from "firebase/firestore";
 import useDocuments from '../hooks/useDocuments';
 import useUser from '../hooks/useUser';
 import getAllDocuments from '../utils/getAllDocuments';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { useNavigate } from 'react-router-dom';
+import displayDateAndTime from '../utils/displayDateAndTIme'
+
 
 export default function DocumentsPreview () {
     const { user} = useUser()
@@ -19,21 +22,29 @@ export default function DocumentsPreview () {
     const [showModal, setShowModal] = useState(false)
     const [newDocTitle, setNewDocTitle] = useState('');
     const [newDocDescription, setNewDocDescription] = useState('')
+    const [newDocCreating, setNewDocCreating] = useState(false)
+    const navigate = useNavigate()
 
     const {documents, setDocuments} = useDocuments()
 
     const addNewDoc = async (e) =>{
         e.preventDefault()
-        const collectionref = collection(db, user.uid);
+        setNewDocCreating(true)
 
-        await setDoc(doc(collectionref), {
+        const docRef = await addDoc(collection(db, user.uid), {
             title: newDocTitle,
             description: newDocDescription,
-            date: `${(new Date()).toTimeString()} ${(new Date()).toDateString()}`
+            date: displayDateAndTime()
         });
-        console.log('added')
         setDocuments(await getAllDocuments(user))
         setShowModal(false)
+        navigate(`/${docRef.id}`)
+    }
+
+    const showAddNewDocumentModal = () =>{
+        setShowModal(true)
+        setNewDocTitle('')
+        setNewDocDescription('')
     }
 
     useEffect(
@@ -43,8 +54,6 @@ export default function DocumentsPreview () {
             console.log('set new displayed documents!!')
         }, [documents]
     )
-
-
 
 
     return (
@@ -73,7 +82,7 @@ export default function DocumentsPreview () {
         </AppBar>
 
         <Typography component='p' sx={{textAlign: 'center',p: 1, color: 'primary.main', fontSize: 30 }} >
-            Welcome back, <span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>
+            Welcome, <span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>
             {
                 user && user.displayName
             }
@@ -104,19 +113,44 @@ export default function DocumentsPreview () {
 
         }
 
+        <Dialog
+                onClose={()=>{setShowModal(false)}}
+                aria-labelledby="Create new document modal"
+                open={showModal}
+            >
+        <DialogTitle id="New document title" onClose={()=>{setShowModal(false)}}>
+          Create new Document
+            <IconButton
+            aria-label="close"
+            onClick={()=>{setShowModal(false)}}
+            sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+            }}
+            >
+            <CloseRoundedIcon />
+            </IconButton>
+        </DialogTitle>
+        <DialogContent dividers>
+          <TextField id="outlined" label="Title" required sx={{my: 2}} fullWidth onChange={(e) => {setNewDocTitle(e.target.value)}} value={newDocTitle}
+          />
+          <TextField id="outlined" label="Description" required sx={{my: 2}} fullWidth onChange={(e) => {setNewDocDescription(e.target.value)}} value={newDocDescription} multiline rows={3}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button type='submit' onClick={addNewDoc} color='success' variant='contained' disabled={newDocCreating}>
+            {newDocCreating ? 'Creating..' : 'Create'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+        {/* } */}
 
-        <IconButton sx={{position: 'fixed', bottom: 3, right: 3, border: 1, boxShadow: 5, p: 2, color:'background.paper', bgcolor:'success.dark','&:hover':{color: 'success.light',bgcolor: 'success.dark'
-        }}} className='add-icon' onClick={()=>{setShowModal(true)}}>
-            <NoteAddIcon/>
+        <IconButton elevation={5} sx={{boxShadow: 10, border: 1, p: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', position: 'fixed', bottom: 10, right: 10, bgcolor: 'background.paper', '&:hover': {bgcolor: 'success.light'}}} 
+            color='success' onClick={showAddNewDocumentModal} size='large'>
+            <NoteAddRoundedIcon sx={{fontSize: {xs: 40, sm: 60, lg: 80}}}/>
         </IconButton>
-
-        {showModal &&
-        <form >
-            <input type="text" value={newDocTitle} onChange={(e)=>setNewDocTitle(e.target.value)} />
-            <input type="text" value={newDocDescription} onChange={(e)=>setNewDocDescription(e.target.value)} />
-            <button type='submit' onClick={addNewDoc}>create</button>
-        </form>
-        }
 
     </Box>
 
