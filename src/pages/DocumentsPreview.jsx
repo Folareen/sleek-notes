@@ -7,7 +7,7 @@ import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
 import ColorModeButton from '../components/ColorModeButton'
 import '../styles/style.css'
 import { db } from '../firebase'
-import { collection, addDoc} from "firebase/firestore";
+import {doc, setDoc} from "firebase/firestore";
 import useDocuments from '../hooks/useDocuments';
 import useUser from '../hooks/useUser';
 import getAllDocuments from '../utils/getAllDocuments';
@@ -33,14 +33,18 @@ export default function DocumentsPreview () {
         e.preventDefault()
         setNewDocCreating(true)
 
-        const docRef = await addDoc(collection(db, user.uid), {
+        const newDocId = Date.now()
+        console.log(newDocId)
+
+        await setDoc(doc(db, user.uid, `${newDocId}`), {
             title: newDocTitle,
             description: newDocDescription,
             date: displayDateAndTime()
         });
         setDocuments(await getAllDocuments(user))
         setShowModal(false)
-        navigate(`/${docRef.id}`)
+        setNewDocCreating(false)
+        navigate(`/${newDocId}`)
     }
 
     const showAddNewDocumentModal = () =>{
