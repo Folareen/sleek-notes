@@ -14,6 +14,7 @@ import getAllDocuments from '../utils/getAllDocuments';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useNavigate } from 'react-router-dom';
 import displayDateAndTime from '../utils/displayDateAndTIme'
+import Loading from '../components/Loading';
 
 
 export default function DocumentsPreview () {
@@ -25,7 +26,7 @@ export default function DocumentsPreview () {
     const [newDocCreating, setNewDocCreating] = useState(false)
     const navigate = useNavigate()
 
-    const {documents, setDocuments} = useDocuments()
+    const {documents, setDocuments, fetchingDocs} = useDocuments()
 
     const addNewDoc = async (e) =>{
         e.preventDefault()
@@ -51,7 +52,6 @@ export default function DocumentsPreview () {
         ()=> {
             setDisplayedDocuments(documents)
             console.log(displayedDocuments)
-            console.log('set new displayed documents!!')
         }, [documents]
     )
 
@@ -90,28 +90,38 @@ export default function DocumentsPreview () {
         </Typography>
 
 
-        {displayedDocuments && displayedDocuments.length > 0 ?
+        {
+            fetchingDocs ?
+            (<Loading small={true} />)
+            :
+            (
+            displayedDocuments?.length > 0
+            ?
             <Grid container spacing={3} sx={{p:2}}>
-            { displayedDocuments && 
-                displayedDocuments.map(
-                    ({id, data}) => {
-                        const {title, description, date} = data
-                        return <Grid item xs={12} sm={6} md={4} xxl={2} key={id}>
-                        <DocumentPreviewCard id={id} title={title} description={description} date={date}/>
-                        </Grid>
-                    }
-                )
-            }
+                {displayedDocuments &&
+                    displayedDocuments?.map(
+                        ({id, data}) => {
+                            const {title, description, date} = data
+                            return <Grid item xs={12} sm={6} md={4} xxl={2} key={id}>
+                            <DocumentPreviewCard id={id} title={title} description={description} date={date}/>
+                            </Grid>
+                        }
+                    )
+                }
             </Grid>
-            : 
+            :
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <Typography component='p'>
+                <Typography component='p' sx={{color: 'error.dark'}}>
                     No Documents found..
                     Add a Document with the floating green button below
                 </Typography>
-            </Box>   
+            </Box>
+            )
 
         }
+
+
+
 
         <Dialog
                 onClose={()=>{setShowModal(false)}}
@@ -149,7 +159,7 @@ export default function DocumentsPreview () {
 
         <IconButton elevation={5} sx={{boxShadow: 10, border: 1, p: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', position: 'fixed', bottom: 10, right: 10, bgcolor: 'background.paper', '&:hover': {bgcolor: 'success.light'}}} 
             color='success' onClick={showAddNewDocumentModal} size='large'>
-            <NoteAddRoundedIcon sx={{fontSize: {xs: 40, sm: 60, lg: 80}}}/>
+            <NoteAddRoundedIcon sx={{fontSize: {xs: 40, lg: 60}}}/>
         </IconButton>
 
     </Box>

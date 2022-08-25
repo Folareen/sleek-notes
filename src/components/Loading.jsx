@@ -5,11 +5,14 @@ import { Box} from '@mui/material'
 const Loading = ({small}) => {
   return (
     <Box sx={{
-      height: small? '100vh' : '70vh',
+      height: small? '80vh' : '100vh',
       bgcolor: 'grey.300',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      width: '100%',
+      position: 'fixed',
+      bottom: 0,
     }}>
       <Grid
       height = "80"
