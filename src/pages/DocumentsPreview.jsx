@@ -24,6 +24,7 @@ export default function DocumentsPreview () {
     const [newDocTitle, setNewDocTitle] = useState('');
     const [newDocDescription, setNewDocDescription] = useState('')
     const [newDocCreating, setNewDocCreating] = useState(false)
+    const [searchValue, setSearchValue] = useState('')
     const navigate = useNavigate()
 
     const {documents, setDocuments, fetchingDocs} = useDocuments()
@@ -48,10 +49,22 @@ export default function DocumentsPreview () {
         setNewDocDescription('')
     }
 
+    const searchDocuments = () => {
+        if(searchValue.length < 1){
+            setDisplayedDocuments(documents)
+        }else{
+            setDisplayedDocuments(
+                documents.filter((doc) => {
+                    return doc.data.title.includes(searchValue)
+                }
+                )
+            )
+        }
+    }
+
     useEffect(
         ()=> {
             setDisplayedDocuments(documents)
-            console.log(displayedDocuments)
         }, [documents]
     )
 
@@ -67,11 +80,11 @@ export default function DocumentsPreview () {
                         placeholder="Search Document with title"
                         inputProps={{ 'aria-label': 'search Document' }}
                         type='search'
-                    />
-
-                    <IconButton type="button" sx={{border: 1 }} aria-label="search">
-                        <SearchIcon />
-                    </IconButton>            
+                        value={searchValue}
+                        onChange={(e)=>{setSearchValue(e.target.value)}}
+                        onKeyUp={searchDocuments}
+                    />  
+                    <SearchIcon sx={{alignSelf: 'center'}}  size='large'/>         
                 </Box>
 
                 <ColorModeButton />
