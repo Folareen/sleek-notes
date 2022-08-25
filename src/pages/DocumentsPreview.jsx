@@ -15,6 +15,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useNavigate } from 'react-router-dom';
 import displayDateAndTime from '../utils/displayDateAndTIme'
 import Loading from '../components/Loading';
+import { ACTIONS } from '../reducers/actions';
 
 
 export default function DocumentsPreview () {
@@ -27,7 +28,7 @@ export default function DocumentsPreview () {
     const [searchValue, setSearchValue] = useState('')
     const navigate = useNavigate()
 
-    const {documents, setDocuments, fetchingDocs} = useDocuments()
+    const {dispatch, fetchingDocs, documents} = useDocuments()
 
     const addNewDoc = async (e) =>{
         e.preventDefault()
@@ -41,7 +42,7 @@ export default function DocumentsPreview () {
             description: newDocDescription,
             date: displayDateAndTime()
         });
-        setDocuments(await getAllDocuments(user))
+        dispatch({type: ACTIONS.CREATE_NEW_DOC, payload: await getAllDocuments(user)})
         setShowModal(false)
         setNewDocCreating(false)
         navigate(`/${newDocId}`)

@@ -2,10 +2,10 @@ import { useContext } from "react";
 import { DocumentsContext } from "../context/DocumentsContext";
 
 const useDocuments = () => {
-  const { documents, setDocuments, fetchingDocs, setFetchingDocs } =
-    useContext(DocumentsContext);
+  const { state, dispatch } = useContext(DocumentsContext);
+  const { fetchingDocs, documents } = state;
 
-  return { documents, setDocuments, fetchingDocs, setFetchingDocs };
+  return { dispatch, fetchingDocs, documents };
 };
 
 export default useDocuments;

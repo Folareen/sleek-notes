@@ -6,9 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { doc, deleteDoc } from "firebase/firestore";
 import {db} from '../firebase'
 import useUser from '../hooks/useUser';
+import useDocuments from '../hooks/useDocuments';
+import getAllDocuments from '../utils/getAllDocuments';
 
 export default function DocumentPreviewCard ({id, title, description, date}){
     const { user} = useUser()
+    const {setDocuments} = useDocuments()
     const navigate = useNavigate()
     const viewDocument = () => {
         navigate(`/${id}`)
@@ -17,6 +20,7 @@ export default function DocumentPreviewCard ({id, title, description, date}){
     const deleteDocument = async () => {
         await deleteDoc(doc(db, user.uid, id));
         alert('deleted!')
+        setDocuments(await getAllDocuments(user))
     }
 
 

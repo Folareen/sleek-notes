@@ -1,27 +1,28 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import getAllDocuments from "../utils/getAllDocuments";
 import useUser from "../hooks/useUser";
+import reducer from "../reducers/reducer";
+import { initialState } from "../reducers/initialState";
+import { ACTIONS } from "../reducers/actions";
 
 export const DocumentsContext = createContext();
 
 const DocumentsContextProvider = ({ children }) => {
-  const [documents, setDocuments] = useState();
-  const [fetchingDocs, setFetchingDocs] = useState(true);
   const { user } = useUser();
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     (async function () {
-      setDocuments(await getAllDocuments(user));
-      setFetchingDocs(false);
+      dispatch({
+        type: ACTIONS.FETCH_DOCS,
+        payload: await getAllDocuments(user),
+      });
+      dispatch({ type: ACTIONS.FETCHED_DOCS, payload: false });
     })();
-
-    console.log(getAllDocuments(user));
   }, [user]);
 
   return (
-    <DocumentsContext.Provider
-      value={{ documents, setDocuments, fetchingDocs, setFetchingDocs }}
-    >
+    <DocumentsContext.Provider value={{ state, dispatch }}>
       {children}
     </DocumentsContext.Provider>
   );
