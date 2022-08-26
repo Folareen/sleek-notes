@@ -5,7 +5,7 @@ import { Box} from '@mui/material'
 const Loading = ({small}) => {
   return (
     <Box sx={{
-      height: small? '80vh' : '100vh',
+      height: small? '75vh' : '100vh',
       bgcolor: 'grey.300',
       display: 'flex',
       justifyContent: 'center',
