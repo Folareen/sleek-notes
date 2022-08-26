@@ -1,5 +1,5 @@
-import React from 'react'
-import { IconButton, CardActions, CardContent, Card, Button, Typography } from '@mui/material';
+import React, {useState} from 'react'
+import { IconButton, CardActions, CardContent, Card, Button, Typography, Box, CircularProgress} from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import { useNavigate } from 'react-router-dom';
@@ -14,21 +14,34 @@ export default function DocumentPreviewCard ({id, title, description, date}){
     const { user} = useUser()
     const {dispatch} = useDocuments()
     const navigate = useNavigate()
+    const [deletingDocument, setDeletingDocument] = useState(false)
     const viewDocument = () => {
         navigate(`/${id}`)
     }
+    const opacity = deletingDocument ? '0.5' : 1
     
     const deleteDocument = async () => {
+        setDeletingDocument(true)
         await deleteDoc(doc(db, user.uid, id));
         dispatch({type: ACTIONS.DELETE_DOC, payload: [true, await getAllDocuments(user)]})
         dispatch({type: ACTIONS.DELETED_DOC})
+        setDeletingDocument(false)
     }
 
 
         return (
-            <Card sx={{px:2, py:1}} elevation={5}>
+            <Card sx={{px:2, py:1, position: 'relative'}} elevation={5}>
 
-                <CardContent sx={{p:0}}>
+                {
+                    deletingDocument &&
+                    <Box sx={{bgcolor: 'text.disabled', height: '100%', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', top: 0, bottom: 0, right: 0, left: 0, width: '100%', color: 'error.main'}}>
+                        Deleting Document...
+                        <CircularProgress color="inherit" />
+                    </Box >   
+
+                }
+
+                <CardContent sx={{p:0, opacity:opacity}}>
 
                     <Typography gutterBottom component="h2" variant='h5' sx={{fontWeight: 'bold',textTransform: 'capitalize', color:'text.primary', borderBottom: 1, borderColor: 'primary', py:1}} >
                     {title} id:{id}
