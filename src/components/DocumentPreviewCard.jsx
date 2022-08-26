@@ -43,22 +43,22 @@ export default function DocumentPreviewCard ({id, title, description, date}){
 
                 <CardContent sx={{p:0, opacity:opacity}}>
 
-                    <Typography gutterBottom component="h2" variant='h5' sx={{fontWeight: 'bold',textTransform: 'capitalize', color:'text.primary', borderBottom: 1, borderColor: 'primary', py:1}} >
-                    {title} id:{id}
+                    <Typography gutterBottom component="h2" variant='h5' sx={{fontWeight: 'bold',textTransform: 'capitalize', color:'text.primary', borderBottom: 1, borderColor: 'primary.dark', py:1, wordWrap: 'break-word'}} >
+                    {title}
                     </Typography>
 
-                    <Typography variant="p" 
-                    component='p' sx={{py: 1, color:"text.secondary"}}>
+                    <Typography variant="body" 
+                    component='p' sx={{py: 1, color:"text.secondary", fontSize: 20, wordWrap: 'break-word'}}>
                     {description}
                     </Typography>
 
-                    <Typography variant="body" component='p' sx={{fontStyle: 'italic', fontWeight: 'light', color:"text.disabled"}}>
+                    <Typography variant="p" component='p' sx={{ fontWeight: 'light', color:"text.disabled", fontSize: 14}}>
                     Last Updated: {date}
                     </Typography>
 
                 </CardContent>
 
-                <CardActions sx={{display:'flex', justifyContent: 'space-between', borderTop: 1, borderColor: 'primary.light', px:0}}>
+                <CardActions sx={{display:'flex', justifyContent: 'space-between', borderTop: 0.5, borderColor: 'text.disabled', px:0}}>
 
                     <Button sx={{fontWeight:'bold'}} color='success' variant='contained' endIcon={<NoteAltIcon/>} onClick={viewDocument}>
                         View/Edit
