@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react'
-import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography, Button,Dialog, DialogTitle, DialogActions, DialogContent,TextField } from '@mui/material'
+import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography, Button,Dialog, DialogTitle, DialogActions, DialogContent,TextField, Alert, Slide } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import DocumentPreviewCard from '../components/DocumentPreviewCard';
 import LogoutButton from '../components/LogoutButton';
@@ -28,7 +28,7 @@ export default function DocumentsPreview () {
     const [searchValue, setSearchValue] = useState('')
     const navigate = useNavigate()
 
-    const {dispatch, fetchingDocs, documents} = useDocuments()
+    const {dispatch, fetchingDocs, documents, deletedDocument} = useDocuments()
 
     const addNewDoc = async (e) =>{
         e.preventDefault()
@@ -98,6 +98,15 @@ export default function DocumentsPreview () {
 
             </Toolbar>
         </AppBar>
+
+        {
+            deletedDocument &&
+            <Slide direction="left" in={deletedDocument} mountOnEnter unmountOnExit>
+                <Alert elevation={3} onClose={() => {dispatch({type: ACTIONS.CLOSE_DELETION_ALERT}) }} sx={{position: 'absolute', top: '80px', right: 0}} severity='error'>Document deleted!</Alert>
+            </Slide>
+
+        }
+         
 
         <Typography component='p' sx={{textAlign: 'center',p: 1, color: 'primary.main', fontSize: 30 }} >
             Welcome, <span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>

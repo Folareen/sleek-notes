@@ -17,6 +17,22 @@ export default function reducer(state, action) {
         ...state,
         documents: action.payload,
       };
+    case ACTIONS.DELETE_DOC:
+      return {
+        ...state,
+        documents: action.payload[1],
+        deletedDocument: action.payload[0],
+      };
+    case ACTIONS.DELETED_DOC:
+      return {
+        ...state,
+        deletedDocument: true,
+      };
+    case ACTIONS.CLOSE_DELETION_ALERT:
+      return {
+        ...state,
+        deletedDocument: false,
+      };
 
     default:
       return state;

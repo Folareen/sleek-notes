@@ -8,10 +8,11 @@ import {db} from '../firebase'
 import useUser from '../hooks/useUser';
 import useDocuments from '../hooks/useDocuments';
 import getAllDocuments from '../utils/getAllDocuments';
+import { ACTIONS } from '../reducers/actions';
 
 export default function DocumentPreviewCard ({id, title, description, date}){
     const { user} = useUser()
-    const {setDocuments} = useDocuments()
+    const {dispatch} = useDocuments()
     const navigate = useNavigate()
     const viewDocument = () => {
         navigate(`/${id}`)
@@ -19,8 +20,8 @@ export default function DocumentPreviewCard ({id, title, description, date}){
     
     const deleteDocument = async () => {
         await deleteDoc(doc(db, user.uid, id));
-        alert('deleted!')
-        setDocuments(await getAllDocuments(user))
+        dispatch({type: ACTIONS.DELETE_DOC, payload: [true, await getAllDocuments(user)]})
+        dispatch({type: ACTIONS.DELETED_DOC})
     }
 
 
