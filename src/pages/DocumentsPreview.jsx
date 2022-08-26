@@ -5,7 +5,6 @@ import DocumentPreviewCard from '../components/DocumentPreviewCard';
 import LogoutButton from '../components/LogoutButton';
 import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
 import ColorModeButton from '../components/ColorModeButton'
-import '../styles/style.css'
 import { db } from '../firebase'
 import {doc, setDoc} from "firebase/firestore";
 import useDocuments from '../hooks/useDocuments';
