@@ -1,5 +1,6 @@
 export const initialState = {
   fetchingDocs: true,
-  documents: [],
+  documents: null,
+  error: false,
   deletedDocument: false,
 };

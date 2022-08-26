@@ -28,14 +28,13 @@ export default function DocumentsPreview () {
     const [searchValue, setSearchValue] = useState('')
     const navigate = useNavigate()
 
-    const {dispatch, fetchingDocs, documents, deletedDocument} = useDocuments()
+    const {dispatch, fetchingDocs, documents, error, deletedDocument} = useDocuments()
 
     const addNewDoc = async (e) =>{
         e.preventDefault()
         setNewDocCreating(true)
 
         const newDocId = Date.now()
-        console.log(newDocId)
 
         await setDoc(doc(db, user.uid, `${newDocId}`), {
             title: newDocTitle,
@@ -116,14 +115,12 @@ export default function DocumentsPreview () {
             </span>.
         </Typography>
 
+        {
+            fetchingDocs && <Loading small={true} />
+        }
 
         {
-            fetchingDocs ?
-            (<Loading small={true} />)
-            :
-            (
-            displayedDocuments?.length > 0
-            ?
+            !fetchingDocs && 
             <Grid container spacing={3} sx={{p:2}}>
                 {displayedDocuments &&
                     displayedDocuments?.map(
@@ -136,15 +133,17 @@ export default function DocumentsPreview () {
                     )
                 }
             </Grid>
-            :
-            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        }
+
+
+        {   
+            error &&
+            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2, textAlign: 'center'}}>
                 <Typography component='p' sx={{color: 'error.dark'}}>
-                    No Documents found..
+                    No Documents found..<br />
                     Add a Document with the floating green button below
                 </Typography>
             </Box>
-            )
-
         }
 
 

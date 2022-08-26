@@ -12,10 +12,16 @@ export default function reducer(state, action) {
         ...state,
         fetchingDocs: false,
       };
+    case ACTIONS.ERROR_OCCURRED:
+      return {
+        ...state,
+        error: true,
+      };
     case ACTIONS.CREATE_NEW_DOC:
       return {
         ...state,
         documents: action.payload,
+        error: false,
       };
     case ACTIONS.DELETE_DOC:
       return {

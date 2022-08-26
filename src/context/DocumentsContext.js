@@ -13,11 +13,18 @@ const DocumentsContextProvider = ({ children }) => {
 
   useEffect(() => {
     (async function () {
-      dispatch({
-        type: ACTIONS.FETCH_DOCS,
-        payload: await getAllDocuments(user),
-      });
-      dispatch({ type: ACTIONS.FETCHED_DOCS, payload: false });
+      try {
+        dispatch({
+          type: ACTIONS.FETCH_DOCS,
+          payload: await getAllDocuments(user),
+        });
+      } catch {
+        dispatch({
+          type: ACTIONS.ERROR_OCCURRED,
+        });
+      } finally {
+        dispatch({ type: ACTIONS.FETCHED_DOCS });
+      }
     })();
   }, [user]);
 
