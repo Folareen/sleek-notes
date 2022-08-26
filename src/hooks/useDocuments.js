@@ -12,6 +12,7 @@ const useDocuments = () => {
         type: ACTIONS.ERROR_OCCURRED,
       });
     }
+    // eslint-disable-next-line
   }, [documents]);
 
   return { dispatch, fetchingDocs, documents, error, deletedDocument };
