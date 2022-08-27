@@ -38,6 +38,7 @@ export default function DocumentsPreview () {
         await setDoc(doc(db, user.uid, `${newDocId}`), {
             title: newDocTitle,
             description: newDocDescription,
+            body: '',
             date: displayDateAndTime()
         });
         dispatch({type: ACTIONS.CREATE_NEW_DOC, payload: await getAllDocuments(user)})
