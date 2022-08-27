@@ -10,7 +10,7 @@ const getAllDocuments = async (currentUser) => {
       const data = doc.data();
       allDocuments.push({ id: doc.id, data });
     });
-    console.log("done fetching documents");
+    allDocuments.reverse();
 
     return allDocuments;
   } catch (error) {
