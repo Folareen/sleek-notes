@@ -3,7 +3,6 @@ import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
 import { signInWithEmailAndPassword} from 'firebase/auth'
-import { useNavigate} from 'react-router-dom'
 import useUser from '../hooks/useUser'
 
 export default function Login () {
@@ -11,7 +10,6 @@ export default function Login () {
   const [password, setPassword] = useState('')
   const [loginLoading, setLoginLoading] = useState(false);
   const [error, setError] = useState(false)
-  // const navigate = useNavigate()
   const {setUser, setLoading} = useUser()
 
   const login = async (e) =>{
@@ -23,7 +21,6 @@ export default function Login () {
       const userCredential = await signInWithEmailAndPassword(auth, email, password )
       setLoading(true)
       setUser(userCredential)
-      // navigate('/')
     }
     catch{
       setError(true)
