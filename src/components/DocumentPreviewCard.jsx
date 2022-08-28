@@ -22,10 +22,18 @@ export default function DocumentPreviewCard ({id, title, description, date}){
     
     const deleteDocument = async () => {
         setDeletingDocument(true)
-        await deleteDoc(doc(db, user.uid, id));
-        dispatch({type: ACTIONS.DELETE_DOC, payload: [true, await getAllDocuments(user)]})
-        dispatch({type: ACTIONS.DELETED_DOC})
-        setDeletingDocument(false)
+        try{
+            await deleteDoc(doc(db, user.uid, id));
+            dispatch({type: ACTIONS.DELETE_DOC, payload: await getAllDocuments(user)})
+            dispatch({type: ACTIONS.DELETED_DOC})
+        }
+        catch{
+            console.log('error')
+        }
+        finally{
+            setDeletingDocument(false)
+        }
+
     }
 
 
