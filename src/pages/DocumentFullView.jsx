@@ -22,8 +22,6 @@ import displayDateAndTime from '../utils/displayDateAndTIme'
 import useDocuments from '../hooks/useDocuments';
 import {ACTIONS} from '../reducers/actions'
 import getAllDocuments from '../utils/getAllDocuments';
-import { bgcolor } from '@mui/system';
-
 export default function DocumentFullView () {
     const [readOnly, setReadOnly] = useState(true)
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
@@ -54,8 +52,8 @@ export default function DocumentFullView () {
                 // doc.data() will be undefined in this case
                     console.log("No such document!");
                 }
-                // setDocumentBody()
             })()
+            // eslint-disable-next-line
         }, [id, user.uid]
     )
 
@@ -84,7 +82,6 @@ export default function DocumentFullView () {
         color: 'inherit'
     }
 
-    // <p>h<ins>e</ins>y<strong>y</strong>y<em>y what</em>s <strong>good</strong></p>
 
     const updateDocument = async () => {
         setBody(draftToHtml(convertToRaw(editorState.getCurrentContent())))
@@ -218,7 +215,8 @@ export default function DocumentFullView () {
                                 <SaveIcon/>
                             </Button>
 
-                            <Button sx={{fontWeight:'bold'}} color='error' variant='contained'>
+                            <Button sx={{fontWeight:'bold'}} color='error' variant='contained' onClick={()=>{setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(body)))); setReadOnly(true)}}>
+
                                 <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
                                     xs: 'none',
                                     sm: 'inline-block'
@@ -226,6 +224,7 @@ export default function DocumentFullView () {
                                     Cancel
                                 </Typography>
                                 <CancelIcon/>
+
                             </Button>
 
                             <Button sx={{fontWeight:'bold'}} color='error' variant='contained'
@@ -244,12 +243,6 @@ export default function DocumentFullView () {
                     </Toolbar> 
                 }
 
-
-
-
-                {/* 
-                        value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-                 */}
 
 
         </Box>
