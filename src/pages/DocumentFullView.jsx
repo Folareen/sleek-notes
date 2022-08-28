@@ -1,35 +1,39 @@
 import React, { useState, useEffect} from 'react'
-import { Box, AppBar, Toolbar, InputBase, FormControl, TextField, Button, InputLabel, Select, MenuItem, IconButton, Typography} from '@mui/material'
+import { Box, AppBar, Toolbar, InputBase, Button, IconButton, Typography, Slide, Alert} from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CancelIcon from '@mui/icons-material/Cancel';
-import HomeButton from '../components/HomeButton'
-import FormatBoldIcon from '@mui/icons-material/FormatBold';
-import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
-import FormatSizeIcon from '@mui/icons-material/FormatSize';
-import FormatItalicIcon from '@mui/icons-material/FormatItalic';
-import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import HomeButton from '../components/HomeButton';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import FontDownloadIcon from '@mui/icons-material/FontDownload';
 import ColorModeButton from '../components/ColorModeButton'
 import ChromeReaderModeRoundedIcon from '@mui/icons-material/ChromeReaderModeRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import {useParams} from 'react-router-dom'
 import { db} from '../firebase'
 import useUser from '../hooks/useUser';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import displayDateAndTime from '../utils/displayDateAndTIme'
+import useDocuments from '../hooks/useDocuments';
+import {ACTIONS} from '../reducers/actions'
+import getAllDocuments from '../utils/getAllDocuments';
+import { bgcolor } from '@mui/system';
 
 export default function DocumentFullView () {
     const [readOnly, setReadOnly] = useState(true)
-    const [fontSize, setFontSize] = useState('small')
+    const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+    const [updating, setUpdating] = useState(false)
     const [body, setBody] = useState('')
     const {id} = useParams()
     const {user} = useUser()
+    const {dispatch, updatedDocument} = useDocuments()
 
     useEffect(
         ()=> {
@@ -37,10 +41,14 @@ export default function DocumentFullView () {
                 const docRef = doc(db, user.uid, id);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                    // setDocumentBody
                     setTitle(docSnap.data().title)
                     setDescription(docSnap.data().description)
                     setBody(docSnap.data().body)
+                    const { contentBlocks, entityMap } = htmlToDraft(docSnap.data().body);
+                    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+                    setEditorState(EditorState.createWithContent(contentState))
+
+                    console.log(body)
                     console.log(docSnap.data())
                 } else {
                 // doc.data() will be undefined in this case
@@ -55,9 +63,51 @@ export default function DocumentFullView () {
         setReadOnly(!readOnly)
     }
 
-    const changeFontSize =(e) => {
-        setFontSize(e.target.value)
+    const handleOnEditorStateChange = (editorState) => {
+        setEditorState(editorState)
     }
+
+    const wrapperStyle = {
+        border: '1px solid grey',
+        marginTop: '20px',
+        color: 'inherit',
+        backgroundColor: 'inherit'
+    }
+    const editorStyle = {
+        minHeight: '40vh'
+    }
+    const toolbarStyle = {
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        backgroundColor: 'inherit',
+        border: '1px solid grey',
+        color: 'inherit'
+    }
+
+    // <p>h<ins>e</ins>y<strong>y</strong>y<em>y what</em>s <strong>good</strong></p>
+
+    const updateDocument = async () => {
+        setBody(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+        setUpdating(true)
+        try{
+            await updateDoc(doc(db, user.uid, id), {
+            title,
+            description,
+            body: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+            date: displayDateAndTime()
+            });
+            dispatch({type: ACTIONS.UPDATE_DOCUMENT, payload: await getAllDocuments(user)})
+            dispatch({type: ACTIONS.UPDATED_DOCUMENT})
+        }
+        catch{
+            console.log('error')
+        }
+        finally{
+            setUpdating(false)
+        }
+        
+    }
+
 
     return (
     <Box sx={{height: '100vh', bgcolor:'danger.main'}}>
@@ -99,125 +149,108 @@ export default function DocumentFullView () {
                 
             </Toolbar>
 
-            {
-                !readOnly
-                &&
-                <Toolbar sx={{display: 'flex', flexDirection: 'column', borderTop: 2, borderTopColor: 'background.paper', py: 1}} 
-                >
-
-                    <Box sx={{maxWidth: 800, width: '80%', mx:'auto', display:'flex', flexWrap: 'wrap',justifyContent: 'space-around', color: 'text.primary', my: 0.5, alignItems: 'center'}}>
-
-                        <FormControl >
-                            <InputLabel id="demo-simple-select-label"><FormatSizeIcon /></InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={fontSize}
-                                label="Font Size"
-                                onChange={changeFontSize}
-                            >
-                                <MenuItem value={'small'}>Small</MenuItem>
-                                <MenuItem value={'medium'}>Medium</MenuItem>
-                                <MenuItem value={'large'}>Large</MenuItem>
-                            </Select>
-                        </FormControl>
-
-                        <IconButton>
-                            <FormatBoldIcon />
-                        </IconButton>
-                        <IconButton>
-                            <FormatColorTextIcon />
-                        </IconButton>
-                        <IconButton>
-                            <FontDownloadIcon/>
-                        </IconButton>
-                        <IconButton>
-                            <FormatItalicIcon />
-                        </IconButton>
-                        <IconButton>
-                            <FormatUnderlinedIcon />
-                        </IconButton>
-                        <IconButton>
-                            <FormatListBulletedIcon />
-                        </IconButton>
-                        <IconButton>
-                            <FormatListNumberedIcon />
-                        </IconButton>
-
-
-                    </Box>
-
-                    <Box
-                    sx={{maxWidth: 800, width: '80%', mx:'auto', display:'flex', justifyContent: 'space-between', my: 0.5}}>
-                        <Button sx={{fontWeight:'bold'}} color='success' variant='contained'
-                        >
-                            <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
-                                xs: 'none',
-                                sm: 'inline-block'
-                            }}}>
-                                Save
-                            </Typography>
-                            <SaveIcon/>
-                        </Button>
-
-                        <Button sx={{fontWeight:'bold'}} color='error' variant='contained'>
-                            <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
-                                xs: 'none',
-                                sm: 'inline-block'
-                            }}}>
-                                Cancel
-                            </Typography>
-                            <CancelIcon/>
-                        </Button>
-
-                        <Button sx={{fontWeight:'bold'}} color='error' variant='contained'
-                        >
-                            <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
-                                xs: 'none',
-                                sm: 'inline-block'
-                            }}}>
-                                Delete
-                            </Typography>
-                            <DeleteForeverIcon/>
-                        </Button>
-                    </Box>
-
-
-                </Toolbar> 
-            }
-
 
         </AppBar>
+        {
+            updatedDocument &&
+            <Slide direction="left" in={updatedDocument} mountOnEnter unmountOnExit >
+                <Alert elevation={3} onClose={() => {dispatch({type: ACTIONS.CLOSE_UPDATE_ALERT}) }} sx={{position: 'absolute', top: '70px', right: 0, color: 'success.dark'}} severity='success'>Saved Changes!</Alert>
+            </Slide>
+
+        }
 
         <Box sx={{ color:'primary.main', p:2}}>
-            <FormControl component='form' fullWidth>
 
-                <InputBase
-                    sx={{color:'text.primary', p:1, border: 1, borderRadius:1, fontSize:25, fontWeight: 'bold', textTransform: 'capitalize'}}
-                    placeholder="Document Title"
-                    inputProps={{ 'aria-label': 'Document Title' }}
-                    type='text'
-                    value={title}
-                    onChange={(e)=>{setTitle(e.target.value)}}
-                />
+                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+                    <InputBase
+                        sx={{color:'text.primary', p:1, border: 1, borderRadius:1, fontSize:24, fontWeight: 'bold', textTransform: 'capitalize', width: '37.5%'}}
+                        placeholder="Document Title"
+                        inputProps={{ 'aria-label': 'Document Title' }}
+                        type='text'
+                        value={title}
+                        onChange={(e)=>{setTitle(e.target.value)}}
+                        disabled={readOnly}
+                    />
+
+                    <InputBase
+                        sx={{color:'text.secondary', p:1, border: 1, borderRadius:1, fontSize:16, textTransform: 'capitalize', width: '57.5%'}}
+                        placeholder="Document Description" multiline rows={2}
+                        inputProps={{ 'aria-label': 'Document Description' }}
+                        type='text'
+                        value={description}
+                        onChange={(e)=>{setDescription(e.target.value)}}
+                        disabled={readOnly}
+                    />
+                </Box>
 
                 {
-                    !readOnly &&  
-                    <input type='text' value={description} />
+                    readOnly?
+                    <Box dangerouslySetInnerHTML={{__html: body}}>
+                    </Box>
+                    :
+                    <Editor
+                        editorState={editorState}
+                        wrapperClassName="demo-wrapper"
+                        editorClassName="demo-editor"
+                        onEditorStateChange={handleOnEditorStateChange}
+                        wrapperStyle={wrapperStyle}
+                        editorStyle={editorStyle}
+                        toolbarStyle={toolbarStyle}
+                    /> 
+
+                }
+                {
+                    !readOnly
+                    &&
+                    <Toolbar sx={{display: 'flex', flexDirection: 'column',  py: 1}} 
+                    >
+
+                        <Box
+                        sx={{maxWidth: 800, width: '80%', mx:'auto', display:'flex', justifyContent: 'space-between', my: 0.5}}>
+                            <Button sx={{fontWeight:'bold'}} color='success' variant='contained' onClick={updateDocument} disabled={updating}
+                            >
+                                <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
+                                    xs: 'none',
+                                    sm: 'inline-block'
+                                }}}>
+                                    {updating? 'Saving...' : 'Save'}
+                                </Typography>
+                                <SaveIcon/>
+                            </Button>
+
+                            <Button sx={{fontWeight:'bold'}} color='error' variant='contained'>
+                                <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
+                                    xs: 'none',
+                                    sm: 'inline-block'
+                                }}}>
+                                    Cancel
+                                </Typography>
+                                <CancelIcon/>
+                            </Button>
+
+                            <Button sx={{fontWeight:'bold'}} color='error' variant='contained'
+                            >
+                                <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
+                                    xs: 'none',
+                                    sm: 'inline-block'
+                                }}}>
+                                    Delete
+                                </Typography>
+                                <DeleteForeverIcon/>
+                            </Button>
+                        </Box>
+
+
+                    </Toolbar> 
                 }
 
-                <TextField
-                rows={readOnly ? 20 : 15 }
-                disabled={readOnly}
-                placeholder='Document Body'
-                multiline
-                fullWidth
-                sx={{mt: 2}}
-                value={body}
-                onChange={(e)=>{setBody(e.target.value)}}
-                />    
 
-            </FormControl>
+
+
+                {/* 
+                        value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+                 */}
+
 
         </Box>
     </Box> 
