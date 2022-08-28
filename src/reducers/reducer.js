@@ -49,6 +49,11 @@ export default function reducer(state, action) {
         ...state,
         updatedDocument: true,
       };
+    case ACTIONS.CLOSE_UPDATE_ALERT:
+      return {
+        ...state,
+        updatedDocument: false,
+      };
 
     default:
       return state;
