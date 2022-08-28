@@ -4,6 +4,7 @@ import Signup from "../pages/Signup";
 import ColorModeButton from "../components/ColorModeButton";
 import { Box } from "@mui/material";
 import {Routes, Route } from 'react-router-dom';
+import NotFound from '../pages/NotFound';
 
 const PublicRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const PublicRoutes = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path='*' element={<NotFound/>} />
       </Routes>
     </>
   )
