@@ -9,8 +9,8 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import ColorModeButton from '../components/ColorModeButton'
 import ChromeReaderModeRoundedIcon from '@mui/icons-material/ChromeReaderModeRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import {useParams} from 'react-router-dom'
+import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import {useParams, useNavigate} from 'react-router-dom'
 import { db} from '../firebase'
 import useUser from '../hooks/useUser';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
@@ -22,6 +22,7 @@ import displayDateAndTime from '../utils/displayDateAndTIme'
 import useDocuments from '../hooks/useDocuments';
 import {ACTIONS} from '../reducers/actions'
 import getAllDocuments from '../utils/getAllDocuments';
+
 export default function DocumentFullView () {
     const [readOnly, setReadOnly] = useState(true)
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
@@ -29,9 +30,11 @@ export default function DocumentFullView () {
     const [description, setDescription] = useState('')
     const [updating, setUpdating] = useState(false)
     const [body, setBody] = useState('')
+    const [deletingDocument, setDeletingDocument] = useState(false)
     const {id} = useParams()
     const {user} = useUser()
     const {dispatch, updatedDocument} = useDocuments()
+    const navigate = useNavigate()
 
     useEffect(
         ()=> {
@@ -46,8 +49,6 @@ export default function DocumentFullView () {
                     const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
                     setEditorState(EditorState.createWithContent(contentState))
 
-                    console.log(body)
-                    console.log(docSnap.data())
                 } else {
                 // doc.data() will be undefined in this case
                     console.log("No such document!");
@@ -105,6 +106,23 @@ export default function DocumentFullView () {
         
     }
 
+    const deleteDocument = async () => {
+        setDeletingDocument(true)
+        try{
+            await deleteDoc(doc(db, user.uid, id));
+            dispatch({type: ACTIONS.DELETE_DOC, payload: await getAllDocuments(user)})
+            alert('Document Deleted!')
+            navigate('/')
+        }
+        catch{
+            console.log('error')
+        }
+        finally{
+            setDeletingDocument(false)
+        }
+
+    }
+
 
     return (
     <Box sx={{height: '100vh', bgcolor:'danger.main'}}>
@@ -153,10 +171,9 @@ export default function DocumentFullView () {
             <Slide direction="left" in={updatedDocument} mountOnEnter unmountOnExit >
                 <Alert elevation={3} onClose={() => {dispatch({type: ACTIONS.CLOSE_UPDATE_ALERT}) }} sx={{position: 'absolute', top: '70px', right: 0, color: 'success.dark'}} severity='success'>Saved Changes!</Alert>
             </Slide>
-
         }
 
-        <Box sx={{ color:'primary.main', p:2}}>
+        <Box sx={{ color:'primary.main', py:2, px: 4}}>
 
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <InputBase
@@ -228,12 +245,13 @@ export default function DocumentFullView () {
                             </Button>
 
                             <Button sx={{fontWeight:'bold'}} color='error' variant='contained'
+                            onClick={deleteDocument} disabled={deletingDocument}
                             >
                                 <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
                                     xs: 'none',
                                     sm: 'inline-block'
                                 }}}>
-                                    Delete
+                                    {deletingDocument? 'Deleting...': 'Delete'}
                                 </Typography>
                                 <DeleteForeverIcon/>
                             </Button>
