@@ -10,28 +10,30 @@ export default function Signup () {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false);
+  const [signupLoading, setSignupLoading] = useState(false);
   const [error, setError] = useState(false)
-  const {setUser} = useUser()
+  const {setUser, setLoading} = useUser()
   const navigate = useNavigate()
 
 
   const signUp = async (e) =>{
     e.preventDefault()
     setError(false)
-    setLoading(true)
+    setSignupLoading(true)
 
     try{
         const userCredential = await createUserWithEmailAndPassword(auth, email, password )
+        setLoading(true)
+        navigate('/')
         setUser(userCredential)
         await updateProfile(auth.currentUser, {
         displayName: name})
-        navigate('/')
     }
     catch{
       setError(true)
     }
     finally{
+      setSignupLoading(false)
       setLoading(false)
     }
   }
@@ -66,9 +68,9 @@ export default function Signup () {
 
           <Box sx={{position: 'relative'}}>
 
-            <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={signUp } disabled={loading} fullWidth>Sign Up</Button>
+            <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={signUp } disabled={signupLoading} fullWidth>Sign Up</Button>
 
-            {loading && (
+            {signupLoading && (
               <CircularProgress
                 size={24}
                 sx={{color: 'success.main',position: 'absolute',top: '50%',left: '50%',marginTop: '-12px',marginLeft: '-12px',

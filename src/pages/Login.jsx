@@ -9,25 +9,27 @@ import useUser from '../hooks/useUser'
 export default function Login () {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
   const [error, setError] = useState(false)
-  const navigate = useNavigate()
-  const {setUser} = useUser()
+  // const navigate = useNavigate()
+  const {setUser, setLoading} = useUser()
 
   const login = async (e) =>{
     e.preventDefault()
     setError(false)
-    setLoading(true)
+    setLoginLoading(true)
 
     try{
       const userCredential = await signInWithEmailAndPassword(auth, email, password )
+      setLoading(true)
       setUser(userCredential)
-      navigate('/')
+      // navigate('/')
     }
     catch{
       setError(true)
     }
     finally{
+      setLoginLoading(false)
       setLoading(false)
     }
   }
@@ -59,9 +61,9 @@ export default function Login () {
 
           <Box sx={{position: 'relative'}}>
 
-            <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={login} disabled={loading} fullWidth>Login</Button>
+            <Button variant="contained"  align='center' type='submit' sx={{my: 2, py: 2, fontWeight: 'bold', bgcolor:'primary.dark', color: 'primary'}} onClick={login} disabled={loginLoading} fullWidth>Login</Button>
 
-            {loading && (
+            {loginLoading && (
               <CircularProgress
                 size={24}
                 sx={{color: 'success.main',position: 'absolute',top: '50%',left: '50%',marginTop: '-12px',marginLeft: '-12px',

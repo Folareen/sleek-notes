@@ -1,11 +1,11 @@
-import React, {useContext} from 'react'
-import { AuthContext } from '../context/AuthContext'
+import React from 'react'
+import useUser from '../hooks/useUser'
 import PrivateRoutes from './PrivateRoutes'
 import PublicRoutes from './PublicRoutes'
 import Loading from '../components/Loading'
 
 const Routes = () => {
-  const { user, loading} = useContext(AuthContext)
+  const { user, loading} = useUser()
 
 
   if (loading){
