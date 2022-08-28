@@ -26,8 +26,8 @@ export default function reducer(state, action) {
     case ACTIONS.DELETE_DOC:
       return {
         ...state,
-        documents: action.payload[1],
-        deletedDocument: action.payload[0],
+        documents: action.payload,
+        deletedDocument: true,
       };
     case ACTIONS.DELETED_DOC:
       return {
@@ -38,6 +38,16 @@ export default function reducer(state, action) {
       return {
         ...state,
         deletedDocument: false,
+      };
+    case ACTIONS.UPDATE_DOCUMENT:
+      return {
+        ...state,
+        documents: action.payload,
+      };
+    case ACTIONS.UPDATED_DOCUMENT:
+      return {
+        ...state,
+        updatedDocument: true,
       };
 
     default:

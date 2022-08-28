@@ -4,7 +4,8 @@ import { ACTIONS } from "../reducers/actions";
 
 const useDocuments = () => {
   const { state, dispatch } = useContext(DocumentsContext);
-  const { fetchingDocs, documents, error, deletedDocument } = state;
+  const { fetchingDocs, documents, error, deletedDocument, updatedDocument } =
+    state;
 
   useEffect(() => {
     if (documents?.length < 1) {
@@ -15,7 +16,14 @@ const useDocuments = () => {
     // eslint-disable-next-line
   }, [documents]);
 
-  return { dispatch, fetchingDocs, documents, error, deletedDocument };
+  return {
+    dispatch,
+    fetchingDocs,
+    documents,
+    error,
+    deletedDocument,
+    updatedDocument,
+  };
 };
 
 export default useDocuments;

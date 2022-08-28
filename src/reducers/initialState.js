@@ -3,4 +3,5 @@ export const initialState = {
   documents: null,
   error: false,
   deletedDocument: false,
+  updatedDocument: false,
 };
