@@ -84,7 +84,7 @@ export default function Signup () {
             <Typography component='p' sx={{p:0.5}}>
               Have an account?
             </Typography>
-            <Link to='/' component={RouterLink}  sx={{color:'background.paper', p:0.5, bgcolor:'primary.main'}} underline="none" >
+            <Link to='./login' component={RouterLink}  sx={{color:'background.paper', p:0.5, bgcolor:'primary.main'}} underline="none" >
               Login
             </Link>
           </Container>

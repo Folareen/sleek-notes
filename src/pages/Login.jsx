@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box, Alert } from '@mui/material'
-import {Link as RouterLink} from 'react-router-dom'
+import {Link as RouterLink, useNavigate} from 'react-router-dom'
 import {auth} from '../firebase'
 import { signInWithEmailAndPassword} from 'firebase/auth'
 import useUser from '../hooks/useUser'
@@ -11,6 +11,7 @@ export default function Login () {
   const [loginLoading, setLoginLoading] = useState(false);
   const [error, setError] = useState(false)
   const {setUser, setLoading} = useUser()
+  const navigate = useNavigate()
 
   const login = async (e) =>{
     e.preventDefault()
@@ -20,6 +21,7 @@ export default function Login () {
     try{
       const userCredential = await signInWithEmailAndPassword(auth, email, password )
       setLoading(true)
+      navigate('/')
       setUser(userCredential)
     }
     catch{
@@ -27,7 +29,6 @@ export default function Login () {
     }
     finally{
       setLoginLoading(false)
-      setLoading(false)
     }
   }
 

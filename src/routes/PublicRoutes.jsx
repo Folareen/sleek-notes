@@ -3,7 +3,7 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import ColorModeButton from "../components/ColorModeButton";
 import { Box } from "@mui/material";
-import {Routes, Route } from 'react-router-dom';
+import {Routes, Route, Navigate } from 'react-router-dom';
 import NotFound from '../pages/NotFound';
 
 const PublicRoutes = () => {
@@ -21,7 +21,8 @@ const PublicRoutes = () => {
         <ColorModeButton />
       </Box>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Navigate replace to="/login" />}/>
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path='*' element={<NotFound/>} />
       </Routes>
