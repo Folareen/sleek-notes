@@ -73,7 +73,8 @@ export default function DocumentFullView () {
         backgroundColor: 'inherit'
     }
     const editorStyle = {
-        minHeight: '40vh'
+        height: '50vh',
+        overflowY: 'scroll'
     }
     const toolbarStyle = {
         justifyContent: 'center',
@@ -106,6 +107,11 @@ export default function DocumentFullView () {
         
     }
 
+    const cancelChanges = () => {
+        setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(body))))
+        setReadOnly(true)
+    }
+
     const deleteDocument = async () => {
         setDeletingDocument(true)
         try{
@@ -128,11 +134,11 @@ export default function DocumentFullView () {
     <Box sx={{height: '100vh', bgcolor:'danger.main'}}>
     
         <AppBar position='sticky'  >
-            <Toolbar sx={{display: 'flex', justifyContent: 'space-between', maxWidth: 1200, width: '100%', mx: 'auto', py: 1.3}}>
+            <Toolbar sx={{display: 'flex', justifyContent: 'space-between', maxWidth: 1440, width: '100%', mx: 'auto', py: 1.3}}>
 
                 <HomeButton />
 
-                <Box sx={{bgcolor: 'text.disabled', p: 0.3, borderRadius: 1}}>
+                <Box sx={{bgcolor: 'text.disabled', p: 0.2, borderRadius: 1}}>
                     <Typography component='span' sx={{bgcolor:'text.secondary', color: 'background.paper', p: 0.8, borderRadius: 1, mx: 0.5, display: { xs: 'none', sm: 'inline-block'}}}>
                         Mode: {readOnly ? 'Read': 'Edit'}
                     </Typography>
@@ -148,7 +154,7 @@ export default function DocumentFullView () {
                     </IconButton>
                 </Box>
 
-                <Button sx={{fontWeight:'bold', py:1.3, px: 1}} color='secondary' variant='contained'>
+                <Button sx={{fontWeight:'bold', py:1.3, px: 1}} color='success' variant='contained'>
                     <Typography component='span' sx={{display: {
                         xs: 'none',
                         sm: 'inline-block'
@@ -173,11 +179,11 @@ export default function DocumentFullView () {
             </Slide>
         }
 
-        <Box sx={{ color:'primary.main', py:2, px: 4}}>
+        <Box sx={{ color:'primary.main', p: 2, py: 4, maxWidth: 1440, mx: 'auto'}}>
 
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <InputBase
-                        sx={{color:'text.primary', p:1, border: 1, borderRadius:1, fontSize:24, fontWeight: 'bold', textTransform: 'capitalize', width: '37.5%'}}
+                        sx={{color:'text.primary', p:1,border:1, borderColor: 'text.primary', borderRadius:1, fontSize:24, fontWeight: 'bold', textTransform: 'capitalize', width: '37.5%'}}
                         placeholder="Document Title"
                         inputProps={{ 'aria-label': 'Document Title' }}
                         type='text'
@@ -187,7 +193,7 @@ export default function DocumentFullView () {
                     />
 
                     <InputBase
-                        sx={{color:'text.secondary', p:1, border: 1, borderRadius:1, fontSize:16, textTransform: 'capitalize', width: '57.5%'}}
+                        sx={{color:'text.secondary', p:1,border:1, borderColor: 'text.primary', borderRadius:1, fontSize:16, textTransform: 'capitalize', width: '57.5%'}}
                         placeholder="Document Description" multiline rows={2}
                         inputProps={{ 'aria-label': 'Document Description' }}
                         type='text'
@@ -199,7 +205,7 @@ export default function DocumentFullView () {
 
                 {
                     readOnly?
-                    <Box dangerouslySetInnerHTML={{__html: body}}>
+                    <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.primary' , my: 2, height: '70vh', overflowY: 'scroll', px: 2}}>
                     </Box>
                     :
                     <Editor
@@ -232,7 +238,7 @@ export default function DocumentFullView () {
                                 <SaveIcon/>
                             </Button>
 
-                            <Button sx={{fontWeight:'bold'}} color='error' variant='contained' onClick={()=>{setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(htmlToDraft(body)))); setReadOnly(true)}}>
+                            <Button sx={{fontWeight:'bold'}} color='error' variant='contained' onClick={cancelChanges}>
 
                                 <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
                                     xs: 'none',
