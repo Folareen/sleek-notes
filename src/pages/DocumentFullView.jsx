@@ -57,7 +57,7 @@ export default function DocumentFullView () {
                 }
             })()
             // eslint-disable-next-line
-        }, [id, user.uid]
+        }, []
     )
 
     const toggleMode =() =>{
