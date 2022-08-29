@@ -1,9 +1,10 @@
-import React, {useNavigate} from 'react';
+import React from 'react';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { IconButton } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import { auth} from '../firebase'
 import useUser from '../hooks/useUser';
+import {useNavigate} from 'react-router-dom'
 
 export default function LogoutButton (){
     const { setUser} = useUser()
