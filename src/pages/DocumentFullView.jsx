@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef} from 'react'
-import { Box, AppBar, Toolbar, InputBase, Button, IconButton, Typography, Slide, Alert, Skeleton} from '@mui/material'
+import { Box, AppBar, Toolbar, InputBase, Button, IconButton, Typography, Slide, Alert, Skeleton, TextField} from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -77,7 +77,8 @@ export default function DocumentFullView () {
         backgroundColor: 'inherit'
     }
     const editorStyle = {
-        height: '50vh',
+        height: '40vh',
+        maxHeight: '800px',
         overflowY: 'scroll'
     }
     const toolbarStyle = {
@@ -185,11 +186,11 @@ export default function DocumentFullView () {
         {
             updatedDocument &&
             <Slide direction="left" in={updatedDocument} mountOnEnter unmountOnExit >
-                <Alert elevation={3} onClose={() => {dispatch({type: ACTIONS.CLOSE_UPDATE_ALERT}) }} sx={{position: 'absolute', top: '70px', right: 0, color: 'success.dark'}} severity='success'>Saved Changes!</Alert>
+                <Alert elevation={3} onClose={() => {dispatch({type: ACTIONS.CLOSE_UPDATE_ALERT}) }} sx={{position: 'absolute', top: '70px', right: 0}} severity='success' variant='filled'>Saved Changes!</Alert>
             </Slide>
         }
 
-        <Box sx={{ color:'primary.main', p: 2, py: 4, maxWidth: 1440, mx: 'auto'}}>
+        <Box sx={{ color:'primary.main', p: 2, maxWidth: 1440, mx: 'auto'}}>
 
             {
                 loadingDocument?
@@ -200,38 +201,41 @@ export default function DocumentFullView () {
                 :
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
 
-                        <InputBase
-                            sx={{color:'text.primary', p:1,border:1, borderColor: 'text.primary', borderRadius:1, fontSize:24, fontWeight: 'bold', textTransform: 'capitalize', width: '37.5%'}}
-                            placeholder="Document Title"
-                            inputProps={{ 'aria-label': 'Document Title' }}
-                            type='text'
+                        <TextField
+                            id='outlined' label='Title'
+                            sx={{color:'text.primary', textTransform: 'capitalize', width: '37.5%'}}
                             value={title}
                             onChange={(e)=>{setTitle(e.target.value)}}
                             disabled={readOnly}
                         />
 
-                        <InputBase
-                            sx={{color:'text.secondary', p:1,border:1, borderColor: 'text.primary', borderRadius:1, fontSize:16, textTransform: 'capitalize', width: '57.5%'}}
-                            placeholder="Document Description" multiline rows={2}
-                            inputProps={{ 'aria-label': 'Document Description' }}
-                            type='text'
+                        <TextField
+                            id='outlined'
+                            sx={{color:'text.secondary', textTransform: 'capitalize', width: '57.5%'}}
+                            label="Description" multiline rows={2}
                             value={description}
                             onChange={(e)=>{setDescription(e.target.value)}}
                             disabled={readOnly}
                         />
 
                 </Box>
-                    }
+            }
 
 
-                {
-                    readOnly?
+            {
+                readOnly?
                     <>
                     {loadingDocument?
                         <Skeleton animation="wave" variant='rectangular' height={'70vh'} sx={{my: 2}}/>
                         :
-                        <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.primary',  my: 2, height: '70vh', overflowY: 'scroll', px: 2}} ref={bodyRef}>
+                        <Box sx={{position: 'relative'}}>
+                            <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.primary',  my: 2, height: '70vh', overflowY: 'scroll', px: 2, zIndex: 1}} ref={bodyRef}>
+                            </Box>
+                            <Typography component='p' sx={{position: 'absolute', top: -15, right: '50%', zIndex: 2, bgcolor: 'background.paper', p: 0.5, color: 'text.disabled'}}>
+                                Body
+                            </Typography>
                         </Box>
+
                     }
                     </>
 
@@ -246,7 +250,7 @@ export default function DocumentFullView () {
                         toolbarStyle={toolbarStyle}
                     /> 
 
-                }
+            }
                 {
                     !readOnly
                     &&
