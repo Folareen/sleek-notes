@@ -154,7 +154,7 @@ export default function DocumentFullView () {
                     </IconButton>
                 </Box>
 
-                <Button sx={{fontWeight:'bold', py:1.3, px: 1}} color='success' variant='contained'>
+                <Button sx={{fontWeight:'bold', py:1.3, px: 1}} color='secondary' variant='contained'>
                     <Typography component='span' sx={{display: {
                         xs: 'none',
                         sm: 'inline-block'

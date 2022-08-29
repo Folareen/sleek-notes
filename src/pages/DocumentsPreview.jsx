@@ -141,7 +141,7 @@ export default function DocumentsPreview () {
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2, textAlign: 'center'}}>
                 <Typography component='p' sx={{color: 'error.dark'}}>
                     No Documents found..<br />
-                    Add a Document with the floating green button below
+                    Add a Document with the green button at the bottom left corner.
                 </Typography>
             </Box>
         }
