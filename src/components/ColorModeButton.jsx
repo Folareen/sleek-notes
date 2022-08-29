@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import { ColorModeContext } from '../context/ColorModeContext'
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
+import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
+import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import IconButton from "@mui/material/IconButton";
 
 const ColorModeButton = () => {
@@ -23,9 +23,9 @@ const ColorModeButton = () => {
         onClick={toggleColorMode}
       >
         {mode === "dark" ? (
-          <Brightness4Icon />
+          <DarkModeRoundedIcon />
         ) : (
-          <Brightness7Icon />
+          <LightModeRoundedIcon/>
         )}
       </IconButton>
   )
