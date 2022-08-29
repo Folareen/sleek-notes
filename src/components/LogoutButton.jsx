@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useNavigate} from 'react';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { IconButton } from '@mui/material';
 import { signOut } from 'firebase/auth';
@@ -7,16 +7,18 @@ import useUser from '../hooks/useUser';
 
 export default function LogoutButton (){
     const { setUser} = useUser()
+    const navigate = useNavigate()
 
     const logout = async () => {
 
         try{
             await signOut(auth)
-            setUser(null) 
+            setUser(null)
+            navigate('/') 
             console.log('out')   
         }
         catch{
-            alert('failed to sign out')
+            alert('failed to sign out!')
         }
     }
 
