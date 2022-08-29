@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import { Box, AppBar, Toolbar, InputBase, Button, IconButton, Typography, Slide, Alert} from '@mui/material'
+import { Box, AppBar, Toolbar, InputBase, Button, IconButton, Typography, Slide, Alert, Skeleton} from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -31,6 +31,7 @@ export default function DocumentFullView () {
     const [updating, setUpdating] = useState(false)
     const [body, setBody] = useState('')
     const [deletingDocument, setDeletingDocument] = useState(false)
+    const [loadingDocument, setLoadingDocument] = useState(true)
     const {id} = useParams()
     const {user} = useUser()
     const {dispatch, updatedDocument} = useDocuments()
@@ -48,6 +49,7 @@ export default function DocumentFullView () {
                     const { contentBlocks, entityMap } = htmlToDraft(docSnap.data().body);
                     const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
                     setEditorState(EditorState.createWithContent(contentState))
+                    setLoadingDocument(false)
 
                 } else {
                 // doc.data() will be undefined in this case
@@ -131,7 +133,7 @@ export default function DocumentFullView () {
 
 
     return (
-    <Box sx={{height: '100vh', bgcolor:'danger.main'}}>
+    <Box sx={{height: '100vh'}}>
     
         <AppBar position='sticky'  >
             <Toolbar sx={{display: 'flex', justifyContent: 'space-between', maxWidth: 1440, width: '100%', mx: 'auto', py: 1.3}}>
@@ -181,32 +183,50 @@ export default function DocumentFullView () {
 
         <Box sx={{ color:'primary.main', p: 2, py: 4, maxWidth: 1440, mx: 'auto'}}>
 
+            {
+                loadingDocument?
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                    <InputBase
-                        sx={{color:'text.primary', p:1,border:1, borderColor: 'text.primary', borderRadius:1, fontSize:24, fontWeight: 'bold', textTransform: 'capitalize', width: '37.5%'}}
-                        placeholder="Document Title"
-                        inputProps={{ 'aria-label': 'Document Title' }}
-                        type='text'
-                        value={title}
-                        onChange={(e)=>{setTitle(e.target.value)}}
-                        disabled={readOnly}
-                    />
-
-                    <InputBase
-                        sx={{color:'text.secondary', p:1,border:1, borderColor: 'text.primary', borderRadius:1, fontSize:16, textTransform: 'capitalize', width: '57.5%'}}
-                        placeholder="Document Description" multiline rows={2}
-                        inputProps={{ 'aria-label': 'Document Description' }}
-                        type='text'
-                        value={description}
-                        onChange={(e)=>{setDescription(e.target.value)}}
-                        disabled={readOnly}
-                    />
+                    <Skeleton animation='wave' variant='rectangular' height={60} width='37.5%'/>
+                    <Skeleton animation='wave' variant='rectangular' height={60} width='57.5%'/>
                 </Box>
+                :
+                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+
+                        <InputBase
+                            sx={{color:'text.primary', p:1,border:1, borderColor: 'text.primary', borderRadius:1, fontSize:24, fontWeight: 'bold', textTransform: 'capitalize', width: '37.5%'}}
+                            placeholder="Document Title"
+                            inputProps={{ 'aria-label': 'Document Title' }}
+                            type='text'
+                            value={title}
+                            onChange={(e)=>{setTitle(e.target.value)}}
+                            disabled={readOnly}
+                        />
+
+                        <InputBase
+                            sx={{color:'text.secondary', p:1,border:1, borderColor: 'text.primary', borderRadius:1, fontSize:16, textTransform: 'capitalize', width: '57.5%'}}
+                            placeholder="Document Description" multiline rows={2}
+                            inputProps={{ 'aria-label': 'Document Description' }}
+                            type='text'
+                            value={description}
+                            onChange={(e)=>{setDescription(e.target.value)}}
+                            disabled={readOnly}
+                        />
+
+                </Box>
+                    }
+
 
                 {
                     readOnly?
-                    <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.primary' , my: 2, height: '70vh', overflowY: 'scroll', px: 2}}>
-                    </Box>
+                    <>
+                    {loadingDocument?
+                        <Skeleton animation="wave" variant='rectangular' height={'70vh'} sx={{my: 2}}/>
+                        :
+                        <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.primary' , my: 2, height: '70vh', overflowY: 'scroll', px: 2}}>
+                        </Box>
+                    }
+                    </>
+
                     :
                     <Editor
                         editorState={editorState}
