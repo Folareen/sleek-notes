@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useRef} from 'react'
 import { Box, AppBar, Toolbar, InputBase, Button, IconButton, Typography, Slide, Alert, Skeleton} from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
@@ -22,6 +22,7 @@ import displayDateAndTime from '../utils/displayDateAndTIme'
 import useDocuments from '../hooks/useDocuments';
 import {ACTIONS} from '../reducers/actions'
 import getAllDocuments from '../utils/getAllDocuments';
+import  ReactToPdf  from 'react-to-pdf'
 
 export default function DocumentFullView () {
     const [readOnly, setReadOnly] = useState(true)
@@ -36,6 +37,7 @@ export default function DocumentFullView () {
     const {user} = useUser()
     const {dispatch, updatedDocument} = useDocuments()
     const navigate = useNavigate()
+    const bodyRef = useRef()
 
     useEffect(
         ()=> {
@@ -156,15 +158,21 @@ export default function DocumentFullView () {
                     </IconButton>
                 </Box>
 
-                <Button sx={{fontWeight:'bold', py:1.3, px: 1}} color='secondary' variant='contained'>
-                    <Typography component='span' sx={{display: {
-                        xs: 'none',
-                        sm: 'inline-block'
-                    }}}>
-                        Download as Pdf
-                    </Typography>
-                    <FileDownloadIcon />
-                </Button>
+                <ReactToPdf filename={`${title}.pdf`} targetRef={bodyRef}>
+                {
+                    ({toPdf})=>(
+                    <Button sx={{fontWeight:'bold', py:1.3, px: 1}} color='secondary' variant='contained' onClick={toPdf}>
+                        <Typography component='span' sx={{display: {
+                            xs: 'none',
+                            sm: 'inline-block'
+                        }}}>
+                            Download as Pdf
+                        </Typography>
+                        <FileDownloadIcon />
+                    </Button>
+                    )
+                }
+                </ReactToPdf>
 
                 <ColorModeButton />
 
@@ -222,7 +230,7 @@ export default function DocumentFullView () {
                     {loadingDocument?
                         <Skeleton animation="wave" variant='rectangular' height={'70vh'} sx={{my: 2}}/>
                         :
-                        <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.primary' , my: 2, height: '70vh', overflowY: 'scroll', px: 2}}>
+                        <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.primary',  my: 2, height: '70vh', overflowY: 'scroll', px: 2}} ref={bodyRef}>
                         </Box>
                     }
                     </>
