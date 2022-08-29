@@ -1,5 +1,7 @@
 import React, { useState} from 'react'
-import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box, Alert  } from '@mui/material'
+import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box, Alert, IconButton } from '@mui/material'
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 import {Link as RouterLink} from 'react-router-dom'
 import {auth} from '../firebase'
 import { createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
@@ -12,6 +14,7 @@ export default function Signup () {
   const [password, setPassword] = useState("")
   const [signupLoading, setSignupLoading] = useState(false);
   const [error, setError] = useState(false)
+  const [passwordVisibility, setPasswordVisibility] = useState(false)
   const {setUser, setLoading} = useUser()
   const navigate = useNavigate()
 
@@ -63,8 +66,14 @@ export default function Signup () {
           />
           <TextField required id="outlined-required" label="Email Address" sx={{my: 2}} fullWidth onChange={(e) => {setEmail(e.target.value)}} value={email}
           />
-          <TextField required id="outlined-password-input" label="Password" type="password" autoComplete="current-password" fullWidth sx={{my: 2}} onChange={(e) => {setPassword(e.target.value)}} value={password}
-          />
+
+          <Box sx={{display: 'flex', alignItems: 'center'}}>
+            <TextField required id="outlined-password-input" label="Password" type={passwordVisibility ? "text" : "password" } autoComplete="current-password" fullWidth sx={{my: 2, flex: 1}} value={password} onChange={(e)=>{setPassword(e.target.value)}}
+            />
+            <IconButton sx={{width: 'max-content', height: 'max-content', py:2}} onClick={()=>{setPasswordVisibility(!passwordVisibility)}}>
+              {passwordVisibility? <VisibilityOffRoundedIcon/> : <VisibilityRoundedIcon/>}
+            </IconButton>  
+          </Box>
 
           <Box sx={{position: 'relative'}}>
 
@@ -81,10 +90,10 @@ export default function Signup () {
           </Box>        
 
           <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} >
-            <Typography component='p' sx={{p:0.5}}>
+            <Typography component='p' sx={{p:0.5, textAlign: 'center'}}>
               Have an account?
             </Typography>
-            <Link to='./login' component={RouterLink}  sx={{color:'background.paper', p:0.5, bgcolor:'primary.main'}} underline="none" >
+            <Link to='/login' component={RouterLink}  sx={{color:'background.paper', p:0.5, bgcolor:'primary.main', borderRadius: 1}} underline="none" >
               Login
             </Link>
           </Container>
