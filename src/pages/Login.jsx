@@ -90,7 +90,7 @@ export default function Login () {
             <Typography component='p' sx={{p:0.5, textAlign: 'center'}}>
               Don't have an account?
             </Typography>
-            <Link to='/signup' component={RouterLink}  sx={{color:'background.paper', p:0.5, bgcolor:'primary.main', borderRadius: 1}} underline="none" >
+            <Link to='/signup' component={RouterLink}  sx={{color:'primary.main', p:0.2, borderRadius: 1,textDecoration: 'none', '&:hover': {textDecoration: 'underline'}}}>
               Signup
             </Link>
           </Container>

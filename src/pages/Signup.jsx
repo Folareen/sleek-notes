@@ -93,7 +93,7 @@ export default function Signup () {
             <Typography component='p' sx={{p:0.5, textAlign: 'center'}}>
               Have an account?
             </Typography>
-            <Link to='/login' component={RouterLink}  sx={{color:'background.paper', p:0.5, bgcolor:'primary.main', borderRadius: 1}} underline="none" >
+            <Link to='/login' component={RouterLink}  sx={{color:'primary.main', p:0.2, borderRadius: 1,textDecoration: 'none', '&:hover': {textDecoration: 'underline'}}} >
               Login
             </Link>
           </Container>
