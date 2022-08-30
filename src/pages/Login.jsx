@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box, Alert, IconButton } from '@mui/material'
+import { Grid,Typography, Paper, TextField, Container, Button, FormControl, Link, CircularProgress,Box, Alert, IconButton, InputBase } from '@mui/material'
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 import {Link as RouterLink, useNavigate} from 'react-router-dom'
@@ -13,8 +13,12 @@ export default function Login () {
   const [loginLoading, setLoginLoading] = useState(false);
   const [error, setError] = useState(false)
   const [passwordVisibility, setPasswordVisibility] = useState(false)
+  const [passwordFocus, setPasswordFocus] = useState(false)
   const {setUser, setLoading} = useUser()
   const navigate = useNavigate()
+
+  
+
 
   const login = async (e) =>{
     e.preventDefault()
@@ -58,10 +62,9 @@ export default function Login () {
           <TextField required id="outlined-required" label="Email Address" sx={{my: 2 }} fullWidth value={email} onChange={(e)=>{setEmail(e.target.value)}}
           />
 
-          <Box sx={{display: 'flex', alignItems: 'center'}}>
-            <TextField required id="outlined-password-input" label="Password" type={passwordVisibility ? "text" : "password" } autoComplete="current-password" fullWidth sx={{my: 2, flex: 1}} value={password} onChange={(e)=>{setPassword(e.target.value)}}
-            />
-            <IconButton sx={{width: 'max-content', height: 'max-content', py:2}} onClick={()=>{setPasswordVisibility(!passwordVisibility)}}>
+          <Box sx={{display: 'flex', borderRadius: 1, p:0.9, borderWidth: passwordFocus ? 2 : 1, borderStyle: 'solid', borderColor : passwordFocus ? 'primary.main' :'text.disabled' }} >
+            <InputBase  required id="outlined-password-input" placeholder="Password *" type={passwordVisibility ? "text" : "password" } autoComplete="current-password" fullWidth sx={{flex: 1, px:1}} value={password} onChange={(e)=>{setPassword(e.target.value)}} onFocus={()=>{setPasswordFocus(true)}} onBlur={()=>{setPasswordFocus(false)}}/>
+            <IconButton sx={{width: 'max-content', height: 'max-content'}} onClick={()=>{setPasswordVisibility(!passwordVisibility)}}>
               {passwordVisibility? <VisibilityOffRoundedIcon/> : <VisibilityRoundedIcon/>}
             </IconButton>  
           </Box>
