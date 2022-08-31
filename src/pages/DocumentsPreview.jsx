@@ -185,7 +185,7 @@ export default function DocumentsPreview () {
 
         <IconButton elevation={5} sx={{boxShadow: 10, border: 1, p: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', position: 'fixed', bottom: 10, right: 10, bgcolor: 'background.paper', '&:hover': {bgcolor: 'success.light'}}} 
             color='success' onClick={showAddNewDocumentModal} size='large'>
-            <NoteAddRoundedIcon sx={{fontSize: {xs: 40, lg: 60}}}/>
+            <NoteAddRoundedIcon sx={{fontSize: {xs: 30, lg: 50}}}/>
         </IconButton>
 
     </Box>

@@ -18,7 +18,7 @@ export default function DocumentPreviewCard ({id, title, description, date}){
     const viewDocument = () => {
         navigate(`/${id}`)
     }
-    const opacity = deletingDocument ? '0.5' : 1
+    const opacity = deletingDocument ? '0.3' : 1
     
     const deleteDocument = async () => {
         setDeletingDocument(true)
@@ -72,7 +72,7 @@ export default function DocumentPreviewCard ({id, title, description, date}){
                         View/Edit
                     </Button>
 
-                    <IconButton  sx={{color:'error.dark', bgcolor:'error.light', '&:hover': {color:'error.light', bgcolor:'error.dark'
+                    <IconButton  sx={{color:'error.dark', '&:hover': {color:'background.paper', bgcolor:'error.light'
                     } }} onClick={deleteDocument}>
                         <DeleteForeverIcon/>         
                     </IconButton>

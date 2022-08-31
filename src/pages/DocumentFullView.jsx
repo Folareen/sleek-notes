@@ -143,7 +143,7 @@ export default function DocumentFullView () {
 
                 <HomeButton />
 
-                <Box sx={{bgcolor: 'text.disabled', p: 0.2, borderRadius: 1}}>
+                <Box sx={{bgcolor: 'text.disabled', p: 0.25, borderRadius: 1}}>
                     <Typography component='span' sx={{bgcolor:'text.secondary', color: 'background.paper', p: 0.8, borderRadius: 1, mx: 0.5, display: { xs: 'none', sm: 'inline-block'}}}>
                         Mode: {readOnly ? 'Read': 'Edit'}
                     </Typography>
@@ -162,7 +162,7 @@ export default function DocumentFullView () {
                 <ReactToPdf filename={`${title}.pdf`} targetRef={bodyRef}>
                 {
                     ({toPdf})=>(
-                    <Button sx={{fontWeight:'bold', py:1.3, px: 1}} color='secondary' variant='contained' onClick={toPdf}>
+                    <Button sx={{fontWeight:'bold', py:1.3, px: 1, bgcolor: 'primary.light', color: 'success.dark'}}  variant='contained' onClick={toPdf}>
                         <Typography component='span' sx={{display: {
                             xs: 'none',
                             sm: 'inline-block'
@@ -185,7 +185,7 @@ export default function DocumentFullView () {
         </AppBar>
         {
             updatedDocument &&
-            <Slide direction="left" in={updatedDocument} mountOnEnter unmountOnExit >
+            <Slide direction="left" in={updatedDocument} mountOnEnter unmountOnExit sx={{backgroundColor: 'success.light'}}>
                 <Alert elevation={3} onClose={() => {dispatch({type: ACTIONS.CLOSE_UPDATE_ALERT}) }} sx={{position: 'absolute', top: '70px', right: 0}} severity='success' variant='filled'>Saved Changes!</Alert>
             </Slide>
         }
@@ -229,9 +229,9 @@ export default function DocumentFullView () {
                         <Skeleton animation="wave" variant='rectangular' height={'70vh'} sx={{my: 2}}/>
                         :
                         <Box sx={{position: 'relative'}}>
-                            <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.primary',  my: 2, height: '70vh', overflowY: 'scroll', px: 2, zIndex: 1}} ref={bodyRef}>
+                            <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.disabled',  my: 2, height: '70vh', overflowY: 'scroll', px: 2, zIndex: 1}} ref={bodyRef}>
                             </Box>
-                            <Typography component='p' sx={{position: 'absolute', top: -15, right: '50%', zIndex: 2, bgcolor: 'background.paper', p: 0.5, color: 'text.disabled'}}>
+                            <Typography component='p' sx={{position: 'absolute', top: -15, left: '50%', transform: 'translateX(-50%)', zIndex: 2, bgcolor: 'background.paper', p: 0.5, color: 'text.disabled'}}>
                                 Body
                             </Typography>
                         </Box>
