@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react'
-import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography, Button,Dialog, DialogTitle, DialogActions, DialogContent,TextField, Alert, Slide } from '@mui/material'
+import { AppBar, Box, Toolbar, IconButton, InputBase, Grid, Typography, Button,Dialog, DialogTitle, DialogActions, DialogContent,TextField, Alert, Slide, Skeleton } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import DocumentPreviewCard from '../components/DocumentPreviewCard';
 import LogoutButton from '../components/LogoutButton';
@@ -13,7 +13,6 @@ import getAllDocuments from '../utils/getAllDocuments';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useNavigate } from 'react-router-dom';
 import displayDateAndTime from '../utils/displayDateAndTIme'
-import Loading from '../components/Loading';
 import { ACTIONS } from '../reducers/actions';
 
 
@@ -106,17 +105,24 @@ export default function DocumentsPreview () {
 
         }
          
-
+        {
+        !fetchingDocs &&
         <Typography component='p' sx={{textAlign: 'center',p: 1, color: 'primary.main', fontSize: 30 }} >
             Welcome, <span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>
             {
-                user && user.displayName
+                user  && user.displayName
             }
             </span>.
         </Typography>
+        }
 
         {
-            fetchingDocs && <Loading small={true} />
+            fetchingDocs &&
+            <Box sx={{display: 'flex', flexDirection: 'column', position: 'fixed',  top: 40, bottom: 0, right: 0, left: 0, zIndex: 2, height: '100vh', p: 2}}>
+                <Skeleton animation="wave" variant='rectangular' height={60} sx={{my: 2}}/>
+                <Skeleton animation="wave" variant='rectangular' height={'80vh'} />
+            </Box>                         
+
         }
 
         {
