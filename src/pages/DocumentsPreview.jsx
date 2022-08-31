@@ -58,7 +58,7 @@ export default function DocumentsPreview () {
         }else{
             setDisplayedDocuments(
                 documents.filter((doc) => {
-                    return doc.data.title.includes(searchValue)
+                    return doc.data.title.toLowerCase().includes(searchValue)
                 }
                 )
             )
