@@ -2,10 +2,10 @@ import React from 'react'
 import { Grid } from  'react-loader-spinner'
 import { Box} from '@mui/material'
 
-const Loading = ({small}) => {
+const Loading = () => {
   return (
     <Box sx={{
-      height: small? '75vh' : '100vh',
+      height: '100vh',
       bgcolor: 'grey.300',
       display: 'flex',
       justifyContent: 'center',
