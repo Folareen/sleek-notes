@@ -195,8 +195,8 @@ export default function DocumentFullView () {
             {
                 loadingDocument?
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                    <Skeleton animation='wave' variant='rectangular' height={60} width='37.5%'/>
-                    <Skeleton animation='wave' variant='rectangular' height={60} width='57.5%'/>
+                    <Skeleton animation='wave' variant='rectangular' height={70} width='37.5%'/>
+                    <Skeleton animation='wave' variant='rectangular' height={70} width='57.5%'/>
                 </Box>
                 :
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
