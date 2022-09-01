@@ -13,7 +13,7 @@ export default function Signup () {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [signupLoading, setSignupLoading] = useState(false);
-  const [error, setError] = useState(false)
+  const [error, setError] = useState("")
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [passwordFocus, setPasswordFocus] = useState(false)
   const {setUser, setLoading} = useUser()
@@ -22,7 +22,7 @@ export default function Signup () {
 
   const signUp = async (e) =>{
     e.preventDefault()
-    setError(false)
+    setError("")
     setSignupLoading(true)
 
     try{
@@ -33,8 +33,8 @@ export default function Signup () {
         await updateProfile(auth.currentUser, {
         displayName: name})
     }
-    catch{
-      setError(true)
+    catch(err){
+      setError(err.message)
     }
     finally{
       setSignupLoading(false)
@@ -50,7 +50,7 @@ export default function Signup () {
 
     {
     error &&
-    <Alert elevation={3} onClose={() => {setError(false)}} sx={{position: 'absolute', top: '-50px', right: 0, left: 0}} severity='error'>Sign up failed!</Alert> 
+    <Alert elevation={3} onClose={() => {setError(false)}} sx={{position: 'absolute', top: '-50px', right: 0, left: 0}} severity='error'>{error}</Alert> 
     }
 
       <Typography variant="h2" gutterBottom align={'center'} color='secondary.dark' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>

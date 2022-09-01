@@ -11,7 +11,7 @@ export default function Login () {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginLoading, setLoginLoading] = useState(false);
-  const [error, setError] = useState(false)
+  const [error, setError] = useState("")
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [passwordFocus, setPasswordFocus] = useState(false)
   const {setUser, setLoading} = useUser()
@@ -22,7 +22,7 @@ export default function Login () {
 
   const login = async (e) =>{
     e.preventDefault()
-    setError(false)
+    setError("")
     setLoginLoading(true)
 
     try{
@@ -31,8 +31,8 @@ export default function Login () {
       navigate('/')
       setUser(userCredential)
     }
-    catch{
-      setError(true)
+    catch(err){
+      setError(err.message)
     }
     finally{
       setLoginLoading(false)
@@ -47,7 +47,7 @@ export default function Login () {
 
         {
         error &&
-        <Alert elevation={3} onClose={() => {setError(false)}} sx={{position: 'absolute', top: '-50px', right: 0, left: 0}} severity='error'>Invalid Email or Password!</Alert> 
+        <Alert elevation={3} onClose={() => {setError(false)}} sx={{position: 'absolute', top: '-50px', right: 0, left: 0}} severity='error'>{error}</Alert> 
         }
 
         <Typography variant="h2" gutterBottom align={'center'} color='secondary.dark' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
