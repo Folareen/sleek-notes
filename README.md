@@ -1,5 +1,5 @@
-# Text Editor
+# SleekNotes
 
 live preview link:
 
-https://text-editor-ruddy.vercel.app/
+<!-- https://text-editor-ruddy.vercel.app/ -->
