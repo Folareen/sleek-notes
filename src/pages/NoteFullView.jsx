@@ -100,8 +100,8 @@ export default function NoteFullView () {
             body: draftToHtml(convertToRaw(editorState.getCurrentContent())),
             date: displayDateAndTime()
             });
-            dispatch({type: ACTIONS.UPDATE_Note, payload: await getAllNotes(user)})
-            dispatch({type: ACTIONS.UPDATED_Note})
+            dispatch({type: ACTIONS.UPDATE_NOTE, payload: await getAllNotes(user)})
+            dispatch({type: ACTIONS.UPDATED_NOTE})
         }
         catch{
             console.log('error')

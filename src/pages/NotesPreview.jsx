@@ -15,7 +15,6 @@ import { useNavigate } from 'react-router-dom';
 import displayDateAndTime from '../utils/displayDateAndTIme'
 import { ACTIONS } from '../reducers/actions';
 
-
 export default function NotesPreview () {
     const { user} = useUser()
     const [displayedNotes, setDisplayedNotes] = useState([])
@@ -26,7 +25,7 @@ export default function NotesPreview () {
     const [searchValue, setSearchValue] = useState('')
     const navigate = useNavigate()
 
-    const {dispatch, fetchingNotes, Notes, error, deletedNote} = useNotes()
+    const {dispatch, fetchingNotes, notes, error, deletedNote} = useNotes()
 
     const addNewNote = async (e) =>{
         e.preventDefault()
@@ -54,10 +53,10 @@ export default function NotesPreview () {
 
     const searchNotes = () => {
         if(searchValue.length < 1){
-            setDisplayedNotes(Notes)
+            setDisplayedNotes(notes)
         }else{
             setDisplayedNotes(
-                Notes.filter((note) => {
+                notes.filter((note) => {
                     return note.data.title.toLowerCase().includes(searchValue)
                 }
                 )
@@ -67,8 +66,8 @@ export default function NotesPreview () {
 
     useEffect(
         ()=> {
-            setDisplayedNotes(Notes)
-        }, [Notes]
+            setDisplayedNotes(notes)
+        }, [notes]
     )
 
 
@@ -187,7 +186,6 @@ export default function NotesPreview () {
           </Button>
         </DialogActions>
       </Dialog>
-        {/* } */}
 
         <IconButton elevation={5} sx={{boxShadow: 10, border: 1, p: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', position: 'fixed', bottom: 10, right: 10, bgcolor: 'background.paper', '&:hover': {bgcolor: 'success.light'}}} 
             color='success' onClick={showAddNewNoteModal} size='large'>
