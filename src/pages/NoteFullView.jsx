@@ -19,23 +19,23 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import displayDateAndTime from '../utils/displayDateAndTIme'
-import useDocuments from '../hooks/useDocuments';
+import useNotes from '../hooks/useNotes';
 import {ACTIONS} from '../reducers/actions'
-import getAllDocuments from '../utils/getAllDocuments';
+import getAllNotes from '../utils/getAllNotes';
 import  ReactToPdf  from 'react-to-pdf'
 
-export default function DocumentFullView () {
+export default function NoteFullView () {
     const [readOnly, setReadOnly] = useState(true)
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [updating, setUpdating] = useState(false)
     const [body, setBody] = useState('')
-    const [deletingDocument, setDeletingDocument] = useState(false)
-    const [loadingDocument, setLoadingDocument] = useState(true)
+    const [deletingNote, setDeletingNote] = useState(false)
+    const [loadingNote, setLoadingNote] = useState(true)
     const {id} = useParams()
     const {user} = useUser()
-    const {dispatch, updatedDocument} = useDocuments()
+    const {dispatch, updatedNote} = useNotes()
     const navigate = useNavigate()
     const bodyRef = useRef()
 
@@ -51,11 +51,11 @@ export default function DocumentFullView () {
                     const { contentBlocks, entityMap } = htmlToDraft(docSnap.data().body);
                     const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
                     setEditorState(EditorState.createWithContent(contentState))
-                    setLoadingDocument(false)
+                    setLoadingNote(false)
 
                 } else {
                 // doc.data() will be undefined in this case
-                    console.log("No such document!");
+                    console.log("No such Note!");
                 }
             })()
             // eslint-disable-next-line
@@ -90,7 +90,7 @@ export default function DocumentFullView () {
     }
 
 
-    const updateDocument = async () => {
+    const updateNote = async () => {
         setBody(draftToHtml(convertToRaw(editorState.getCurrentContent())))
         setUpdating(true)
         try{
@@ -100,8 +100,8 @@ export default function DocumentFullView () {
             body: draftToHtml(convertToRaw(editorState.getCurrentContent())),
             date: displayDateAndTime()
             });
-            dispatch({type: ACTIONS.UPDATE_DOCUMENT, payload: await getAllDocuments(user)})
-            dispatch({type: ACTIONS.UPDATED_DOCUMENT})
+            dispatch({type: ACTIONS.UPDATE_Note, payload: await getAllNotes(user)})
+            dispatch({type: ACTIONS.UPDATED_Note})
         }
         catch{
             console.log('error')
@@ -117,19 +117,19 @@ export default function DocumentFullView () {
         setReadOnly(true)
     }
 
-    const deleteDocument = async () => {
-        setDeletingDocument(true)
+    const deleteNote = async () => {
+        setDeletingNote(true)
         try{
             await deleteDoc(doc(db, user.uid, id));
-            dispatch({type: ACTIONS.DELETE_DOC, payload: await getAllDocuments(user)})
-            alert('Document Deleted!')
+            dispatch({type: ACTIONS.DELETE_NOTE, payload: await getAllNotes(user)})
+            alert('Note Deleted!')
             navigate('/')
         }
         catch{
             console.log('error')
         }
         finally{
-            setDeletingDocument(false)
+            setDeletingNote(false)
         }
 
     }
@@ -184,8 +184,8 @@ export default function DocumentFullView () {
 
         </AppBar>
         {
-            updatedDocument &&
-            <Slide direction="left" in={updatedDocument} mountOnEnter unmountOnExit sx={{backgroundColor: 'success.light'}}>
+            updatedNote &&
+            <Slide direction="left" in={updatedNote} mountOnEnter unmountOnExit sx={{backgroundColor: 'success.light'}}>
                 <Alert elevation={3} onClose={() => {dispatch({type: ACTIONS.CLOSE_UPDATE_ALERT}) }} sx={{position: 'absolute', top: '70px', right: 0}} severity='success' variant='filled'>Saved Changes!</Alert>
             </Slide>
         }
@@ -193,7 +193,7 @@ export default function DocumentFullView () {
         <Box sx={{ color:'primary.main', p: 2, maxWidth: 1440, mx: 'auto'}}>
 
             {
-                loadingDocument?
+                loadingNote?
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <Skeleton animation='wave' variant='rectangular' height={70} width='37.5%'/>
                     <Skeleton animation='wave' variant='rectangular' height={70} width='57.5%'/>
@@ -225,7 +225,7 @@ export default function DocumentFullView () {
             {
                 readOnly?
                     <>
-                    {loadingDocument?
+                    {loadingNote?
                         <Skeleton animation="wave" variant='rectangular' height={'70vh'} sx={{my: 2}}/>
                         :
                         <Box sx={{position: 'relative'}}>
@@ -259,7 +259,7 @@ export default function DocumentFullView () {
 
                         <Box
                         sx={{maxWidth: 800, width: '80%', mx:'auto', display:'flex', justifyContent: 'space-between', my: 0.5}}>
-                            <Button sx={{fontWeight:'bold'}} color='success' variant='contained' onClick={updateDocument} disabled={updating}
+                            <Button sx={{fontWeight:'bold'}} color='success' variant='contained' onClick={updateNote} disabled={updating}
                             >
                                 <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
                                     xs: 'none',
@@ -283,13 +283,13 @@ export default function DocumentFullView () {
                             </Button>
 
                             <Button sx={{fontWeight:'bold'}} color='error' variant='contained'
-                            onClick={deleteDocument} disabled={deletingDocument}
+                            onClick={deleteNote} disabled={deletingNote}
                             >
                                 <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
                                     xs: 'none',
                                     sm: 'inline-block'
                                 }}}>
-                                    {deletingDocument? 'Deleting...': 'Delete'}
+                                    {deletingNote? 'Deleting...': 'Delete'}
                                 </Typography>
                                 <DeleteForeverIcon/>
                             </Button>

@@ -1,18 +1,18 @@
 import React from 'react'
-import DocumentsPreview from "../pages/DocumentsPreview";
-import DocumentFullView from "../pages/DocumentFullView";
+import NotesPreview from "../pages/NotesPreview";
+import NoteFullView from "../pages/NoteFullView";
 import {Routes, Route } from 'react-router-dom';
-import DocumentsContextProvider from '../context/DocumentsContext';
+import NotesContextProvider from '../context/NotesContext';
 
 
 const PrivateRoutes = () => {
   return (
-    <DocumentsContextProvider>
+    <NotesContextProvider>
       <Routes>
-        <Route path="/" element={<DocumentsPreview />} />
-        <Route path="/:id" element={<DocumentFullView />} />
+        <Route path="/" element={<NotesPreview />} />
+        <Route path="/:id" element={<NoteFullView />} />
       </Routes>
-    </DocumentsContextProvider>
+    </NotesContextProvider>
 
   )
 }

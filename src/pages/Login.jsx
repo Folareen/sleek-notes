@@ -17,8 +17,6 @@ export default function Login () {
   const {setUser, setLoading} = useUser()
   const navigate = useNavigate()
 
-  
-
 
   const login = async (e) =>{
     e.preventDefault()
@@ -51,7 +49,7 @@ export default function Login () {
         }
 
         <Typography variant="h2" gutterBottom align={'center'} color='secondary.dark' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
-          Text Editor
+          SleekNotes
         </Typography>
 
         <Typography variant="h3" align='center' sx={{fontSize: 25, fontWeight: 'bold', mb:1, color:'primary.dark'}} >

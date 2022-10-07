@@ -1,22 +1,22 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
-const getAllDocuments = async (currentUser) => {
+const getAllNotes = async (currentUser) => {
   try {
     const querySnapshot = await getDocs(collection(db, currentUser.uid));
-    const allDocuments = [];
+    const allNotes = [];
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      allDocuments.push({ id: doc.id, data });
+      allNotes.push({ id: doc.id, data });
     });
-    allDocuments.reverse();
+    allNotes.reverse();
 
-    return allDocuments;
+    return allNotes;
   } catch (error) {
     console.log(error);
     return null;
   }
 };
 
-export default getAllDocuments;
+export default getAllNotes;

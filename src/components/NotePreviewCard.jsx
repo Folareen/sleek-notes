@@ -6,32 +6,32 @@ import { useNavigate } from 'react-router-dom';
 import { doc, deleteDoc } from "firebase/firestore";
 import {db} from '../firebase'
 import useUser from '../hooks/useUser';
-import useDocuments from '../hooks/useDocuments';
-import getAllDocuments from '../utils/getAllDocuments';
+import useNotes from '../hooks/useNotes';
+import getAllNotes from '../utils/getAllNotes';
 import { ACTIONS } from '../reducers/actions';
 
-export default function DocumentPreviewCard ({id, title, description, date}){
+export default function NotePreviewCard ({id, title, description, date}){
     const { user} = useUser()
-    const {dispatch} = useDocuments()
+    const {dispatch} = useNotes()
     const navigate = useNavigate()
-    const [deletingDocument, setDeletingDocument] = useState(false)
-    const viewDocument = () => {
+    const [deletingNote, setDeletingNote] = useState(false)
+    const viewNote = () => {
         navigate(`/${id}`)
     }
-    const opacity = deletingDocument ? '0.3' : 1
+    const opacity = deletingNote ? '0.2' : 1
     
-    const deleteDocument = async () => {
-        setDeletingDocument(true)
+    const deleteNote = async () => {
+        setDeletingNote(true)
         try{
             await deleteDoc(doc(db, user.uid, id));
-            dispatch({type: ACTIONS.DELETE_DOC, payload: await getAllDocuments(user)})
-            dispatch({type: ACTIONS.DELETED_DOC})
+            dispatch({type: ACTIONS.DELETE_NOTE, payload: await getAllNotes(user)})
+            dispatch({type: ACTIONS.DELETED_NOTE})
         }
         catch{
             console.log('error')
         }
         finally{
-            setDeletingDocument(false)
+            setDeletingNote(false)
         }
 
     }
@@ -41,9 +41,9 @@ export default function DocumentPreviewCard ({id, title, description, date}){
             <Card sx={{px:2, py:1, position: 'relative'}} elevation={5}>
 
                 {
-                    deletingDocument &&
+                    deletingNote &&
                     <Box sx={{bgcolor: 'text.disabled', height: '100%', position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', top: 0, bottom: 0, right: 0, left: 0, width: '100%', color: 'error.main'}}>
-                        Deleting Document...
+                        Deleting Note...
                         <CircularProgress color="inherit" />
                     </Box >   
 
@@ -68,12 +68,12 @@ export default function DocumentPreviewCard ({id, title, description, date}){
 
                 <CardActions sx={{display:'flex', justifyContent: 'space-between', borderTop: 0.5, borderColor: 'text.disabled', px:0}}>
 
-                    <Button sx={{fontWeight:'bold'}} color='success' variant='contained' endIcon={<NoteAltIcon/>} onClick={viewDocument}>
+                    <Button sx={{fontWeight:'bold'}} color='success' variant='contained' endIcon={<NoteAltIcon/>} onClick={viewNote}>
                         View/Edit
                     </Button>
 
                     <IconButton  sx={{color:'error.dark', '&:hover': {color:'background.paper', bgcolor:'error.light'
-                    } }} onClick={deleteDocument}>
+                    } }} onClick={deleteNote}>
                         <DeleteForeverIcon/>         
                     </IconButton>
 

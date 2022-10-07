@@ -1,58 +1,58 @@
 import { ACTIONS } from "./actions";
 export default function reducer(state, action) {
   switch (action.type) {
-    case ACTIONS.FETCH_DOCS:
+    case ACTIONS.FETCH_NOTES:
       return {
         ...state,
-        fetchingDocs: true,
-        documents: action.payload,
+        fetchingNotes: true,
+        notes: action.payload,
       };
-    case ACTIONS.FETCHED_DOCS:
+    case ACTIONS.FETCHED_NOTES:
       return {
         ...state,
-        fetchingDocs: false,
+        fetchingNotes: false,
       };
     case ACTIONS.ERROR_OCCURRED:
       return {
         ...state,
         error: true,
       };
-    case ACTIONS.CREATE_NEW_DOC:
+    case ACTIONS.CREATE_NEW_NOTE:
       return {
         ...state,
-        documents: action.payload,
+        notes: action.payload,
         error: false,
       };
-    case ACTIONS.DELETE_DOC:
+    case ACTIONS.DELETE_NOTE:
       return {
         ...state,
-        documents: action.payload,
-        deletedDocument: true,
+        notes: action.payload,
+        deletedNote: true,
       };
-    case ACTIONS.DELETED_DOC:
+    case ACTIONS.DELETED_NOTE:
       return {
         ...state,
-        deletedDocument: true,
+        deletedNote: true,
       };
     case ACTIONS.CLOSE_DELETION_ALERT:
       return {
         ...state,
-        deletedDocument: false,
+        deletedNote: false,
       };
-    case ACTIONS.UPDATE_DOCUMENT:
+    case ACTIONS.UPDATE_NOTE:
       return {
         ...state,
-        documents: action.payload,
+        notes: action.payload,
       };
-    case ACTIONS.UPDATED_DOCUMENT:
+    case ACTIONS.UPDATED_NOTE:
       return {
         ...state,
-        updatedDocument: true,
+        updatedNote: true,
       };
     case ACTIONS.CLOSE_UPDATE_ALERT:
       return {
         ...state,
-        updatedDocument: false,
+        updatedNote: false,
       };
 
     default:

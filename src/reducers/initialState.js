@@ -1,7 +1,7 @@
 export const initialState = {
-  fetchingDocs: true,
-  documents: null,
+  fetchingNotes: true,
+  notes: null,
   error: false,
-  deletedDocument: false,
-  updatedDocument: false,
+  deletedNote: false,
+  updatedNote: false,
 };

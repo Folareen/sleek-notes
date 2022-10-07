@@ -1,13 +1,13 @@
 import { createContext, useEffect, useReducer } from "react";
-import getAllDocuments from "../utils/getAllDocuments";
+import getAllNotes from "../utils/getAllNotes";
 import useUser from "../hooks/useUser";
 import reducer from "../reducers/reducer";
 import { initialState } from "../reducers/initialState";
 import { ACTIONS } from "../reducers/actions";
 
-export const DocumentsContext = createContext();
+export const NotesContext = createContext();
 
-const DocumentsContextProvider = ({ children }) => {
+const NotesContextProvider = ({ children }) => {
   const { user } = useUser();
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -15,24 +15,24 @@ const DocumentsContextProvider = ({ children }) => {
     (async function () {
       try {
         dispatch({
-          type: ACTIONS.FETCH_DOCS,
-          payload: await getAllDocuments(user),
+          type: ACTIONS.FETCH_NOTES,
+          payload: await getAllNotes(user),
         });
       } catch {
         dispatch({
           type: ACTIONS.ERROR_OCCURRED,
         });
       } finally {
-        dispatch({ type: ACTIONS.FETCHED_DOCS });
+        dispatch({ type: ACTIONS.FETCHED_NOTES });
       }
     })();
   }, [user]);
 
   return (
-    <DocumentsContext.Provider value={{ state, dispatch }}>
+    <NotesContext.Provider value={{ state, dispatch }}>
       {children}
-    </DocumentsContext.Provider>
+    </NotesContext.Provider>
   );
 };
 
-export default DocumentsContextProvider;
+export default NotesContextProvider;
