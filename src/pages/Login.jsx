@@ -85,14 +85,13 @@ export default function Login () {
 
 
           <Container sx={{display: 'flex', justifyContent:'center', alignItems:'center'}} >
-            <Typography component='p' sx={{p:0.5, textAlign: 'center'}}>
+            <Typography component='p' sx={{p:0.5, textAlign: 'left'}}>
               Don't have an account?
             </Typography>
             <Link to='/signup' component={RouterLink}  sx={{color:'primary.main', p:0.2, borderRadius: 1,textDecoration: 'none', '&:hover': {textDecoration: 'underline'}}}>
               Signup
             </Link>
           </Container>
-        
         </FormControl>
 
       </Paper>
