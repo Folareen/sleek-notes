@@ -5,6 +5,7 @@ import { signOut } from 'firebase/auth';
 import { auth} from '../firebase'
 import useUser from '../hooks/useUser';
 import {useNavigate} from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 export default function LogoutButton (){
     const { setUser} = useUser()
@@ -19,7 +20,8 @@ export default function LogoutButton (){
             console.log('out')   
         }
         catch{
-            alert('failed to sign out!')
+            toast.error('Failed to logout!.\n Please try again.')
+
         }
     }
 

@@ -10,7 +10,9 @@ const getAllNotes = async (currentUser) => {
       const data = doc.data();
       allNotes.push({ id: doc.id, data });
     });
-    allNotes.reverse();
+    allNotes.sort((a, b) => (
+      new Date(b.data.date) - new Date(a.data.date)
+    ))
 
     return allNotes;
   } catch (error) {

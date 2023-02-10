@@ -5,6 +5,8 @@ import { createTheme, CssBaseline } from "@mui/material";
 import AuthContextProvider from "./context/AuthContext";
 import Routes from "./routes/Routes";
 import { ColorModeContext } from "./context/ColorModeContext";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   const { mode } = useContext(ColorModeContext);
@@ -22,6 +24,7 @@ export default function App() {
         <Router>
           <Routes />
         </Router>
+        <ToastContainer />
       </ThemeProvider>
     </AuthContextProvider>
   );

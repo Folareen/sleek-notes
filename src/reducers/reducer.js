@@ -29,32 +29,11 @@ export default function reducer(state, action) {
         notes: action.payload,
         deletedNote: true,
       };
-    case ACTIONS.DELETED_NOTE:
-      return {
-        ...state,
-        deletedNote: true,
-      };
-    case ACTIONS.CLOSE_DELETION_ALERT:
-      return {
-        ...state,
-        deletedNote: false,
-      };
     case ACTIONS.UPDATE_NOTE:
       return {
         ...state,
         notes: action.payload,
       };
-    case ACTIONS.UPDATED_NOTE:
-      return {
-        ...state,
-        updatedNote: true,
-      };
-    case ACTIONS.CLOSE_UPDATE_ALERT:
-      return {
-        ...state,
-        updatedNote: false,
-      };
-
     default:
       return state;
   }

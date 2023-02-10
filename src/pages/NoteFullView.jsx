@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef} from 'react'
-import { Box, AppBar, Toolbar, Button, IconButton, Typography, Slide, Alert, Skeleton, TextField} from '@mui/material'
+import { Box, AppBar, Toolbar, Button, IconButton, Typography, Skeleton, TextField} from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -23,6 +23,7 @@ import useNotes from '../hooks/useNotes';
 import {ACTIONS} from '../reducers/actions'
 import getAllNotes from '../utils/getAllNotes';
 import  ReactToPdf  from 'react-to-pdf'
+import { toast } from 'react-toastify';
 
 export default function NoteFullView () {
     const [readOnly, setReadOnly] = useState(true)
@@ -35,7 +36,7 @@ export default function NoteFullView () {
     const [loadingNote, setLoadingNote] = useState(true)
     const {id} = useParams()
     const {user} = useUser()
-    const {dispatch, updatedNote} = useNotes()
+    const {dispatch} = useNotes()
     const navigate = useNavigate()
     const bodyRef = useRef()
 
@@ -77,9 +78,10 @@ export default function NoteFullView () {
         backgroundColor: 'inherit'
     }
     const editorStyle = {
-        height: '40vh',
-        maxHeight: '800px',
-        overflowY: 'scroll'
+        height: '45vh',
+        maxHeight: '900px',
+        overflowY: 'scroll',
+        color: 'black'
     }
     const toolbarStyle = {
         justifyContent: 'center',
@@ -101,10 +103,10 @@ export default function NoteFullView () {
             date: displayDateAndTime()
             });
             dispatch({type: ACTIONS.UPDATE_NOTE, payload: await getAllNotes(user)})
-            dispatch({type: ACTIONS.UPDATED_NOTE})
+            toast.success('Changes saved!')
         }
         catch{
-            console.log('error')
+            toast.error('Error!.\nPlease try again')
         }
         finally{
             setUpdating(false)
@@ -122,10 +124,11 @@ export default function NoteFullView () {
         try{
             await deleteDoc(doc(db, user.uid, id));
             dispatch({type: ACTIONS.DELETE_NOTE, payload: await getAllNotes(user)})
-            alert('Note Deleted!')
+            toast.info('Note deleted successfully!')
             navigate('/')
         }
         catch{
+            toast.error('Eroor!. \n Please try again')
             console.log('error')
         }
         finally{
@@ -183,12 +186,7 @@ export default function NoteFullView () {
 
 
         </AppBar>
-        {
-            updatedNote &&
-            <Slide direction="left" in={updatedNote} mountOnEnter unmountOnExit sx={{backgroundColor: 'success.light'}}>
-                <Alert elevation={3} onClose={() => {dispatch({type: ACTIONS.CLOSE_UPDATE_ALERT}) }} sx={{position: 'absolute', top: '70px', right: 0}} severity='success' variant='filled'>Saved Changes!</Alert>
-            </Slide>
-        }
+
 
         <Box sx={{ color:'primary.main', p: 2, maxWidth: 1440, mx: 'auto'}}>
 

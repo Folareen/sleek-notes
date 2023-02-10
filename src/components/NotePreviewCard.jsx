@@ -9,6 +9,7 @@ import useUser from '../hooks/useUser';
 import useNotes from '../hooks/useNotes';
 import getAllNotes from '../utils/getAllNotes';
 import { ACTIONS } from '../reducers/actions';
+import { toast } from 'react-toastify';
 
 export default function NotePreviewCard ({id, title, description, date}){
     const { user} = useUser()
@@ -25,10 +26,10 @@ export default function NotePreviewCard ({id, title, description, date}){
         try{
             await deleteDoc(doc(db, user.uid, id));
             dispatch({type: ACTIONS.DELETE_NOTE, payload: await getAllNotes(user)})
-            dispatch({type: ACTIONS.DELETED_NOTE})
+            toast.info('Noted deleted successfully!')
         }
         catch{
-            console.log('error')
+            toast.error('Error!. \n Please try again.')
         }
         finally{
             setDeletingNote(false)
@@ -57,10 +58,10 @@ export default function NotePreviewCard ({id, title, description, date}){
 
                     <Typography variant="body" 
                     component='p' sx={{py: 1, color:"text.secondary", fontSize: 20, wordWrap: 'break-word'}}>
-                    {description}
+                    {description.length > 50 ? `${description.slice(0, 50)}...` : description}
                     </Typography>
 
-                    <Typography variant="p" component='p' sx={{ fontWeight: 'light', color:"text.disabled", fontSize: 14}}>
+                    <Typography variant="p" component='p' sx={{ color:"text.disabled", fontSize: 14}}>
                     Last Updated: {date}
                     </Typography>
 

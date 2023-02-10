@@ -4,7 +4,7 @@ import { ACTIONS } from "../reducers/actions";
 
 const useNotes = () => {
   const { state, dispatch } = useContext(NotesContext);
-  const { fetchingNotes, notes, error, deletedNote, updatedNote } = state;
+  const { fetchingNotes, notes, error } = state;
 
   useEffect(() => {
     if (notes?.length < 1) {
@@ -20,8 +20,6 @@ const useNotes = () => {
     fetchingNotes,
     notes,
     error,
-    deletedNote,
-    updatedNote,
   };
 };
 

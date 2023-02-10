@@ -25,7 +25,7 @@ export default function NotesPreview() {
     const [searchValue, setSearchValue] = useState('')
     const navigate = useNavigate()
 
-    const { dispatch, fetchingNotes, notes, error, deletedNote } = useNotes()
+    const { dispatch, fetchingNotes, notes, error } = useNotes()
 
     const addNewNote = async (e) => {
         e.preventDefault()
@@ -97,14 +97,6 @@ export default function NotesPreview() {
 
                 </Toolbar>
             </AppBar>
-
-            {
-                deletedNote &&
-                <Slide direction="left" in={deletedNote} mountOnEnter unmountOnExit>
-                    <Alert elevation={3} onClose={() => { dispatch({ type: ACTIONS.CLOSE_DELETION_ALERT }) }} sx={{ position: 'absolute', top: '80px', right: 0 }} severity='error'>Note deleted!</Alert>
-                </Slide>
-
-            }
 
             {
                 !fetchingNotes &&
