@@ -7,6 +7,7 @@ import {auth} from '../firebase'
 import { createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
 import { useNavigate} from 'react-router-dom'
 import useUser from '../hooks/useUser'
+import formatFirebaseError from '../utils/formatFirebaseError';
 
 export default function Signup () {
   const [name, setName] = useState("")
@@ -26,7 +27,7 @@ export default function Signup () {
     setSignupLoading(true)
 
     try{
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password )
+        const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password )
         setLoading(true)
         navigate('/')
         setUser(userCredential)
@@ -50,7 +51,7 @@ export default function Signup () {
 
     {
     error &&
-    <Alert elevation={3} onClose={() => {setError(false)}} sx={{position: 'absolute', top: '-50px', right: 0, left: 0}} severity='error'>{error}</Alert> 
+    <Alert elevation={3} onClose={() => {setError(false)}} sx={{position: 'absolute', top: '-50px', right: 0, left: 0}} severity='error'>{formatFirebaseError(error)}</Alert> 
     }
 
       <Typography variant="h2" gutterBottom align={'center'} color='secondary.dark' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>

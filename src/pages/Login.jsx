@@ -6,6 +6,7 @@ import {Link as RouterLink, useNavigate} from 'react-router-dom'
 import {auth} from '../firebase'
 import { signInWithEmailAndPassword} from 'firebase/auth'
 import useUser from '../hooks/useUser'
+import formatFirebaseError from '../utils/formatFirebaseError';
 
 export default function Login () {
   const [email, setEmail] = useState('')
@@ -24,7 +25,7 @@ export default function Login () {
     setLoginLoading(true)
 
     try{
-      const userCredential = await signInWithEmailAndPassword(auth, email, password )
+      const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password )
       setLoading(true)
       navigate('/')
       setUser(userCredential)
@@ -45,7 +46,7 @@ export default function Login () {
 
         {
         error &&
-        <Alert elevation={3} onClose={() => {setError(false)}} sx={{position: 'absolute', top: '-50px', right: 0, left: 0}} severity='error'>{error}</Alert> 
+        <Alert elevation={3} onClose={() => {setError(false)}} sx={{position: 'absolute', top: '-50px', right: 0, left: 0}} severity='error'>{formatFirebaseError(error)}</Alert> 
         }
 
         <Typography variant="h2" gutterBottom align={'center'} color='secondary.dark' sx={{fontSize: 40, fontWeight: 'bold', mb:2}}>
