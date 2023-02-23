@@ -81,7 +81,6 @@ export default function NoteFullView () {
         height: '45vh',
         maxHeight: '900px',
         overflowY: 'scroll',
-        color: 'black'
     }
     const toolbarStyle = {
         justifyContent: 'center',
