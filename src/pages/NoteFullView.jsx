@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef} from 'react'
-import { Box, AppBar, Toolbar, Button, IconButton, Typography, Skeleton, TextField} from '@mui/material'
+import React, { useState, useEffect, useRef } from 'react'
+import { Box, AppBar, Toolbar, Button, IconButton, Typography, Skeleton, TextField } from '@mui/material'
 import LogoutButton from '../components/LogoutButton'
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -10,8 +10,8 @@ import ColorModeButton from '../components/ColorModeButton'
 import ChromeReaderModeRoundedIcon from '@mui/icons-material/ChromeReaderModeRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import {useParams, useNavigate} from 'react-router-dom'
-import { db} from '../firebase'
+import { useParams, useNavigate } from 'react-router-dom'
+import { db } from '../firebase'
 import useUser from '../hooks/useUser';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -20,12 +20,12 @@ import htmlToDraft from 'html-to-draftjs';
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import displayDateAndTime from '../utils/displayDateAndTIme'
 import useNotes from '../hooks/useNotes';
-import {ACTIONS} from '../reducers/actions'
+import { ACTIONS } from '../reducers/actions'
 import getAllNotes from '../utils/getAllNotes';
-import  ReactToPdf  from 'react-to-pdf'
+import ReactToPdf from 'react-to-pdf'
 import { toast } from 'react-toastify';
 
-export default function NoteFullView () {
+export default function NoteFullView() {
     const [readOnly, setReadOnly] = useState(true)
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const [title, setTitle] = useState('')
@@ -34,15 +34,15 @@ export default function NoteFullView () {
     const [body, setBody] = useState('')
     const [deletingNote, setDeletingNote] = useState(false)
     const [loadingNote, setLoadingNote] = useState(true)
-    const {id} = useParams()
-    const {user} = useUser()
-    const {dispatch} = useNotes()
+    const { id } = useParams()
+    const { user } = useUser()
+    const { dispatch } = useNotes()
     const navigate = useNavigate()
     const bodyRef = useRef()
 
     useEffect(
-        ()=> {
-            (async function (){
+        () => {
+            (async function () {
                 const docRef = doc(db, user.uid, id);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
@@ -55,7 +55,7 @@ export default function NoteFullView () {
                     setLoadingNote(false)
 
                 } else {
-                // doc.data() will be undefined in this case
+                    // doc.data() will be undefined in this case
                     console.log("No such Note!");
                 }
             })()
@@ -63,7 +63,7 @@ export default function NoteFullView () {
         }, []
     )
 
-    const toggleMode =() =>{
+    const toggleMode = () => {
         setReadOnly(!readOnly)
     }
 
@@ -94,23 +94,23 @@ export default function NoteFullView () {
     const updateNote = async () => {
         setBody(draftToHtml(convertToRaw(editorState.getCurrentContent())))
         setUpdating(true)
-        try{
+        try {
             await updateDoc(doc(db, user.uid, id), {
-            title,
-            description,
-            body: draftToHtml(convertToRaw(editorState.getCurrentContent())),
-            date: displayDateAndTime()
+                title,
+                description,
+                body: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+                date: displayDateAndTime()
             });
-            dispatch({type: ACTIONS.UPDATE_NOTE, payload: await getAllNotes(user)})
+            dispatch({ type: ACTIONS.UPDATE_NOTE, payload: await getAllNotes(user) })
             toast.success('Changes saved!')
         }
-        catch{
+        catch {
             toast.error('Error!.\nPlease try again')
         }
-        finally{
+        finally {
             setUpdating(false)
         }
-        
+
     }
 
     const cancelChanges = () => {
@@ -120,17 +120,17 @@ export default function NoteFullView () {
 
     const deleteNote = async () => {
         setDeletingNote(true)
-        try{
+        try {
             await deleteDoc(doc(db, user.uid, id));
-            dispatch({type: ACTIONS.DELETE_NOTE, payload: await getAllNotes(user)})
+            dispatch({ type: ACTIONS.DELETE_NOTE, payload: await getAllNotes(user) })
             toast.info('Note deleted successfully!')
             navigate('/')
         }
-        catch{
+        catch {
             toast.error('Eroor!. \n Please try again')
             console.log('error')
         }
-        finally{
+        finally {
             setDeletingNote(false)
         }
 
@@ -138,167 +138,180 @@ export default function NoteFullView () {
 
 
     return (
-    <Box sx={{height: '100vh'}}>
-    
-        <AppBar position='sticky'  >
-            <Toolbar sx={{display: 'flex', justifyContent: 'space-between', maxWidth: 1440, width: '100%', mx: 'auto', py: 1.3}}>
+        <Box sx={{ height: '100vh' }}>
 
-                <HomeButton />
+            <AppBar position='sticky'  >
+                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', maxWidth: 1440, width: '100%', mx: 'auto', py: 1.3 }}>
 
-                <Box sx={{bgcolor: 'text.disabled', p: 0.25, borderRadius: 1}}>
-                    <Typography component='span' sx={{bgcolor:'text.secondary', color: 'background.paper', p: 0.8, borderRadius: 1, mx: 0.5, display: { xs: 'none', sm: 'inline-block'}}}>
-                        Mode: {readOnly ? 'Read': 'Edit'}
-                    </Typography>
-                    <IconButton sx={{border: 1, borderColor: 'background.paper', mx: 0.5, color: 'text.secondary',bgcolor: 'primary.dark', '&:hover': {
-                        color: 'primary.dark',bgcolor: 'text.secondary'
-                    }}} onClick={toggleMode}>
-                        {
-                            readOnly ? 
-                            <EditRoundedIcon />
-                            :
-                            <ChromeReaderModeRoundedIcon />
-                        }
-                    </IconButton>
-                </Box>
+                    <HomeButton />
 
-                <ReactToPdf filename={`${title}.pdf`} targetRef={bodyRef}>
-                {
-                    ({toPdf})=>(
-                    <Button sx={{fontWeight:'bold', py:1.3, px: 1, bgcolor: 'primary.light', color: 'success.dark'}}  variant='contained' onClick={toPdf}>
-                        <Typography component='span' sx={{display: {
-                            xs: 'none',
-                            sm: 'inline-block'
-                        }}}>
-                            Download as Pdf
+                    <Box sx={{ bgcolor: 'text.disabled', p: 0.25, borderRadius: 1 }}>
+                        <Typography component='span' sx={{ bgcolor: 'text.secondary', color: 'background.paper', p: 0.8, borderRadius: 1, mx: 0.5, display: { xs: 'none', sm: 'inline-block' } }}>
+                            Mode: {readOnly ? 'Read' : 'Edit'}
                         </Typography>
-                        <FileDownloadIcon />
-                    </Button>
-                    )
-                }
-                </ReactToPdf>
+                        <IconButton sx={{
+                            border: 1, borderColor: 'background.paper', mx: 0.5, color: 'text.secondary', bgcolor: 'primary.dark', '&:hover': {
+                                color: 'primary.dark', bgcolor: 'text.secondary'
+                            }
+                        }} onClick={toggleMode}>
+                            {
+                                readOnly ?
+                                    <EditRoundedIcon />
+                                    :
+                                    <ChromeReaderModeRoundedIcon />
+                            }
+                        </IconButton>
+                    </Box>
 
-                <ColorModeButton />
+                    <ReactToPdf filename={`${title}.pdf`} targetRef={bodyRef} options={{
+                        format: [bodyRef?.current?.clientWidth, bodyRef?.current?.clientHeight],
+                        unit: 'px',
+                    }} scale={1}>
+                        {
+                            ({ toPdf }) => (
+                                <Button sx={{ fontWeight: 'bold', py: 1.3, px: 1, bgcolor: 'primary.light', color: 'success.dark' }} variant='contained' onClick={toPdf}>
+                                    <Typography component='span' sx={{
+                                        display: {
+                                            xs: 'none',
+                                            sm: 'inline-block'
+                                        }
+                                    }}>
+                                        Download as Pdf
+                                    </Typography>
+                                    <FileDownloadIcon />
+                                </Button>
+                            )
+                        }
+                    </ReactToPdf>
 
-                <LogoutButton/>
-                
-            </Toolbar>
+                    <ColorModeButton />
 
+                    <LogoutButton />
 
-        </AppBar>
-
-
-        <Box sx={{ color:'primary.main', p: 2, maxWidth: 1440, mx: 'auto'}}>
-
-            {
-                loadingNote?
-                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                    <Skeleton animation='wave' variant='rectangular' height={70} width='37.5%'/>
-                    <Skeleton animation='wave' variant='rectangular' height={70} width='57.5%'/>
-                </Box>
-                :
-                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-
-                        <TextField
-                            id='outlined' label='Title'
-                            sx={{color:'text.primary', textTransform: 'capitalize', width: '37.5%'}}
-                            value={title}
-                            onChange={(e)=>{setTitle(e.target.value)}}
-                            disabled={readOnly}
-                        />
-
-                        <TextField
-                            id='outlined'
-                            sx={{color:'text.secondary', textTransform: 'capitalize', width: '57.5%'}}
-                            label="Description" multiline rows={2}
-                            value={description}
-                            onChange={(e)=>{setDescription(e.target.value)}}
-                            disabled={readOnly}
-                        />
-
-                </Box>
-            }
+                </Toolbar>
 
 
-            {
-                readOnly?
-                    <>
-                    {loadingNote?
-                        <Skeleton animation="wave" variant='rectangular' height={'70vh'} sx={{my: 2}}/>
-                        :
-                        <Box sx={{position: 'relative'}}>
-                            <Box dangerouslySetInnerHTML={{__html: body}} sx={{border:1, borderColor: 'text.disabled',  my: 2, height: '70vh', overflowY: 'scroll', px: 2, zIndex: 1}} ref={bodyRef}>
-                            </Box>
-                            <Typography component='p' sx={{position: 'absolute', top: -15, left: '50%', transform: 'translateX(-50%)', zIndex: 2, bgcolor: 'background.paper', p: 0.5, color: 'text.disabled'}}>
-                                Body
-                            </Typography>
+            </AppBar>
+
+
+            <Box sx={{ color: 'primary.main', p: 2, maxWidth: 1440, mx: 'auto' }}>
+
+                {
+                    loadingNote ?
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Skeleton animation='wave' variant='rectangular' height={70} width='37.5%' />
+                            <Skeleton animation='wave' variant='rectangular' height={70} width='57.5%' />
                         </Box>
+                        :
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                    }
-                    </>
+                            <TextField
+                                id='outlined' label='Title'
+                                sx={{ color: 'text.primary', textTransform: 'capitalize', width: '37.5%' }}
+                                value={title}
+                                onChange={(e) => { setTitle(e.target.value) }}
+                                disabled={readOnly}
+                            />
 
-                    :
-                    <Editor
-                        editorState={editorState}
-                        wrapperClassName="demo-wrapper"
-                        editorClassName="demo-editor"
-                        onEditorStateChange={handleOnEditorStateChange}
-                        wrapperStyle={wrapperStyle}
-                        editorStyle={editorStyle}
-                        toolbarStyle={toolbarStyle}
-                    /> 
+                            <TextField
+                                id='outlined'
+                                sx={{ color: 'text.secondary', textTransform: 'capitalize', width: '57.5%' }}
+                                label="Description" multiline rows={2}
+                                value={description}
+                                onChange={(e) => { setDescription(e.target.value) }}
+                                disabled={readOnly}
+                            />
 
-            }
+                        </Box>
+                }
+
+
+                {
+                    readOnly ?
+                        <>
+                            {loadingNote ?
+                                <Skeleton animation="wave" variant='rectangular' height={'70vh'} sx={{ my: 2 }} />
+                                :
+                                <Box sx={{ position: 'relative' }}>
+                                    <Box dangerouslySetInnerHTML={{ __html: body }} sx={{ border: 1, borderColor: 'text.disabled', my: 2, height: '70vh', overflowY: 'scroll', px: 2, zIndex: 1, }} ref={bodyRef}>
+                                    </Box>
+                                    <Typography component='p' sx={{ position: 'absolute', top: -15, left: '50%', transform: 'translateX(-50%)', zIndex: 2, bgcolor: 'background.paper', p: 0.5, color: 'text.disabled' }}>
+                                        Body
+                                    </Typography>
+                                </Box>
+
+                            }
+                        </>
+
+                        :
+                        <Editor
+                            editorState={editorState}
+                            wrapperClassName="demo-wrapper"
+                            editorClassName="demo-editor"
+                            onEditorStateChange={handleOnEditorStateChange}
+                            wrapperStyle={wrapperStyle}
+                            editorStyle={editorStyle}
+                            toolbarStyle={toolbarStyle}
+                        />
+
+                }
                 {
                     !readOnly
                     &&
-                    <Toolbar sx={{display: 'flex', flexDirection: 'column',  py: 1}} 
+                    <Toolbar sx={{ display: 'flex', flexDirection: 'column', py: 1 }}
                     >
 
                         <Box
-                        sx={{maxWidth: 800, width: '80%', mx:'auto', display:'flex', justifyContent: 'space-between', my: 0.5}}>
-                            <Button sx={{fontWeight:'bold'}} color='success' variant='contained' onClick={updateNote} disabled={updating}
+                            sx={{ maxWidth: 800, width: '80%', mx: 'auto', display: 'flex', justifyContent: 'space-between', my: 0.5 }}>
+                            <Button sx={{ fontWeight: 'bold' }} color='success' variant='contained' onClick={updateNote} disabled={updating}
                             >
-                                <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
-                                    xs: 'none',
-                                    sm: 'inline-block'
-                                }}}>
-                                    {updating? 'Saving...' : 'Save'}
+                                <Typography component='span' sx={{
+                                    fontWeight: 'bold', mx: 1, display: {
+                                        xs: 'none',
+                                        sm: 'inline-block'
+                                    }
+                                }}>
+                                    {updating ? 'Saving...' : 'Save'}
                                 </Typography>
-                                <SaveIcon/>
+                                <SaveIcon />
                             </Button>
 
-                            <Button sx={{fontWeight:'bold'}} color='error' variant='contained' onClick={cancelChanges}>
+                            <Button sx={{ fontWeight: 'bold' }} color='error' variant='contained' onClick={cancelChanges}>
 
-                                <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
-                                    xs: 'none',
-                                    sm: 'inline-block'
-                                }}}>
+                                <Typography component='span' sx={{
+                                    fontWeight: 'bold', mx: 1, display: {
+                                        xs: 'none',
+                                        sm: 'inline-block'
+                                    }
+                                }}>
                                     Cancel
                                 </Typography>
-                                <CancelIcon/>
+                                <CancelIcon />
 
                             </Button>
 
-                            <Button sx={{fontWeight:'bold'}} color='error' variant='contained'
-                            onClick={deleteNote} disabled={deletingNote}
+                            <Button sx={{ fontWeight: 'bold' }} color='error' variant='contained'
+                                onClick={deleteNote} disabled={deletingNote}
                             >
-                                <Typography component='span' sx={{fontWeight: 'bold', mx: 1, display: {
-                                    xs: 'none',
-                                    sm: 'inline-block'
-                                }}}>
-                                    {deletingNote? 'Deleting...': 'Delete'}
+                                <Typography component='span' sx={{
+                                    fontWeight: 'bold', mx: 1, display: {
+                                        xs: 'none',
+                                        sm: 'inline-block'
+                                    }
+                                }}>
+                                    {deletingNote ? 'Deleting...' : 'Delete'}
                                 </Typography>
-                                <DeleteForeverIcon/>
+                                <DeleteForeverIcon />
                             </Button>
                         </Box>
 
 
-                    </Toolbar> 
+                    </Toolbar>
                 }
 
 
 
+            </Box>
         </Box>
-    </Box> 
     )
-  }
+}
