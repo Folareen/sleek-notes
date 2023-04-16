@@ -38,7 +38,17 @@ export default function NoteFullView() {
     const { user } = useUser()
     const { dispatch } = useNotes()
     const navigate = useNavigate()
-    const bodyRef = useRef()
+    const bodyRef = useRef(null)
+    const [pdfDimension, setPdfDimension] = useState({ width: 0, height: 0 })
+
+
+    useEffect(
+        () => {
+            if (bodyRef.current !== null) {
+                setPdfDimension({ width: bodyRef.current?.clientWidth, height: bodyRef.current?.clientHeight })
+            }
+        }, [loadingNote]
+    )
 
     useEffect(
         () => {
@@ -127,7 +137,7 @@ export default function NoteFullView() {
             navigate('/')
         }
         catch {
-            toast.error('Eroor!. \n Please try again')
+            toast.error('Error!. \n Please try again')
             console.log('error')
         }
         finally {
@@ -164,12 +174,15 @@ export default function NoteFullView() {
                     </Box>
 
                     <ReactToPdf filename={`${title}.pdf`} targetRef={bodyRef} options={{
-                        format: [bodyRef?.current?.clientWidth, bodyRef?.current?.clientHeight],
+                        format: [pdfDimension.width, pdfDimension.height],
                         unit: 'px',
                     }} scale={1}>
                         {
                             ({ toPdf }) => (
-                                <Button sx={{ fontWeight: 'bold', py: 1.3, px: 1, bgcolor: 'primary.light', color: 'success.dark' }} variant='contained' onClick={toPdf}>
+                                <Button sx={{ fontWeight: 'bold', py: 1.3, px: 1, bgcolor: 'primary.light', color: 'success.dark' }} variant='contained' onClick={() => {
+                                    console.log([pdfDimension.width, pdfDimension.height])
+                                    toPdf()
+                                }}>
                                     <Typography component='span' sx={{
                                         display: {
                                             xs: 'none',
@@ -233,7 +246,7 @@ export default function NoteFullView() {
                                 <Skeleton animation="wave" variant='rectangular' height={'70vh'} sx={{ my: 2 }} />
                                 :
                                 <Box sx={{ position: 'relative' }}>
-                                    <Box dangerouslySetInnerHTML={{ __html: body }} sx={{ border: 1, borderColor: 'text.disabled', my: 2, height: '70vh', overflowY: 'scroll', px: 2, zIndex: 1, }} ref={bodyRef}>
+                                    <Box dangerouslySetInnerHTML={{ __html: body }} sx={{ border: 1, borderColor: 'text.disabled', my: 2, height: '70vh', overflowY: 'scroll', px: 2, zIndex: 1, minWidth: 'max-content' }} ref={bodyRef}>
                                     </Box>
                                     <Typography component='p' sx={{ position: 'absolute', top: -15, left: '50%', transform: 'translateX(-50%)', zIndex: 2, bgcolor: 'background.paper', p: 0.5, color: 'text.disabled' }}>
                                         Body
