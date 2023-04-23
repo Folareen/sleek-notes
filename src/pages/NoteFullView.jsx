@@ -246,7 +246,7 @@ export default function NoteFullView() {
                                 <Skeleton animation="wave" variant='rectangular' height={'70vh'} sx={{ my: 2 }} />
                                 :
                                 <Box sx={{ position: 'relative' }}>
-                                    <Box dangerouslySetInnerHTML={{ __html: body }} sx={{ border: 1, borderColor: 'text.disabled', my: 2, height: '70vh', overflowY: 'scroll', px: 2, zIndex: 1, minWidth: 'max-content' }} ref={bodyRef}>
+                                    <Box dangerouslySetInnerHTML={{ __html: body }} sx={{ border: 1, borderColor: 'text.disabled', my: 2, height: '70vh', overflowY: 'scroll', px: 2, zIndex: 1}} ref={bodyRef}>
                                     </Box>
                                     <Typography component='p' sx={{ position: 'absolute', top: -15, left: '50%', transform: 'translateX(-50%)', zIndex: 2, bgcolor: 'background.paper', p: 0.5, color: 'text.disabled' }}>
                                         Body
